@@ -1,6 +1,10 @@
-* {}
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
-/*overlay of the loading part*/
+* {
+    font-family: Nunito;
+}
+
+/*overlay of the loading part TODO*/
 
 
 .loader {
@@ -26,12 +30,8 @@
 
 
 .main-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
     justify-content: center;
-    align-items: center;
-    height: 90vh;
-
 
 }
 
@@ -39,6 +39,7 @@
 .input-container {
     border: 2px black solid;
     border-radius: 25px;
+    width: 300px;
 }
 
 .input-group {
@@ -69,56 +70,20 @@
 
 label {
     margin-bottom: 5px;
-
+    transition: .5s
 }
 
-.box-label {
-    text-align: center;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 auto;
-    padding: 10px;
-    width: 150px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-
+#addCategory {
+    width: 30px;
+    height: 25px;
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 10px;
 }
 
-.box {
-    width: 300px;
-    min-height: 400px;
-    margin: 20px;
-    border: 2px dashed black;
+/*
+.input-group select:focus~label,
+.input-group select:valid~label {
+    top: 10px;
 }
-
-.list {
-    background-color: #f0f0f0;
-    height: 60px;
-    margin: 30px;
-    display: flex;
-    align-items: center;
-    cursor: grab;
-}
-
-
-
-.container {
-    margin-top: 200px;
-    display: flex;
-    justify-content: center;
-}
-
-/* 
-.box {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}*/
+*/

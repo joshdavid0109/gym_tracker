@@ -11,25 +11,18 @@ $(document).ready(function () {
 // reset button
 function resetFields() {
     // ged reference
-    var taskNameInput = document.getElementById("taskName");
     var dueDateInput = document.getElementById("dueDate");
-    var categorySelect = document.getElementById("category");
     var statusSelect = document.getElementById("status");
     var prioritySelect = document.getElementById("priority");
 
     // reset values
-    taskNameInput.value = "";
     dueDateInput.value = "";
-
-    // first op is [0]
-    categorySelect.selectedIndex = 0;
-    statusSelect.selectedIndex = 0;
+    statusSelect.selectedIndex = 0; // first op is [0]
     prioritySelect.selectedIndex = 0;
 
     console.log("Values are set to default")
 }
 
-/*
 // functioanlity of drag and drop using classes list and box
 let ele = document.querySelectorAll(".list");
 let boxes = document.querySelectorAll(".box");
@@ -51,19 +44,6 @@ boxes.forEach((box) => {
         if (selected) {
             box.appendChild(selected);
             selected = null;
-        }
-    });
-});
-*/
-
-$(document).ready(function () {
-    $("#addCategory").click(function () {
-        var newCategory = prompt("Enter a new category:"); // temporary 
-        if (newCategory) {
-            $("#category").append($('<option>', {
-                value: newCategory,
-                text: newCategory
-            }));
         }
     });
 });
