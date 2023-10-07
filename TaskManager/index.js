@@ -56,14 +56,18 @@ boxes.forEach((box) => {
 });
 */
 
-$(document).ready(function () {
-    $("#addCategory").click(function () {
-        var newCategory = prompt("Enter a new category:"); // temporary 
+document.addEventListener("DOMContentLoaded", function () {
+    var addCategoryButton = document.getElementById("addCategory");
+    addCategoryButton.addEventListener("click", function () {
+        var newCategory = prompt("Enter a new category:");
         if (newCategory) {
-            $("#category").append($('<option>', {
-                value: newCategory,
-                text: newCategory
-            }));
+            var categorySelect = document.getElementById("category");
+            var option = document.createElement("option");
+            option.value = newCategory;
+            option.text = newCategory;
+            categorySelect.appendChild(option);
         }
     });
 });
+
+
