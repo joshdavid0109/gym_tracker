@@ -86,9 +86,30 @@
     padding: 10px;
 }
 
+.input-buttons {
+    text-align: center;
+    padding: 10px;
+}
+
 .input-buttons input {
     margin: 12px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
 }
+
+.input-buttons input:hover {
+    background-color: #297fb8;
+
+}
+
+
 
 .input-message {
     text-align: center;
