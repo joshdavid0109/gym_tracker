@@ -27,7 +27,9 @@
     </nav>
 
     <div class="main-container">
+
         <div class="input-container">
+
             <div class="input-group">
                 <label for="taskName">Task Name</label>
                 <input type="text" id="taskName" class="rounded" />
@@ -39,17 +41,20 @@
             </div>
 
             <div class="input-group">
-                <label for="category">Category
+                <label for="category">Category</label>
+                <div class="select-with-button">
+                    <select id="category" class="rounded">
+                        <option value=""></option>
+                        <option value="low">Personal</option>
+                        <option value="medium">Assignment</option>
+                        <option value="high">Finance</option>
+                    </select>
                     <button id="addCategory">+</button>
-                </label>
-
-                <select id="category" class="rounded">
-                    <option value=""></option>
-                    <option value="low">Personal</option>
-                    <option value="medium">Assignment</option>
-                    <option value="high">Finance</option>
-                </select>
+                </div>
             </div>
+
+
+
             <div class="input-group">
                 <label for="status">Status</label>
                 <select id="status" class="rounded">
@@ -59,6 +64,7 @@
                     <option value="done">Done</option>
                 </select>
             </div>
+
             <div class="input-group">
                 <label for="priority">Priority</label>
                 <select id="priority" class="rounded">
@@ -68,11 +74,13 @@
                     <option value="high">High</option>
                 </select>
             </div>
+
             <p class="input-message">hi baby girl feed me tasks</p>
             <div class="input-buttons">
-                <input id="resetButton" type="button" class="rounded" value="Reset" onclick="resetFields()" />
-                <input id="addButton" type="button" class="rounded" value="add the bitch" />
+                <input id="resetButton" type="button" value="Reset" onclick="resetFields()" />
+                <input id="addButton" type="button" value="add the bitch" />
             </div>
+
         </div>
 
 

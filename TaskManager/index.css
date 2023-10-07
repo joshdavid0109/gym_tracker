@@ -46,13 +46,39 @@
     display: flex;
     flex-direction: column;
     margin: 20px;
+    gap: 10px;
 }
+
+.select-with-button {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+
+.select-with-button button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+.select-with-button button:hover {
+    background-color: #297fb8;
+}
+
 
 .rounded {
     border-radius: 10px;
     padding: 5px;
     border: 1px solid #ccc;
-
+    width: 100%;
 }
 
 .input-buttons {
@@ -68,17 +94,12 @@
     text-align: center;
 }
 
-label {
-    margin-bottom: 5px;
-    transition: .5s
-}
+label {}
 
 #addCategory {
-    width: 30px;
-    height: 25px;
+    width: 20px;
     font-size: 16px;
     padding: 5px;
-    margin-left: 10px;
 }
 
 /*
