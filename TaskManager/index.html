@@ -27,9 +27,7 @@
     </nav>
 
     <div class="main-container">
-
         <div class="input-container">
-
             <div class="input-group">
                 <label for="taskName">Task Name</label>
                 <input type="text" id="taskName" class="rounded" />
@@ -53,6 +51,16 @@
                 </div>
             </div>
 
+            <div id="categoryDialog" class="dialog">
+                <div class="dialog-content">
+                    <h2>Add a New Category</h2>
+                    <input type="text" id="newCategoryInput" placeholder="Enter category name" />
+                    <button id="categoryAddButton" type="button">Add</button>
+                    <button id="categoryCancelButton" type="button">Cancel</button>
+                </div>
+            </div>
+
+
             <div class="input-group">
                 <label for="status">Status</label>
                 <select id="status" class="rounded">
@@ -73,18 +81,53 @@
                 </select>
             </div>
 
-            <p class="input-message">hi baby girl feed me tasks</p>
+            <p class="input-message message-fade">hi baby girl feed me tasks</p>
             <div class="input-buttons">
                 <input id="resetButton" type="button" value="Reset" onclick="resetFields()" />
                 <input id="addButton" type="button" value="add the bitch" />
             </div>
+        </div>
 
+        <div class="table-container">
+            <table data-toggle="table" class="table table-hover" id="tasksTable">
+
+                <thead>
+                    <tr>
+                        <th data-field="dueDate" data-sortable="false">Due Date</th>
+                        <th data-field="status" data-sortable="false">Status</th>
+                        <th data-field="priority" data-sortable="false">Priority</th>
+                        <th data-field="createdAt" data-sortable="false">Created At</th>
+                        <th data-field="operations" data-sortable="false">Operations</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td> 1</td>
+                        <td> 2</td>
+                        <td> 3</td>
+                        <td> 4</td>
+                        <td> 5</td>
+                    </tr>
+                    <tr>
+                        <td> 6</td>
+                        <td> 7</td>
+                        <td> 8</td>
+                        <td> 9</td>
+                        <td> 10</td>
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
 
 
+        </table>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="index.js"></script>
+
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="index.js"></script>
 </body>
 
 </html>
