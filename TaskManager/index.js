@@ -112,8 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-/*
 // functioanlity of drag and drop using classes list and box
 let ele = document.querySelectorAll(".list");
 let boxes = document.querySelectorAll(".box");
@@ -138,7 +136,6 @@ boxes.forEach((box) => {
         }
     });
 });
-*/
 
 
 
