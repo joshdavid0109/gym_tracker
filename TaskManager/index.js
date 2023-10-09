@@ -9,14 +9,7 @@ $(document).ready(function () {
 });
 */
 
-function Task(taskName, dueDate, category, status, priority) {
-    this.taskName = taskName;
-    this.dueDate = dueDate;
-    this.category = category;
-    this.status = status;
-    this.priority = priority;
-}
-
+var inputMessage = document.querySelector(".input-message");
 
 // reset button
 function resetFields() {
@@ -56,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var categoryCancelButton = document.getElementById("categoryCancelButton");
     var newCategoryInput = document.getElementById("newCategoryInput");
     var categorySelect = document.getElementById("category");
-    var inputMessage = document.querySelector(".input-message");
     var selectWithButton = document.querySelector(".select-with-button");
 
 
@@ -91,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var option = document.createElement("option");
             option.value = newCategory;
             option.text = newCategory;
+
             categorySelect.appendChild(option);
             categoryDialog.style.display = "none";
             newCategoryInput.value = "";
@@ -110,12 +103,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+function Task(taskName, dueDate, category, status, priority) {
+    this.taskName = taskName;
+    this.dueDate = dueDate;
+    this.category = category;
+    this.status = status;
+    this.priority = priority;
+}
+
+addButton.addEventListener("click", function () {
+
+    var taskName = document.getElementById("taskName").value;
+    var dueDate = document.getElementById("dueDate").value;
+    var category = document.getElementById("category").value;
+    var status = document.getElementById("status").value;
+    var priority = document.getElementById("priority").value;
+
+    // create new obj of task
+    var newTask = new Task(taskName, dueDate, category, status, priority);
+
+    // chck if any field is null
+    if (taskName === "" || dueDate === "" || category === "" || status === "" || priority === "") {
+        inputMessage.textContent = "Please fill in all the fields!";
+        inputMessage.classList.remove("message-fade-hidden");
+        inputMessage.classList.add("message-fade");
+
+        // clear msg after 3 sec
+        setTimeout(function () {
+            inputMessage.classList.add("message-fade-hidden");
+        }, 3000);
+
+    } else {
+        var newTask = new Task(taskName, dueDate, category, status, priority);
+        console.log(newTask)
+
+        inputMessage.textContent = "New task added!";
+        inputMessage.classList.remove("message-fade-hidden");
+        inputMessage.classList.add("message-fade");
+
+        // clear msg after 3 sec
+        setTimeout(function () {
+            inputMessage.classList.add("message-fade-hidden");
+        }, 3000);
+
+    }
+});
 
 
 // functioanlity of drag and drop using classes list and box
 let ele = document.querySelectorAll(".list");
 let boxes = document.querySelectorAll(".box");
-
 let selected = null;
 
 ele.forEach((list) => {
