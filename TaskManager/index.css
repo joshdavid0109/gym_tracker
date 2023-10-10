@@ -127,59 +127,6 @@
 }
 
 
-
-label {
-    margin-bottom: 5px;
-
-}
-
-.box-label {
-    text-align: center;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 auto;
-    padding: 10px;
-    width: 150px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-
-}
-
-.box {
-    width: 300px;
-    min-height: 400px;
-    margin: 20px;
-    border: 2px dashed black;
-}
-
-.list {
-    background-color: #f0f0f0;
-    height: 60px;
-    margin: 30px;
-    display: flex;
-    align-items: center;
-    cursor: grab;
-}
-
-
-
-.container {
-    margin-top: 200px;
-    display: flex;
-    justify-content: center;
-}
-
-
-/*
-.input-group select:focus~label,
-.input-group select:valid~label {
-    top: 10px;
-}
-*/
-
 .dialog {
     position: fixed;
     top: 0;
@@ -217,4 +164,122 @@ label {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+/* the task manager */
+
+.box {
+    width: 300px;
+    min-height: 400px;
+    margin: 20px;
+    border: 2px dashed black;
+}
+
+.box-label {
+    text-align: center;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 auto;
+    padding: 10px;
+    width: 150px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+/* Add new CSS rules */
+.list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    gap: 10px;
+}
+
+.col-1 {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.col-2 {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.due-date {
+    justify-content: space-between;
+}
+
+
+.task-category {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.due-date {
+    font-size: 12px;
+    align-self: flex-end;
+
+}
+
+.task-category {
+    font-size: 12px;
+}
+
+.due-date {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.priority-text {
+    font-size: 12px;
+}
+
+
+#modify-button {
+    background-image: url('images/modify_icon.png');
+    background-size: cover;
+}
+
+#delete-button {
+    background-image: url('images/delete_icon.png');
+    background-size: cover;
+
+}
+
+#modify-button,
+#delete-button {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.calendar-icon {
+    background-image: url('images/calendar_icon.png');
+    background-size: cover;
+}
+
+.priority-icon {
+    background-image: url('images/priority_icon.png');
+    background-size: cover;
+}
+
+.calendar-icon,
+.priority-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }

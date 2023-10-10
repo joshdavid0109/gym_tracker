@@ -84,23 +84,46 @@
             <p class="input-message message-fade">hi baby girl feed me tasks</p>
             <div class="input-buttons">
                 <input id="resetButton" type="button" value="Reset" onclick="resetFields()" />
-                <input id="addButton" type="button" value="add the bitch" />
+                <input id="addButton" type="button" value="Add task" />
             </div>
         </div>
 
-
         <div class="box">
             <label class="box-label">To Do</label>
-            <div class="list" draggable="true">List 1</div>
+            <div class="list" draggable="true">
+                <div class="col-1">
+                    <div class="task-name">Task Name</div>
+                    <div class="task-category">Task Category</div>
+                    <div>
+                        <i class="calendar-icon"></i>
+                        <span class="due-date">Due Date</span>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div>
+                        <button id="modify-button"></button>
+                        <button id="delete-button"></button>
+                    </div>
+                    <div>
+                        <i class="priority-icon"></i>
+                        <span class="priority-text">Priority</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </div>
 
         <div class="box">
             <label class="box-label">In Progress</label>
-            <div class="list" draggable="true">List 2</div>
+
         </div>
         <div class="box">
             <label class="box-label">Done</label>
-            <div class="list" draggable="true">List 3</div>
+
         </div>
 
         <script src="index.js"></script>
