@@ -190,72 +190,33 @@
 
 }
 
-/* Add new CSS rules */
 .list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     border: 1px solid #ccc;
-    padding: 20px;
+    padding: 5px;
     border-radius: 5px;
     background-color: #f9f9f9;
     gap: 10px;
 }
 
-.col-1 {
-
+.col-1,
+.col-2 {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: space-between;
+
 }
 
 .col-2 {
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     align-items: flex-end;
 }
 
-.due-date {
-    justify-content: space-between;
-}
-
-
-.task-category {
-    font-size: 12px;
-    margin-top: 10px;
-}
-
-.due-date {
-    font-size: 12px;
-    align-self: flex-end;
-
-}
-
-.task-category {
-    font-size: 12px;
-}
-
-.due-date {
-    margin-top: 10px;
-    font-size: 12px;
-}
-
+.task-category,
+.due-date,
 .priority-text {
     font-size: 12px;
-}
-
-
-#modify-button {
-    background-image: url('images/modify_icon.png');
-    background-size: cover;
-}
-
-#delete-button {
-    background-image: url('images/delete_icon.png');
-    background-size: cover;
-
+    margin-top: 10px;
 }
 
 #modify-button,
@@ -265,16 +226,15 @@
     margin-left: 5px;
     border: none;
     cursor: pointer;
-}
-
-.calendar-icon {
-    background-image: url('images/calendar_icon.png');
     background-size: cover;
 }
 
-.priority-icon {
-    background-image: url('images/priority_icon.png');
-    background-size: cover;
+#modify-button {
+    background-image: url('images/modify_icon.png');
+}
+
+#delete-button {
+    background-image: url('images/delete_icon.png');
 }
 
 .calendar-icon,
@@ -282,4 +242,13 @@
     width: 20px;
     height: 20px;
     margin-right: 5px;
+    background-size: cover;
+}
+
+.calendar-icon {
+    background-image: url('images/calendar_icon.png');
+}
+
+.priority-icon {
+    background-image: url('images/priority_icon.png');
 }
