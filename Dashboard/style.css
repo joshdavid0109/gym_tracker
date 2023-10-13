@@ -114,6 +114,36 @@ small{
   overflow: hidden;
 }
 
+#profile-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 60px;
+  background: var(--color-light);
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 10px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+#profile-dropdown.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+#profile-dropdown li a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: var(--color-dark);
+}
+#profile-dropdown li a:hover {
+  background: var(--color-dark-variant);
+}
+
+
 .text-muted{
   color: var(--color-info-dark);
 }
@@ -625,7 +655,7 @@ header .current-date{
   margin-bottom: 20px;
 }
 .calendar li{
-  color: #262626;
+  color: var(--color-dark-variant);
   width: calc(100% / 7);
   font-size: 1rem;
 }
@@ -663,3 +693,74 @@ header .current-date{
 .days li:not(.active):hover::before{
   background: #f2f2f2;
 }
+
+.container-team{
+    margin: 20px 40px;
+    color: rgb(226, 0, 0);
+}
+
+.heading {
+    font-size: 60px;
+    color: rgb(252, 0, 0);
+}
+
+.heading span{
+    font-style: italic;
+    font-size: 30px;
+}
+
+/* .profiles{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 80px;
+} */
+
+.team-profile{
+    flex-basis: 100px;
+}
+
+.team-profile .profile-img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    filter: grayscale(100%);
+    cursor: pointer;
+    transition: 400ms;
+}
+
+.team-profile:hover .profile-img{
+    filter: grayscale(0);
+}
+
+.user-name{
+    margin-top: 16px;
+    font-size: 20px;
+    color: red
+}
+
+.team-profile h5{
+    font-size: 12px;
+    font-weight: 100;
+    letter-spacing: 3px;
+    color: red;
+}
+
+.team-profile p{
+    font-size: 8px;
+    margin-top: 10px;
+    text-align: justify;
+    color: rgb(0, 56, 240);
+}
+
+.top-profiles {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 80px;
+}
+
+.bottom-profiles {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 80px;
+}
+

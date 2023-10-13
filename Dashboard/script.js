@@ -109,3 +109,23 @@ prevNextIcon.forEach(icon => {
     });
 });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const profilePhoto = document.getElementById("profile-photo");
+    const profileDropdown = document.getElementById("profile-dropdown");
+    profilePhoto.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (profileDropdown.classList.contains("active")) {
+        profileDropdown.classList.remove("active");
+      } else {
+        profileDropdown.classList.add("active");
+      }
+    });
+    document.addEventListener("click", function () {
+      profileDropdown.classList.remove("active");
+    });
+    profileDropdown.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+  });
+
