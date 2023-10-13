@@ -11,40 +11,106 @@
     <link rel="stylesheet" href="index.css">
 </head>
 
-
-
 <body>
     <form id="input-form">
         <ul id="progress-bar">
             <li class="active">Personal Information</li>
-            <li>Social Profiles</li>
-            <li>Personal Details</li>
+            <li>Fitnes Information</li>
+            <li>Health Information</li>
         </ul>
 
         <fieldset>
             <h2 class="fs-title">Add a client</h2>
             <h3 class="fs-subtitle">"Legday"</h3>
-            <input type="text" name="First Name" placeholder="First Name" />
-            <input type="text" name="Last Name" placeholder="Last Name" />
-            <input type="text" name="Gender" placeholder="Gender" />
-            <input type="text" name="Conatact No." placeholder="Conact No." />
-            <input type="text" name="Address" placeholder="Address" />
-            <input type="date" name="Date of Birth" placeholder="Date of birth" />
+
+            <div class="input-container">
+                <input type="text" name="First Name" placeholder="First Name" required />
+            </div>
+
+            <div class="input-container">
+                <input type="text" name="Last Name" placeholder="Last Name" required />
+            </div>
+
+            <div class="input-container">
+                <select name="Gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="input-container">
+                <input type="text" name="Contact No." placeholder="Contact No." />
+            </div>
+
+            <div class="input-container">
+                <input type="text" name="Address" placeholder="Address" />
+            </div>
+
+            <div class="input-container">
+                <input type="date" name="Date of Birth" placeholder="Date of Birth" required />
+            </div>
 
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
 
-        <fieldset>
+        <fieldset style="display: none;">
             <h2 class="fs-title">Goals</h2>
             <h3 class="fs-subtitle">"Legday"</h3>
-            <input type="text" name="Fitness Level" placeholder="Fitness level" />
-            <input type="text" name="Goal type" placeholder="Goal type" />
-            <input type="text" name="Goal Details" placeholder="Goal Details" />
-            <input type="text" name="Timeline" placeholder="expected time frame" />
-            <input type="button" name="next" class="next action-button" value="Next" />
+
+            <div class="input-container">
+                <select name="FitnessLevel" placeholder="Fitness Level" required>
+                    <option value="" disabled selected>Select level</option>
+                    <option value="Muscle Gain">Beginner</option>
+                    <option value="Weight Loss">Intermediate</option>
+                    <option value="Body Recomposition">Advanced</option>
+                </select>
+
+                <div class="input-container">
+                    <select name="GoalType" placeholder="Goal Type" required>
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Body Recomposition">Body Recomposition</option>
+                    </select>
+                </div>
+
+                <div class="input-container">
+                    <input type="text" name="Goal Details" placeholder="Goal details" />
+
+                </div>
+
+
+
+                <input type="button" name="back" class="action-button" value="back" />
+                <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
 
+        <fieldset style="display: none;">
+            <h2 class="fs-title">Health Information</h2>
+            <h3 class="fs-subtitle">"Legday"</h3>
+
+            <div class="input-container">
+                <input type="text" name="Medical History" placeholder="Medical History" required />
+
+            </div>
+            <div class="input-container">
+                <input type="text" name="Medications" placeholder="Medications" required />
+
+            </div>
+            <div class="input-container">
+                <input type="text" name="Physical Limitations" placeholder="Physical Limitations" required />
+
+            </div>
+
+            </div>
+            <input type="button" name="back" class="action-button" value="back" />
+            <input type="button" name="Sybmit" class="next action-button" value="Submit" />
+        </fieldset>
     </form>
+
+    <script src="index.js"></script>
 </body>
 
 </html>

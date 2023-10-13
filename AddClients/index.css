@@ -6,7 +6,7 @@
 }
 
 #input-form {
-    width: 400px;
+    width: 500px;
     margin: 50px auto;
     text-align: center;
     position: relative;
@@ -25,13 +25,11 @@
     position: relative;
 }
 
-#msform fieldset:not(:first-of-type) {
-    display: none;
-}
+
 
 /*inputs*/
-#input-form input,
-#input-form textarea {
+#input-form input {
+
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -131,3 +129,51 @@
     background: #27AE60;
     color: white;
 }
+
+.input-container {
+    position: relative;
+
+}
+
+.input-container input {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    font-size: 14px;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.input-container select {
+    padding: 10px;
+
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    font-size: 14px;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.input-container input:focus {
+    border-color: #27AE60;
+}
+
+.input-container label {
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    left: 0;
+    font-size: 14px;
+    color: #666;
+    transition: top 0.3s, font-size 0.3s;
+}
+
+/*
+.input-container input:valid+label,
+.input-container input:focus+label,
+.input-container select:valid+label,
+.input-container select:focus+label {
+    top: -20px;
+    font-size: 12px;
+}
+*/
