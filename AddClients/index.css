@@ -50,6 +50,17 @@
     font-size: 13px;
 }
 
+#input-form submit {
+
+    padding: 15px;
+    border: 1px solid red;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
 /*buttons*/
 #input-form .action-button {
     width: 100px;
