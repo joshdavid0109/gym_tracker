@@ -122,7 +122,6 @@
     content: none;
 }
 
-/*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progress-bar li.active:before,
 #progress-bar li.active:after {
@@ -167,13 +166,3 @@
     color: #666;
     transition: top 0.3s, font-size 0.3s;
 }
-
-/*
-.input-container input:valid+label,
-.input-container input:focus+label,
-.input-container select:valid+label,
-.input-container select:focus+label {
-    top: -20px;
-    font-size: 12px;
-}
-*/

@@ -6,6 +6,9 @@ const backButtons = form.querySelectorAll(".back");
 const progressBarItems = document.querySelectorAll("#progress-bar li");
 let currentFieldsetIndex = 0;
 
+//initially, only show the first fieldset
+showFieldset(currentFieldsetIndex);
+
 function showFieldset(index) {
     fieldsets[index].style.display = "block";
 }
@@ -14,27 +17,30 @@ function hideFieldset(index) {
     fieldsets[index].style.display = "none";
 }
 
-
-
 function nextFieldset() {
-    hideFieldset(currentFieldsetIndex);
-    progressBarItems[currentFieldsetIndex].classList.remove("active");
-    currentFieldsetIndex++;
-
-    if (currentFieldsetIndex < fieldsets.length) {
+    if (currentFieldsetIndex < fieldsets.length - 1) {
+        hideFieldset(currentFieldsetIndex);
+        currentFieldsetIndex++;
         showFieldset(currentFieldsetIndex);
         progressBarItems[currentFieldsetIndex].classList.add("active");
     }
 }
 
-// Initially, only show the first fieldset
-showFieldset(currentFieldsetIndex);
+function previousFieldset() {
+    if (currentFieldsetIndex > 0) {
+        hideFieldset(currentFieldsetIndex);
+        currentFieldsetIndex--;
+        showFieldset(currentFieldsetIndex);
+        progressBarItems[currentFieldsetIndex + 1].classList.remove("active");
+    }
+}
 
-// Add event listeners to "Next" buttons
+
 nextButtons.forEach((button, index) => {
-    button.addEventListener("click", () => {
-        if (currentFieldsetIndex < fieldsets.length - 1) {
-            nextFieldset();
-        }
-    });
+    button.addEventListener("click", nextFieldset);
+});
+
+
+backButtons.forEach((button, index) => {
+    button.addEventListener("click", previousFieldset);
 });
