@@ -163,6 +163,11 @@ input#search-bar {
     text-align: center;
 }
 
+#no-records-found p {
+    font-size: 50px;
+}
+
+
 .pic-none-found {
     width: 150px;
     transition: transform 1s ease-in-out, opacity 1s ease-in-out;
