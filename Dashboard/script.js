@@ -30,10 +30,6 @@ document.querySelector(".sidebar a.active").addEventListener("click", function (
     aboutContent.style.display = "none";
 });
 
-// Rest of your JavaScript code...
-
-
-
 // change theme
 // themeToggler.addEventListener('click', () => {
 //     document.body.classList.toggle('dark-theme-variables');
@@ -174,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.stopPropagation();
   
         if (!client.classList.contains("expanded")) {
-          // Collapse all clients
+
           clients.forEach((c) => {
             c.classList.remove("expanded");
             c.querySelector(".additional-details").style.display = "none";
@@ -182,13 +178,13 @@ document.addEventListener("DOMContentLoaded", function () {
             c.querySelector(".collapse").classList.add("rotate");
           });
   
-          // Expand the clicked client
+
           client.classList.add("expanded");
           additionalDetails.style.display = "block";
           expandIcon.classList.add("rotate");
           collapseIcon.classList.remove("rotate");
         } else {
-          // Collapse the clicked client
+
           client.classList.remove("expanded");
           additionalDetails.style.display = "none";
           expandIcon.classList.remove("rotate");
@@ -241,5 +237,145 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll('.workout-table input').forEach(input => {
         input.value = '';
+    });
+});
+
+
+function removeWorkoutRow(event) {
+  const icon = event.target.closest('.removeWorkoutBtn');
+  if (icon) {
+    const row = icon.closest('tr');
+    row.remove();
+  }
+}
+
+
+document.getElementById('programs-content').addEventListener('click', function(event) {
+  if (event.target.classList.contains('removeWorkoutBtn')) {
+    removeWorkoutRow(event);
+  }
+});
+
+
+document.getElementById('addWorkoutBtn').addEventListener('click', function() {
+  const tableBody = document.querySelector('.workout-table tbody');
+  const newRow = document.createElement('tr');
+  const headers = ['workoutName', 'day', 'activity', 'sets', 'reps'];
+
+  headers.forEach(header => {
+    const td = document.createElement('td');
+    const input = document.createElement('input');
+    input.type = header === 'sets' || header === 'reps' ? 'number' : 'text';
+    input.name = header;
+    td.appendChild(input);
+    newRow.appendChild(td);
+  });
+
+  const removeButton = document.createElement('td');
+  removeButton.innerHTML = '<span class="removeWorkoutBtn material-icons-sharp">remove</span>';
+
+  newRow.appendChild(removeButton);
+  tableBody.appendChild(newRow);
+});
+
+
+
+const inputFields = document.querySelectorAll('.workout-table input[type="text"], .workout-table input[type="number"]');
+const originalBackgroundColors = new Map();
+
+inputFields.forEach(input => {
+  originalBackgroundColors.set(input, getComputedStyle(input).backgroundColor);
+
+  input.addEventListener('focus', () => {
+    input.style.backgroundColor = '#e6f7ff'; 
+  });
+
+  input.addEventListener('blur', () => {
+    input.style.backgroundColor = originalBackgroundColors.get(input);
+  });
+});
+
+
+
+let workoutIdCounter = 1;
+
+document.getElementById('saveWorkoutBtn').addEventListener('click', function() {
+
+    const rows = document.querySelectorAll('.workout-table tbody tr');
+    const savedWorkoutsContainer = document.querySelector('.saved-programs');
+
+    rows.forEach(row => {
+        const workoutName = row.querySelector('input[name="workoutName"]').value;
+        const day = row.querySelector('input[name="day"]').value;
+        const activity = row.querySelector('input[name="activity"]').value;
+        const sets = row.querySelector('input[name="sets"]').value;
+        const reps = row.querySelector('input[name="reps"]').value;
+
+        if (workoutName && day && activity && sets && reps) {
+
+            const savedWorkoutDiv = document.createElement('div');
+            savedWorkoutDiv.classList.add('saved-workout');
+
+
+            savedWorkoutDiv.setAttribute('data-workout-id', `#${workoutIdCounter}`);
+
+
+            savedWorkoutDiv.innerHTML = `
+                <h3>${workoutName}</h3>
+                <p>${day} days</p>
+                <p>${activity}</p>
+                <p>Sets: ${sets}, Reps: ${reps}</p>
+            `;
+
+
+            const modifyButton = document.createElement('button');
+            modifyButton.innerText = 'Modify';
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+
+
+            const assignButton = document.createElement('button');
+            assignButton.innerText = 'Assign';
+
+
+            const accordion = document.createElement('div');
+            accordion.classList.add('accordion');
+
+
+            const clients = ['Client 1', 'Client 2'];
+
+
+            const clientList = document.createElement('ul');
+            clientList.classList.add('client-list');
+
+            clients.forEach(client => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('client-list-item');
+                listItem.innerText = client;
+                listItem.addEventListener('click', function() {
+
+                    console.log(`Assigned workout to ${client}`);
+                });
+                clientList.appendChild(listItem);
+            });
+
+            accordion.appendChild(clientList);
+
+            savedWorkoutDiv.appendChild(modifyButton);
+            savedWorkoutDiv.appendChild(deleteButton);
+            savedWorkoutDiv.appendChild(assignButton);
+            savedWorkoutDiv.appendChild(accordion);
+
+            savedWorkoutsContainer.appendChild(savedWorkoutDiv);
+
+            workoutIdCounter++;
+        }
+    });
+
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.value = '';
+        });
     });
 });

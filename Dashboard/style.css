@@ -931,27 +931,52 @@ header .current-date{
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background: var(--color-light);
+  color: var(--color-dark);
 }
 
 .workout-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  background: var(--color-light);
+  color: var(--color-dark);
 }
 
-.workout-table th, .workout-table td {
+.workout-table th,
+.workout-table td {
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
+  background: var(--color-light);
+  color: var(--color-dark);
 }
 
 .workout-table th {
   background-color: #f2f2f2;
   font-weight: bold;
+  background: var(--color-light);
+  color: var(--color-dark);
 }
 
+.workout-table input[type="text"],
+.workout-table input[type="number"] {
+  transition: background-color 0.3s ease;
+  padding: 10px;
+}
+
+
+.workout-table input[type="text"]:focus,
+.workout-table input[type="number"]:focus {
+  background-color: #e6f7ff; 
+}
+
+
+
+
+button#addWorkoutBtn,
 button#saveWorkoutBtn {
-  display: block;
+  display: inline-block;
   margin-top: 10px;
   padding: 10px 20px;
   background-color: #007BFF;
@@ -959,8 +984,95 @@ button#saveWorkoutBtn {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 10px;
 }
 
+button#addWorkoutBtn:hover,
 button#saveWorkoutBtn:hover {
   background-color: #0056b3;
+}
+
+button#saveWorkoutBtn {
+  float: right;
+}
+
+.removeWorkoutBtn {
+  background: none;
+  border: none;
+  color: #ff0000;
+  cursor: pointer;
+  font-size: 24px; 
+}
+
+.removeWorkoutBtn:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+}
+
+
+
+.saved-workout {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: var(--color-light);
+  color: var(--color-dark);
+  position: relative;
+}
+
+
+.saved-workout button {
+  margin-right: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.saved-workout button:hover {
+  background-color: #0056b3;
+}
+
+
+.assign-button {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.assign-button:hover {
+  background-color: #0056b3;
+}
+
+
+.accordion {
+  display: none;
+  padding: 5px 10px;
+  background-color: #f2f2f2;
+}
+
+.accordion.active {
+  display: block;
+}
+
+
+.client-list {
+  list-style: none;
+}
+
+.client-list-item {
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.client-list-item:hover {
+  text-decoration: underline;
 }
