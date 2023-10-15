@@ -927,8 +927,8 @@ header .current-date{
 
 
 .workout-form {
-  margin: 20px;
-  padding: 20px;
+  margin: 10px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background: var(--color-light);
@@ -938,14 +938,14 @@ header .current-date{
 .workout-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  margin-top: 5px;
   background: var(--color-light);
   color: var(--color-dark);
 }
 
 .workout-table th,
 .workout-table td {
-  padding: 10px;
+  padding: 5px;
   text-align: center;
   border: 1px solid #ddd;
   background: var(--color-light);
@@ -962,7 +962,7 @@ header .current-date{
 .workout-table input[type="text"],
 .workout-table input[type="number"] {
   transition: background-color 0.3s ease;
-  padding: 10px;
+  padding: 5px;
 }
 
 
@@ -970,8 +970,6 @@ header .current-date{
 .workout-table input[type="number"]:focus {
   background-color: #e6f7ff; 
 }
-
-
 
 
 button#addWorkoutBtn,
@@ -1011,61 +1009,76 @@ button#saveWorkoutBtn {
 
 
 
+.saved-programs {
+  display: flex;
+  flex-direction: column;
+  display: grid;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
 .saved-workout {
-  margin: 20px;
-  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background: var(--color-light);
   color: var(--color-dark);
-  position: relative;
+  padding: 10px;
+  text-align: center;
+}
+
+.saved-workout h3 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.saved-workout p {
+  margin: 5px 0;
+  color: var(--color-dark);
+  text-align: left;
 }
 
 
 .saved-workout button {
-  margin-right: 10px;
   background-color: #007BFF;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 5px 10px;
+  margin: 5px;
 }
 
 .saved-workout button:hover {
   background-color: #0056b3;
 }
 
-
-.assign-button {
-  display: inline-block;
-  margin-top: 10px;
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 5px 10px;
-}
-
-.assign-button:hover {
-  background-color: #0056b3;
+.program {
+  color: var(--color-primary); 
+  margin: 10px 0;
+  padding: var(--padding-1);
+  border: 1px solid #ccc;
 }
 
 
+
+/* clients */
 .accordion {
   display: none;
-  padding: 5px 10px;
   background-color: #f2f2f2;
+  padding: 10px;
 }
-
-.accordion.active {
-  display: block;
-}
-
 
 .client-list {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .client-list-item {
@@ -1076,3 +1089,5 @@ button#saveWorkoutBtn {
 .client-list-item:hover {
   text-decoration: underline;
 }
+
+
