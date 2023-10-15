@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap');
+
+* {
+    font-family: Roboto;
+}
+
+body {
+    background-color: #f3f3f3;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 150px;
+}
+
+input#search-bar {
+    width: 400px;
+    height: 45px;
+    border: 1px solid #D0CFCE;
+    transition: border 0.35s ease;
+
+    &:focus {
+        border: 1px solid #008ABF;
+        transition: 0.35s ease;
+        color: #008ABF;
+    }
+
+    &::placeholder {
+        transition: opacity 0.35s ease;
+        opacity: 1;
+    }
+
+    &:focus::placeholder {
+        opacity: 0;
+
+    }
+}
+
+button#search-button,
+button#filter-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #008ABF;
+}
+
+
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(3, 0fr);
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.client-object {
+    width: 300px;
+    height: auto;
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    border-radius: 5px;
+
+}
+
+.client-info {
+    background: linear-gradient(to right, #01a9ac, #01dbdf);
+    text-align: center;
+    color: #fff;
+}
+
+.client-info h1 {
+    margin-bottom: 5px;
+}
+
+.client-info p {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.client-data {
+    background: #fff;
+    padding: 5px;
+    justify-content: center;
+}
+
+.data h4 {
+    font-size: 15px;
+    color: #353c4e;
+    margin-bottom: 5px;
+}
+
+.data p {
+    font-size: 12px;
+}

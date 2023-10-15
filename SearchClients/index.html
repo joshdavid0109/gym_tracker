@@ -2,27 +2,21 @@
 <html>
 
 <head>
-    <title>Client List</title>
+    <meta charset="UTF-8">
+    <title>Clients</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <h1>List of Clients</h1>
-    <ul id="client-list"></ul>
+    <form class="search-container">
+        <input type="text" id="search-bar" placeholder="What can I help you with today?">
+        <button id="search-button">Search</button>
+        <button id="filter-button">Filter</button>
+    </form>
 
-    <script>
-        // retrieve client data from local storage
-        const clientList = JSON.parse(localStorage.getItem("clients"));
-
-        if (clientList) {
-            const clientListElement = document.getElementById("client-list");
-            clientList.forEach(clientJSON => {
-                const clientData = JSON.parse(clientJSON);
-                const listItem = document.createElement("li");
-                listItem.textContent = `Client: ${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}`;
-                clientListElement.appendChild(listItem);
-            });
-        }
-    </script>
+    <div class=" main-container">
+    </div>
+    <script src="index.js"></script>
 </body>
 
 </html>

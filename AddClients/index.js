@@ -8,6 +8,21 @@ const submitButton = document.querySelector(".submit");
 const progressBarItems = document.querySelectorAll("#progress-bar li");
 let currentFieldsetIndex = 0;
 
+// retrieve client ob from localstorage
+const clientListJSON = localStorage.getItem("clients");
+
+if (clientListJSON) {
+    const clientList = JSON.parse(clientListJSON);
+
+    // loop sa array of client objess
+    clientList.forEach((clientJSON, index) => {
+        const clientData = JSON.parse(clientJSON);
+        console.log(`Client Object ${index + 1}:`, clientData.personalInfo.gender);
+    });
+} else {
+    console.log("No client data found in local storage.");
+}
+
 //initially, only show the first fieldset
 showFieldset(currentFieldsetIndex);
 
@@ -51,7 +66,6 @@ function validateForm() {
             return false;
         }
     }
-
     return true;
 }
 
@@ -75,22 +89,36 @@ submitButton.addEventListener("click", function () {
     if (validateForm()) {
         // populate the client object with form data
         populateClientObject();
-
         // Cceate a JSON representation of the client object
         const clientJSON = JSON.stringify(client);
-
         // save the JSON object in local storage
         saveClientData(clientJSON);
     }
 });
 
 // client object
-const client = {
-    personalInfo: {},
-    fitnessInfo: {},
-    healthInfo: {},
+let client = {
+    personalInfo: {
+        firstName: '',      // First Name
+        lastName: '',       // Last Name
+        gender: '',         // Gender
+        contactNo: '',      // Contact No.
+        address: '',        // Address
+        dateOfBirth: '',    // Date of Birth
+    },
+    fitnessInfo: {
+        fitnessLevel: '',   // Fitness Level
+        goalType: '',       // Goal Type
+        goalDetails: '',    // Goal Details
+    },
+    healthInfo: {
+        medicalHistory: '',         // Medical History
+        medications: '',            // Medications
+        physicalLimitations: '',    // Physical Limitations
+    },
     programs: null // no programs assigned yet to a new client
 };
+
 
 // function to populate the client object with form data
 function populateClientObject() {
@@ -115,7 +143,6 @@ function populateClientObject() {
     client.healthInfo.medications = healthInfoFieldset.querySelector('input[name="Medications"]').value;
     client.healthInfo.physicalLimitations = healthInfoFieldset.querySelector('input[name="Physical Limitations"]').value;
 }
-
 // function to save client data to local storage
 function saveClientData(clientJSON) {
 
@@ -123,15 +150,14 @@ function saveClientData(clientJSON) {
     if (typeof Storage !== "undefined") {
         // get existing client data from local storage (if any)
         let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-
         // add the new client data to the existing data
         existingClients.push(clientJSON);
-
         // save the updated client data to local storage
-        localStorage.setItem("clients", JSON.stringify(existingClients));
-
+        localStorage.setItem("clients", JSON.stringify(existingClients)); // KEY IS clients
         console.log("Client data saved to local storage.");
+
     } else {
+        alert("Local storage is not available. Client data cannot be saved.");
         console.log("Local storage is not available. Client data cannot be saved.");
     }
 }
