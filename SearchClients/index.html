@@ -8,15 +8,39 @@
 </head>
 
 <body>
+
     <form class="search-container">
-        <input type="text" id="search-bar" placeholder="What can I help you with today?">
-        <button id="search-button">Search</button>
-        <button id="filter-button">Filter</button>
+        <input type="text" id="search-bar" placeholder="Search client">
     </form>
+    <!-- Filter container -->
+    <div id="filter-container">
+        <label for="gender-filter">Gender:</label>
+        <select id="gender-filter">
+            <option value="">All</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <label for="goal-type-filter">Goal Type:</label>
+        <select id="goal-type-filter">
+            <option value="">All</option>
+            <option value="Muscle Gain">Muscle Gain</option>
+            <option value="Weight Loss">Weight Loss</option>
+            <!-- Add more options as needed -->
+        </select>
+        <button id="apply-filters">Apply Filters</button>
+    </div>
+
 
     <div class=" main-container">
     </div>
-    <script src="index.js"></script>
+    <div id="no-records-found">
+        <p>No matching records found. huhu</p>
+        <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">
+    </div>
+
+    <script src=" index.js">
+    </script>
 </body>
 
 </html>

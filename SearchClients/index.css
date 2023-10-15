@@ -39,16 +39,73 @@ input#search-bar {
     }
 }
 
-button#search-button,
-button#filter-button {
+
+#filter-button {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 0 10px;
-    font-size: 16px;
-    color: #008ABF;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background-image: url('/images/filter_icon.jpg');
+    background-size: cover;
 }
 
+/* Add hover styles to the filter button */
+#filter-button:hover+#filter-container {
+    display: block;
+}
+
+/*Style for the filter container */
+#filter-container {
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: absolute;
+    top: 40px;
+    /* Adjust the distance from the button as needed */
+    right: 0;
+    width: 200px;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for filter labels */
+
+#filter-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+#filter-container label {
+    margin-bottom: 5px;
+}
+
+/* Style for select elements */
+#filter-container select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+/* Style for the "Apply Filters" button */
+#apply-filters {
+    background-color: #008ABF;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style for the "Apply Filters" button on hover */
+#apply-filters:hover {
+    background-color: #006a9e;
+}
 
 .main-container {
     display: grid;
@@ -95,4 +152,19 @@ button#filter-button {
 
 .data p {
     font-size: 12px;
+}
+
+#no-records-found {
+    font-size: 50px;
+    text-align: center;
+    display: none;
+}
+
+.pic-none-found {
+    width: 400px;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.pic-none-found:hover {
+    opacity: 0.7;
 }

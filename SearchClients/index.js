@@ -3,36 +3,6 @@ const clientContainer = document.querySelector(".main-container");
 
 // Fetch the client data from local storage
 const clientListJSON = localStorage.getItem("clients");
-document.addEventListener("DOMContentLoaded", function () {
-
-    const clientContainer = document.querySelector(".main-container");
-    const searchButton = document.getElementById("search-button");
-    const searchBar = document.getElementById("search-bar");
-
-    // function to display the clients based on the search
-    function filterAndDisplayClients() {
-        const searchText = searchBar.value.toLowerCase();
-        // loop thorugh the client objs and check if they include the text from search bar
-        clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
-            const clientInfo = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
-
-            if (clientInfo.includes(searchText)) {
-                clientObject.style.display = "block"; // show client ob
-            } else {
-                clientObject.style.display = "none"; //hide client ob
-            }
-        });
-    }
-
-    // add a click event listener to the search button
-    searchButton.addEventListener("click", filterAndDisplayClients);
-
-    // add an input event listener to the search bar to update results as you type
-    searchBar.addEventListener("input", filterAndDisplayClients);
-
-    // display all clients initially
-    filterAndDisplayClients();
-});
 
 if (clientListJSON) {
     const clientList = JSON.parse(clientListJSON);
@@ -50,8 +20,15 @@ if (clientListJSON) {
         clientInfo.classList.add("client-info");
         clientInfo.innerHTML = `
             <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
-            <p>${clientData.programs}</p>
+            <p>Program: ${clientData.programs}</p>
         `;
+
+        if (clientData.programs === null) {
+            clientInfo.innerHTML = `
+            <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
+            <p>No program assigned to client</p>
+        `;
+        }
 
         // create and populate client data
         const clientDataContainer = document.createElement("div");
@@ -103,3 +80,45 @@ if (clientListJSON) {
 } else {
     console.log("No client data found in local storage.");
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const clientContainer = document.querySelector(".main-container");
+    const searchBar = document.getElementById("search-bar");
+    const noRecordsFound = document.getElementById("no-records-found");
+
+    let recordFound = false;
+
+    // function to display the clients based on the search
+    function filterAndDisplayClients() {
+        const searchText = searchBar.value.toLowerCase();
+
+        // Reset recordFound before searching
+        recordFound = false;
+
+        // loop through the client objects and check if they include the text from the search bar
+        clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
+            const clientName = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
+
+            if (clientName.startsWith(searchText)) {
+                clientObject.style.display = "block"; // show client obj
+                recordFound = true;
+            } else {
+                clientObject.style.display = "none"; // hide client obj
+            }
+        });
+
+        if (!recordFound) {
+            noRecordsFound.style.display = "block";
+        } else {
+            noRecordsFound.style.display = "none";
+        }
+    }
+
+    // add an input event listener to the search bar to update results as you type
+    searchBar.addEventListener("input", filterAndDisplayClients);
+
+    // display all clients initially
+    filterAndDisplayClients();
+});
+
+const filterButton = document.getElementById("filter-button");
