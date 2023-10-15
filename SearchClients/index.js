@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function filterAndDisplayClients() {
         const searchText = searchBar.value.toLowerCase();
 
-        // Get filter values
+        // get filter values
         const selectedGender = genderFilter.value;
         const selectedGoalType = goalTypeFilter.value;
         const selectedFitnessLevel = fitnessLevelFilter.value;
@@ -106,22 +106,46 @@ document.addEventListener("DOMContentLoaded", function () {
         const medicationsChecked = medicationsFilter.checked;
         const medicalHistoryChecked = medicalHistoryFilter.checked;
 
-        recordFound = false;
+        let recordFound = false;
 
         clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
             const clientName = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
-            const healthInfoDiv = clientObject.querySelector(".client-data .data:nth-child(3)");
+
+            let clientGender = '';
+            let clientGoalType = '';
+            let clientFitnessLevel = '';
+
+            const personalInfoDiv = clientObject.querySelector(".client-data .data:nth-child(1)");
+            if (personalInfoDiv) {
+                personalInfoDiv.querySelectorAll('p').forEach(p => {
+                    if (p.textContent.includes('Gender:')) {
+                        clientGender = getTextAfterColon(p.textContent).trim();
+                    }
+
+                });
+            }
+
+            const goalsDiv = clientObject.querySelector(".client-data .data:nth-child(2)");
+            if (goalsDiv) {
+                goalsDiv.querySelectorAll('p').forEach(p => {
+                    if (p.textContent.includes('Goal Type:')) {
+                        clientGoalType = getTextAfterColon(p.textContent).trim();
+                    }
+                    if (p.textContent.includes('Fitness Level:')) {
+                        clientFitnessLevel = getTextAfterColon(p.textContent).trim();
+                    }
+
+                });
+            }
 
             let hasMedicalHistory = false;
             let hasMedications = false;
             let hasPhysicalLimitations = false;
 
+            const healthInfoDiv = clientObject.querySelector(".client-data .data:nth-child(3)");
             if (healthInfoDiv) {
                 healthInfoDiv.querySelectorAll('p').forEach(p => {
                     const content = getTextAfterColon(p.textContent).trim();
-
-                    console.log(`For "${p.textContent}", content after colon is: "${content}"`);
-
                     if (p.textContent.includes('Medical History:') && content !== "") {
                         hasMedicalHistory = true;
                     }
@@ -139,19 +163,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 return parts.length > 1 ? parts[1].trim() : "";
             }
 
-            // Check fitness and personal information based on dropdowns
-            const fitnessInfo = clientObject.querySelector(".client-data .data h4");
-            const matchesGender = !selectedGender || (clientObject.querySelector(".client-data .data p").textContent.includes(selectedGender));
-            const matchesGoalType = !selectedGoalType || (fitnessInfo && fitnessInfo.textContent.includes("Goal Type") && fitnessInfo.nextElementSibling.nextElementSibling.textContent.includes(selectedGoalType));
-            const matchesFitnessLevel = !selectedFitnessLevel || (fitnessInfo && fitnessInfo.textContent.includes("Fitness Level") && fitnessInfo.nextElementSibling.textContent.includes(selectedFitnessLevel));
+            // cccccccccccccccccheck fitness and personal information based on dropdowns
+            const matchesGender = !selectedGender || clientGender.toLowerCase() === selectedGender.toLowerCase();
+            const matchesGoalType = !selectedGoalType || clientGoalType.toLowerCase() === selectedGoalType.toLowerCase();
+            const matchesFitnessLevel = !selectedFitnessLevel || clientFitnessLevel.toLowerCase() === selectedFitnessLevel.toLowerCase();
 
-            // Final check to decide whether to display the client or not
+            // final check
             if (
                 clientName.startsWith(searchText) &&
+                matchesGender &&
+                matchesGoalType &&
+                matchesFitnessLevel &&
                 (!physicalLimitationChecked || hasPhysicalLimitations) &&
                 (!medicationsChecked || hasMedications) &&
-                (!medicalHistoryChecked || hasMedicalHistory) &&
-                matchesGender && matchesGoalType && matchesFitnessLevel
+                (!medicalHistoryChecked || hasMedicalHistory)
             ) {
                 clientObject.style.display = "block";
                 recordFound = true;
@@ -166,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
             noRecordsFound.style.display = "none";
         }
     }
+
 
     // add an input event listener to the search bar to update results while type type
     searchBar.addEventListener("input", filterAndDisplayClients);
