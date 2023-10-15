@@ -110,12 +110,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
         clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
             const clientName = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
+            const healthInfoDiv = clientObject.querySelector(".client-data .data:nth-child(3)");
 
-            // Check health information based on checkboxes
-            const healthInfo = clientObject.querySelector(".client-data .data h4");
-            const hasMedicalHistory = healthInfo && healthInfo.textContent.includes("Medical History") && healthInfo.nextElementSibling.textContent.trim() !== "";
-            const hasMedications = healthInfo && healthInfo.textContent.includes("Medications") && healthInfo.nextElementSibling.nextElementSibling.textContent.trim() !== "";
-            const hasPhysicalLimitations = healthInfo && healthInfo.textContent.includes("Physical Limitations") && healthInfo.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim() !== "";
+            let hasMedicalHistory = false;
+            let hasMedications = false;
+            let hasPhysicalLimitations = false;
+
+            if (healthInfoDiv) {
+                healthInfoDiv.querySelectorAll('p').forEach(p => {
+                    const content = getTextAfterColon(p.textContent).trim();
+
+                    console.log(`For "${p.textContent}", content after colon is: "${content}"`);
+
+                    if (p.textContent.includes('Medical History:') && content !== "") {
+                        hasMedicalHistory = true;
+                    }
+                    if (p.textContent.includes('Medications:') && content !== "") {
+                        hasMedications = true;
+                    }
+                    if (p.textContent.includes('Physical Limitations:') && content !== "") {
+                        hasPhysicalLimitations = true;
+                    }
+                });
+            }
+
+            function getTextAfterColon(text) {
+                const parts = text.split(":");
+                return parts.length > 1 ? parts[1].trim() : "";
+            }
 
             // Check fitness and personal information based on dropdowns
             const fitnessInfo = clientObject.querySelector(".client-data .data h4");
