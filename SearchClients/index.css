@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-bottom: 150px;
+    margin-bottom: 20px;
 }
 
 input#search-bar {
@@ -71,38 +71,40 @@ input#search-bar {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Style for filter labels */
-
-#filter-container {
+/* Style for the filter container */
+.filter-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
+}
+
+/* Margin for labels in the filter container */
+.filter-container label {
+    margin-bottom: 10px;
 
 }
 
-#filter-container label {
-    margin-bottom: 5px;
-}
-
-/* Style for select elements */
-#filter-container select {
-    width: 100%;
+/* Style for select elements inside the filter container */
+.filter-container select {
     padding: 5px;
     margin-bottom: 10px;
 }
 
-/* Style for the "Apply Filters" button */
+.filter-container input {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
 #apply-filters {
     background-color: #008ABF;
     color: #fff;
     padding: 5px 10px;
     border: none;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
-/* Style for the "Apply Filters" button on hover */
+
 #apply-filters:hover {
     background-color: #006a9e;
 }
@@ -155,13 +157,14 @@ input#search-bar {
 }
 
 #no-records-found {
-    font-size: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    display: none;
 }
 
 .pic-none-found {
-    width: 400px;
+    width: 150px;
     transition: transform 1s ease-in-out, opacity 1s ease-in-out;
 }
 

@@ -12,28 +12,50 @@
     <form class="search-container">
         <input type="text" id="search-bar" placeholder="Search client">
     </form>
-    <!-- Filter container -->
-    <div id="filter-container">
-        <label for="gender-filter">Gender:</label>
-        <select id="gender-filter">
-            <option value="">All</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
 
-        <label for="goal-type-filter">Goal Type:</label>
-        <select id="goal-type-filter">
-            <option value="">All</option>
-            <option value="Muscle Gain">Muscle Gain</option>
-            <option value="Weight Loss">Weight Loss</option>
-            <!-- Add more options as needed -->
-        </select>
-        <button id="apply-filters">Apply Filters</button>
+    <div class="filter-container">
+        <div class="filter-options">
+            <label>Gender:</label>
+            <select id="gender-filter">
+                <option value="">All</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <label>Goal Type:</label>
+            <select id="goal-type-filter">
+                <option value="">All</option>
+                <option value="Muscle Gain">Muscle Gain</option>
+                <option value="Weight Loss">Weight Loss</option>
+            </select>
+
+            <label>Fitness Level:</label>
+            <select id="fitness-level-filter">
+                <option value="">All</option>
+                <option value="beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+            </select>
+        </div>
+
+        <div class="filter-options">
+            <label>Physical Limitation:</label>
+            <input type="checkbox" id="physical-limitation-filter" />
+
+            <label>Medications:</label>
+            <input type="checkbox" id="medications-filter" />
+
+            <label>Medical History:</label>
+            <input type="checkbox" id="medical-history-filter" />
+        </div>
     </div>
 
 
-    <div class=" main-container">
+
+    <div class="main-container">
+
     </div>
+
     <div id="no-records-found">
         <p>No matching records found. huhu</p>
         <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">

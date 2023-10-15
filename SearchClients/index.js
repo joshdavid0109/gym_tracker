@@ -86,24 +86,55 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchBar = document.getElementById("search-bar");
     const noRecordsFound = document.getElementById("no-records-found");
 
+    const genderFilter = document.getElementById("gender-filter");
+    const goalTypeFilter = document.getElementById("goal-type-filter");
+    const fitnessLevelFilter = document.getElementById("fitness-level-filter");
+    const physicalLimitationFilter = document.getElementById("physical-limitation-filter");
+    const medicationsFilter = document.getElementById("medications-filter");
+    const medicalHistoryFilter = document.getElementById("medical-history-filter");
     let recordFound = false;
 
     // function to display the clients based on the search
     function filterAndDisplayClients() {
         const searchText = searchBar.value.toLowerCase();
 
-        // Reset recordFound before searching
+        // Get filter values
+        const selectedGender = genderFilter.value;
+        const selectedGoalType = goalTypeFilter.value;
+        const selectedFitnessLevel = fitnessLevelFilter.value;
+        const physicalLimitationChecked = physicalLimitationFilter.checked;
+        const medicationsChecked = medicationsFilter.checked;
+        const medicalHistoryChecked = medicalHistoryFilter.checked;
+
         recordFound = false;
 
-        // loop through the client objects and check if they include the text from the search bar
         clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
             const clientName = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
 
-            if (clientName.startsWith(searchText)) {
-                clientObject.style.display = "block"; // show client obj
+            // Check health information based on checkboxes
+            const healthInfo = clientObject.querySelector(".client-data .data h4");
+            const hasMedicalHistory = healthInfo && healthInfo.textContent.includes("Medical History") && healthInfo.nextElementSibling.textContent.trim() !== "";
+            const hasMedications = healthInfo && healthInfo.textContent.includes("Medications") && healthInfo.nextElementSibling.nextElementSibling.textContent.trim() !== "";
+            const hasPhysicalLimitations = healthInfo && healthInfo.textContent.includes("Physical Limitations") && healthInfo.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim() !== "";
+
+            // Check fitness and personal information based on dropdowns
+            const fitnessInfo = clientObject.querySelector(".client-data .data h4");
+            const matchesGender = !selectedGender || (clientObject.querySelector(".client-data .data p").textContent.includes(selectedGender));
+            const matchesGoalType = !selectedGoalType || (fitnessInfo && fitnessInfo.textContent.includes("Goal Type") && fitnessInfo.nextElementSibling.nextElementSibling.textContent.includes(selectedGoalType));
+            const matchesFitnessLevel = !selectedFitnessLevel || (fitnessInfo && fitnessInfo.textContent.includes("Fitness Level") && fitnessInfo.nextElementSibling.textContent.includes(selectedFitnessLevel));
+
+            // Final check to decide whether to display the client or not
+            if (
+                clientName.startsWith(searchText) &&
+                (!physicalLimitationChecked || hasPhysicalLimitations) &&
+                (!medicationsChecked || hasMedications) &&
+                (!medicalHistoryChecked || hasMedicalHistory) &&
+                matchesGender && matchesGoalType && matchesFitnessLevel
+            ) {
+                clientObject.style.display = "block";
                 recordFound = true;
             } else {
-                clientObject.style.display = "none"; // hide client obj
+                clientObject.style.display = "none";
             }
         });
 
@@ -114,11 +145,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // add an input event listener to the search bar to update results as you type
+    // add an input event listener to the search bar to update results while type type
     searchBar.addEventListener("input", filterAndDisplayClients);
-
+    // Bind filterAndDisplayClients function to the input/change events of all filters
+    genderFilter.addEventListener("change", filterAndDisplayClients);
+    goalTypeFilter.addEventListener("change", filterAndDisplayClients);
+    fitnessLevelFilter.addEventListener("change", filterAndDisplayClients);
+    physicalLimitationFilter.addEventListener("change", filterAndDisplayClients);
+    medicationsFilter.addEventListener("change", filterAndDisplayClients);
+    medicalHistoryFilter.addEventListener("change", filterAndDisplayClients);
     // display all clients initially
     filterAndDisplayClients();
 });
-
-const filterButton = document.getElementById("filter-button");
