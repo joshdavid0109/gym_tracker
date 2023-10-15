@@ -1,6 +1,36 @@
 const themeToggler = document.querySelector(".theme-toggler");
 const aboutLink = document.getElementById("about-link");
 const aboutContent = document.getElementById("about-content");
+const programs = document.getElementById("programs")
+const programsContent = document.getElementById("programs-content")
+
+const mainContent = document.querySelector("main");
+
+programsContent.style.display = "none";
+aboutContent.style.display = "none";
+
+programs.addEventListener("click", function (event) {
+    event.preventDefault();
+    mainContent.style.display = "none";
+    programsContent.style.display = "block";
+    aboutContent.style.display = "none";
+});
+
+aboutLink.addEventListener("click", function (event) {
+    event.preventDefault();
+    mainContent.style.display = "none";
+    aboutContent.style.display = "block";
+    programsContent.style.display = "none";
+});
+
+document.querySelector(".sidebar a.active").addEventListener("click", function (event) {
+    event.preventDefault();
+    mainContent.style.display = "block";
+    programsContent.style.display = "none";
+    aboutContent.style.display = "none";
+});
+
+// Rest of your JavaScript code...
 
 
 
@@ -25,6 +55,8 @@ document.querySelector(".sidebar a.active").addEventListener("click", function (
     document.querySelector("main").style.display = "block";
     aboutContent.style.display = "none";
 });
+
+
 
 
 const body = document.body;
@@ -129,3 +161,85 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const clients = document.querySelectorAll(".client");
+  
+    clients.forEach((client) => {
+      const expandIcon = client.querySelector(".expand");
+      const collapseIcon = client.querySelector(".collapse");
+      const additionalDetails = client.querySelector(".additional-details");
+  
+      client.addEventListener("click", function (event) {
+        event.stopPropagation();
+  
+        if (!client.classList.contains("expanded")) {
+          // Collapse all clients
+          clients.forEach((c) => {
+            c.classList.remove("expanded");
+            c.querySelector(".additional-details").style.display = "none";
+            c.querySelector(".expand").classList.remove("rotate");
+            c.querySelector(".collapse").classList.add("rotate");
+          });
+  
+          // Expand the clicked client
+          client.classList.add("expanded");
+          additionalDetails.style.display = "block";
+          expandIcon.classList.add("rotate");
+          collapseIcon.classList.remove("rotate");
+        } else {
+          // Collapse the clicked client
+          client.classList.remove("expanded");
+          additionalDetails.style.display = "none";
+          expandIcon.classList.remove("rotate");
+          collapseIcon.classList.add("rotate");
+        }
+      });
+  
+      expandIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        client.click();
+      });
+  
+      collapseIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        client.click();
+      });
+    });
+  });
+  
+
+ // Programs
+  // const programsButton = document.getElementById('programs');
+  // const accordion = document.querySelector('.accordion');
+  
+  // programsButton.addEventListener('click', () => {
+  //     accordion.classList.toggle('active');
+  // });
+  
+  // const assignWorkoutBtn = document.getElementById('assignWorkoutBtn');
+  // const createWorkoutBtn = document.getElementById('createWorkoutBtn');
+  
+  // assignWorkoutBtn.addEventListener('click', () => {
+  //     console.log('Assign Workout button clicked');
+  // });
+  
+  // createWorkoutBtn.addEventListener('click', () => {
+  //     console.log('Create New Workout button clicked');
+  // });
+
+
+  document.getElementById('saveWorkoutBtn').addEventListener('click', function() {
+
+    const workoutName = document.querySelector('input[name="workoutName"]').value;
+    const day = document.querySelector('input[name="day"]').value;
+    const activity = document.querySelector('input[name="activity"]').value;
+    const sets = document.querySelector('input[name="sets"]').value;
+    const reps = document.querySelector('input[name="reps"]').value;
+    const kg = document.querySelector('input[name="kg"]').value;
+    const restTime = document.querySelector('input[name="restTime"]').value;
+
+    document.querySelectorAll('.workout-table input').forEach(input => {
+        input.value = '';
+    });
+});

@@ -144,6 +144,15 @@ small{
 }
 
 
+#about-content, #programs-content {
+  display: none;
+}
+
+#about-content.active, #programs-content.active {
+  display: block;
+}
+
+
 .text-muted{
   color: var(--color-info-dark);
 }
@@ -409,28 +418,6 @@ main .client-box small{
   display: block;
 }
 
-main .recent-orders{
-  margin-top: 2rem;
-}
-
-main .recent-orders h2{
-  margin-bottom: 0.8rem;
-}
-
-main .recent-orders table{
-  background-color: var(--color-white);
-  width: 40%;
-  border-radius: var(--card-border-radius);
-  padding: var(--card-padding);
-  text-align: center;
-  box-shadow: var(--box-shadow);
-  transition: all 300ms ease;
-}
-
-main .recent-orders table:hover{
-  box-shadow: none;
-}
-
 main table tbody td{
   height: 2.8rem;
   border-bottom: 1px solid var(--color-light);
@@ -441,12 +428,137 @@ main table tbody tr:last-child td{
   border: none;
 }
 
-main .recent-orders a{
+
+main .client-overview {
+  margin-top: 2rem;
+}
+
+main .client-overview h2 {
+  margin-bottom: 0.8rem;
+}
+
+main .client-overview {
+  background-color: var(--color-white);
+  width: 100%;
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  text-align: left;
+  box-shadow: var(--box-shadow);
+  transition: all 300ms ease;
+}
+
+main .client-overview:hover {
+  box-shadow: none;
+}
+
+main .client-overview a {
   text-align: center;
   display: block;
   margin: 1rem auto;
   color: var(--color-primary);
 }
+
+.client-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+    align-items: center; /* Center items vertically */
+}
+
+.client-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.client {
+  background-color: var(--color-white);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: 0 .5rem 2rem #1098F7;
+  transition: all 300ms ease;
+  cursor: pointer;
+}
+
+.client.expanded {
+  background-color: var(--color-white);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: 0 .5rem 2rem #1098F7;
+}
+
+.client:hover {
+  box-shadow: none;
+}
+
+.client-details {
+  list-style-type: none;
+  padding: 0;
+}
+
+.client-details li {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.client-details img {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 30%;
+  overflow: hidden;
+}
+
+.client-details .details-label {
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--color-primary);
+}
+
+.client.expanded .additional-details {
+  display: block;
+}
+
+.client .additional-details {
+  display: none;
+}
+
+/* Add the following styles to hide the collapse icon initially */
+.expand-icon .collapse {
+  display: none;
+}
+
+/* ... Your existing styles ... */
+
+/* Style for the expand and collapse icons */
+.expand-icon .expand,
+.expand-icon .collapse {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  transition: transform 0.2s ease; /* Add the transition for smooth animation */
+}
+
+/* Rotation animation for the expand and collapse icons */
+.expand-icon .expand.rotate,
+.expand-icon .collapse.rotate {
+  transform: rotate(180deg);
+}
+
+/* ... Your existing styles ... */
+
+/* Add the following styles to center the expand/collapse icon in the middle of the client details */
+.expand-icon {
+  display: flex;
+  flex-direction: column; /* Align icons in a column */
+  align-items: center; /* Center items horizontally */
+  cursor: pointer;
+}
+
+
+
+
 
 .right{
   margin-top: 1.4rem;
@@ -764,3 +876,91 @@ header .current-date{
     margin: 20px 80px;
 }
 
+
+
+/* .sidebar .programs-dropdown {
+  position: relative;
+}
+
+.sidebar .programs-dropdown .program-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 2rem;
+}
+
+.sidebar .programs-dropdown .program-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #333;
+    padding: 10px;
+    border-radius: var(--border-radius-1);
+}
+
+.sidebar .programs-dropdown:hover .program-dropdown-content {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 100%; 
+}
+
+.sidebar .programs-dropdown:hover .program-toggle {
+    background-color: #007BFF;
+}
+
+.sidebar .programs-dropdown .program-dropdown-content a {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar .programs-dropdown .program-dropdown-content a:hover {
+    background-color: #007BFF;
+}
+
+.sidebar .programs-dropdown .program-dropdown-content a:hover {
+    background-color: #007BFF;
+} */
+
+
+.workout-form {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.workout-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.workout-table th, .workout-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.workout-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+button#saveWorkoutBtn {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button#saveWorkoutBtn:hover {
+  background-color: #0056b3;
+}

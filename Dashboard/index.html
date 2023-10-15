@@ -36,9 +36,22 @@
 					<span class="material-icons-sharp">search</span>
 					<h3>Search</h3>
 				</a>
-				<a href="#">
+
+				<a href="#" id="programs">
 					<span class="material-icons-sharp">insights</span>
-					<h3>Analytics</h3>
+					<h3>Programs</h3>
+
+								<!-- <div class="programs-dropdown">
+					<a href="#" id="programs" class="program-toggle">
+						<span class="material-icons-sharp">insights</span>
+						<h3>Programs</h3>
+					</a>
+					<div class="program-dropdown-content">
+						<a href="#" id="assignWorkoutBtn">Assign Workout</a>
+						<a href="#" id="createWorkoutBtn">Create Workout</a>
+					</div>
+				</div> -->
+
 				</a>
 				<a href="#">
 					<span class="material-icons-sharp">sms</span>
@@ -141,63 +154,132 @@
 			<!--END OF CLIENT-BOX-->
 
 			
-			<div class="recent-orders">
+			<div class="client-overview">
 				<h2>Clients</h2>
-				<table>
+				<div class="client-list">
+
+					<div class="client">
+						<ul class="client-details">
+							<img src="images/profile-1.png">
+							<li><span>Client ID:</span> 001</li>
+							<li><span>Name:</span> John Doe</li>
+							<li class="expand-icon" data-expanded="false">
+								<span class="material-icons-sharp expand">expand_more</span>
+								<span class="material-icons-sharp collapse">expand_less</span>
+							</li>
+							<li class="additional-details">
+								<span class="details-label">Additional Details:</span>
+								<ul>
+									<li class="contact"><span>Contact:</span> +123456789</li>
+									<li class="address"><span>Address:</span> 123 Main St</li>
+									<li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
+									<li class="gender"><span>Gender:</span> Male</li>
+									<li class="emergency"><span>Emergency Contact:</span> +987654321</li>
+									<li class="program">Programs:</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+
+					<div class="client">
+						<ul class="client-details">
+							<img src="images/profile-1.png">
+							<li><span>Client ID:</span> 001</li>
+							<li><span>Name:</span> John Doe</li>
+							<li class="expand-icon" data-expanded="false">
+								<span class="material-icons-sharp expand">expand_more</span>
+								<span class="material-icons-sharp collapse">expand_less</span>
+							</li>
+							<li class="additional-details">
+								<span class="details-label">Additional Details:</span>
+								<ul>
+									<li class="contact"><span>Contact:</span> +123456789</li>
+									<li class="address"><span>Address:</span> 123 Main St</li>
+									<li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
+									<li class="gender"><span>Gender:</span> Male</li>
+									<li class="emergency"><span>Emergency Contact:</span> +987654321</li>
+									<li class="program">Programs:</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div class="client">
+						<ul class="client-details">
+							<img src="images/profile-1.png">
+							<li><span>Client ID:</span> 001</li>
+							<li><span>Name:</span> John Doe</li>
+							<li class="expand-icon" data-expanded="false">
+								<span class="material-icons-sharp expand">expand_more</span>
+								<span class="material-icons-sharp collapse">expand_less</span>
+							</li>
+							<li class="additional-details">
+								<span class="details-label">Additional Details:</span>
+								<ul>
+									<li class="contact"><span>Contact:</span> +123456789</li>
+									<li class="address"><span>Address:</span> 123 Main St</li>
+									<li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
+									<li class="gender"><span>Gender:</span> Male</li>
+									<li class="emergency"><span>Emergency Contact:</span> +987654321</li>
+									<li class="program">Programs:</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<!-- Repeat the client object for each client -->
+				</div>
+				<a href="#">Show All</a>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</main>
+		<!---END OF MAIN-->
+
+		<!-- PROGRAMS CONTENT -->
+		<div id="programs-content">
+			<div class="workout-form">
+				<h2>Create Workout</h2>
+				<table class="workout-table">
 					<thead>
 						<tr>
-							<th>Client ID</th>
-							<th>Client Name</th>
-							<th>Contact</th>
-							<th>Address</th>
-							<th>Date of Birth</th>
-							<th>Gender</th>
-							<th>Emergency Contact</th>
-							<th></th>
+							<th>Workout Name</th>
+							<th>Day</th>
+							<th>Activity</th>
+							<th>Sets</th>
+							<th>Reps</th>
+							<th>KG</th>
+							<th>Rest Time</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<!-- <td>Foldable Mini Drone</td>
-							<td>85631</td>
-							<td>Due</td>
-							<td class="warning">Pending</td>
-							<td class="primary">Details</td> -->
-						</tr>
-						<tr>
-							<!-- <td>Foldable Mini Drone</td>
-							<td>85631</td>
-							<td>Due</td>
-							<td class="warning">Pending</td>
-							<td class="primary">Details</td> -->
-						</tr>
-						<tr>
-							<!-- <td>Foldable Mini Drone</td>
-							<td>85631</td>
-							<td>Due</td>
-							<td class="warning">Pending</td>
-							<td class="primary">Details</td> -->
-						</tr>
-						<tr>
-							<!-- <td>Foldable Mini Drone</td>
-							<td>85631</td>
-							<td>Due</td>
-							<td class="warning">Pending</td>
-							<td class="primary">Details</td> -->
-						</tr>
-						<tr>
-							<!-- <td>Foldable Mini Drone</td>
-							<td>85631</td>
-							<td>Due</td>
-							<td class="warning">Pending</td>
-							<td class="primary">Details</td> -->
+							<td><input type="text" name="workoutName"></td>
+							<td><input type="text" name="day"></td>
+							<td><input type="text" name="activity"></td>
+							<td><input type="number" name="sets"></td>
+							<td><input type="number" name="reps"></td>
+							<td><input type="number" name="kg"></td>
+							<td><input type="text" name="restTime"></td>
 						</tr>
 					</tbody>
 				</table>
-				<a href="#">Show All</a>
+				<button id="saveWorkoutBtn">Save Workout</button>
 			</div>
-		</main>
-		<!---END OF MAIN-->
+		
+		
+		</div>
+
+						<!-- END OF PROGRAMS CONTENT -->
+
 		<div id="about-content">
 			<h1>About Us - Branch: Simplify Your Task Management</h1>
             <img src="images/branch.png" alt="About Us Image">
@@ -307,7 +389,7 @@
 			<!--END OF TOP-->
 
 
-			<div class="recent-updates">
+			<!-- <div class="recent-updates">
 				<h2>Recently Added Clients</h2>
 				<div class="updates">
 					<div class="update">
@@ -338,7 +420,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!--END OF RECENT UPDATES-->
 			<div class="sales-analytics">
 				<h2>Calendar</h2>
