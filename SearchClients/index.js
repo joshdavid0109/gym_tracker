@@ -1,21 +1,21 @@
 // main container of the clients
 const clientContainer = document.querySelector(".main-container");
 
-// Fetch the client data from local storage
+// fetch the client data from local storage of the philippines
 const clientListJSON = localStorage.getItem("clients");
 
 if (clientListJSON) {
     const clientList = JSON.parse(clientListJSON);
 
-    // Loop through the array of client objects
+    // loop through the da array of client objects
     clientList.forEach((clientJSON, index) => {
         const clientData = JSON.parse(clientJSON);
 
-        // Create a new client object container
+        // create a new client object container
         const clientObjectContainer = document.createElement("div");
         clientObjectContainer.classList.add("client-object");
 
-        // Create and populate client info
+        // create and populate client info
         const clientInfo = document.createElement("div");
         clientInfo.classList.add("client-info");
         clientInfo.innerHTML = `
@@ -23,7 +23,7 @@ if (clientListJSON) {
             <p>Program: ${clientData.programs}</p>
         `;
 
-        if (clientData.programs === null) {
+        if (clientData.programs === null) { // still gonan do dis btttttich
             clientInfo.innerHTML = `
             <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
             <p>No program assigned to client</p>
@@ -115,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let clientGoalType = '';
             let clientFitnessLevel = '';
 
+            // nth child(n) gets the 3 existing divs within the parent div client data
+
             const personalInfoDiv = clientObject.querySelector(".client-data .data:nth-child(1)");
             if (personalInfoDiv) {
                 personalInfoDiv.querySelectorAll('p').forEach(p => {
@@ -158,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
+            // functions says it all hheuehue
             function getTextAfterColon(text) {
                 const parts = text.split(":");
                 return parts.length > 1 ? parts[1].trim() : "";
@@ -195,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // add an input event listener to the search bar to update results while type type
     searchBar.addEventListener("input", filterAndDisplayClients);
-    // Bind filterAndDisplayClients function to the input/change events of all filters
     genderFilter.addEventListener("change", filterAndDisplayClients);
     goalTypeFilter.addEventListener("change", filterAndDisplayClients);
     fitnessLevelFilter.addEventListener("change", filterAndDisplayClients);
