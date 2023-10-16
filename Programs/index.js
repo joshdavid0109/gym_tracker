@@ -66,9 +66,6 @@ document.querySelector(".sidebar a.active").addEventListener("click", function (
     aboutContent.style.display = "none";
 });
 
-
-
-
 const body = document.body;
 const activeIcon = themeToggler.querySelector(".active");
 const inactiveIcon = themeToggler.querySelector(":not(.active)");

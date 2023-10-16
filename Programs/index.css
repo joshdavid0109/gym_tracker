@@ -1168,7 +1168,7 @@ button#saveWorkoutBtn {
 #input-form fieldset {
     background: white;
     border: 0 none;
-    border-radius: 3px;
+    border-radius: 25px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
     padding: 20px 30px;
     box-sizing: border-box;
@@ -1300,7 +1300,7 @@ button#saveWorkoutBtn {
 /*The number of the step and the connector before it = green*/
 #progress-bar li.active:before,
 #progress-bar li.active:after {
-    background: #27AE60;
+    background: #007BFF;
     color: white;
 }
 
@@ -1349,4 +1349,5 @@ DESIGN KO - BADS
     margin-bottom: 10px;
     font-weight: bold;
     text-align: left;
+    color: #007BFF;
 }

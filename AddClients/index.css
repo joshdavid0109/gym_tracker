@@ -64,7 +64,7 @@
 /*buttons*/
 #input-form .action-button {
     width: 100px;
-    background: #27AE60;
+    background: #111e88;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -147,7 +147,7 @@
 /*The number of the step and the connector before it = green*/
 #progress-bar li.active:before,
 #progress-bar li.active:after {
-    background: #27AE60;
+    background: #111e88;
     color: white;
 }
 
@@ -176,7 +176,7 @@
 }
 
 .input-container input:focus {
-    border-color: #27AE60;
+    border-color: #111e88;
 }
 
 .input-container label {
