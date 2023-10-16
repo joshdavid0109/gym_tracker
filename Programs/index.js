@@ -3,6 +3,7 @@ const aboutLink = document.getElementById("about-link");
 const aboutContent = document.getElementById("about-content");
 const programs = document.getElementById("programs");
 const programsContent = document.getElementById("programs-content");
+const calendar = document.getElementById("calendar");
 
 const dashboardButt = document.getElementsByClassName("active")[0];
 
@@ -21,6 +22,7 @@ searchClientContent.style.display = "none";
 
 dashboardButt.addEventListener("click", function (event) {
     mainContent.style.display = "block";
+    calendar.style.display = "block";
     addClientContent.style.display = "none";
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
@@ -34,6 +36,7 @@ addClient.addEventListener("click", function (event) {
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
     searchClientContent.style.display = "none";
+    calendar.style.display = "none";
 });
 
 searchClient.addEventListener("click", function (event) {
@@ -43,6 +46,7 @@ searchClient.addEventListener("click", function (event) {
     addClientContent.style.display = "none";
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
+    calendar.style.display = "none";
 });
 programs.addEventListener("click", function (event) {
     event.preventDefault();
@@ -50,6 +54,7 @@ programs.addEventListener("click", function (event) {
     programsContent.style.display = "block";
     aboutContent.style.display = "none";
     addClientContent.style.display = "none";
+    searchClientContent.style.display = "none";
 });
 
 aboutLink.addEventListener("click", function (event) {
@@ -67,10 +72,6 @@ document.querySelector(".sidebar a.active").addEventListener("click", function (
     aboutContent.style.display = "none";
 });
 
-// change theme
-// themeToggler.addEventListener('click', () => {
-//     document.body.classList.toggle('dark-theme-variables');
-// })
 
 aboutContent.style.display = "none";
 
