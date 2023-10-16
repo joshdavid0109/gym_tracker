@@ -153,6 +153,60 @@ small{
 }
 
 
+/* Updated CSS for the "About Us" section */
+#about-content {
+  margin: 20px;
+  padding: 20px;
+  background: var(--color-background); /* Light Gray or Off-White background */
+  color: #EE2E31; /* Dark Gray text */
+}
+
+#about-content h1 {
+  font-size: 40px;
+  color: #1098F7; /* Muted Blue or Green for headers */
+  margin: 10px 0;
+}
+
+#about-content h2 {
+  font-size: 24px;
+  margin: 15px 0;
+}
+
+#about-content p {
+  font-size: 18px;
+  line-height: 1.5; /* Improved line height for readability */
+  margin: 10px 0;
+  color: var(--color-dark);
+}
+
+/* Add some spacing between sections */
+#about-content h2:first-of-type {
+  margin-top: 20px;
+}
+
+/* Use the specified colors for the mission and vision headings */
+#about-content h2:nth-of-type(2) {
+  color: #EE2E31; /* Red for mission heading */
+}
+
+#about-content h2:nth-of-type(3) {
+  color: #6BA368; /* Green for vision heading */
+}
+
+/* Style the border and padding for a professional look */
+#about-content h2 {
+  border-bottom: 2px solid #1098F7; /* Muted Blue or Green */
+  padding-bottom: 5px;
+}
+
+.team-separator {
+  border: none;
+  border-top: 2px solid var(--color-primary); /* Adjust the color and size as needed */
+  margin: 20px auto; /* Adjust the margin as needed */
+}
+
+
+
 .text-muted{
   color: var(--color-info-dark);
 }
@@ -847,21 +901,21 @@ header .current-date{
 .user-name{
     margin-top: 16px;
     font-size: 20px;
-    color: red
+    color: var(--color-danger)
 }
 
 .team-profile h5{
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 100;
     letter-spacing: 3px;
-    color: red;
+    color: var(--color-primary);
 }
 
 .team-profile p{
     font-size: 8px;
-    margin-top: 10px;
+    margin-top: 12px;
     text-align: justify;
-    color: rgb(0, 56, 240);
+    color: var(--color-dark);
 }
 
 .top-profiles {
