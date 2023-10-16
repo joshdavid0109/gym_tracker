@@ -35,7 +35,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="/AddClients/index.html">
+                <a href="#" id="add-client">
                     <span class="material-icons-sharp">add</span>
                     <h3>Add Client</h3>
                 </a>
@@ -209,7 +209,105 @@
 
         </main>
         <!---END OF MAIN-->
-
+        <!---Add Client Content-->
+        <div id="add-client-content">
+            <form id="input-form">
+                <ul id="progress-bar">
+                    <li class="active">Personal Information</li>
+                    <li>Fitnes Information</li>
+                    <li>Health Information</li>
+                </ul>
+        
+                <fieldset>
+                    <h2 class="fs-title">Add a client</h2>
+                    <h3 class="fs-subtitle">"Legday"</h3>
+        
+                    <div class="input-container">
+                        <input type="text" name="First Name" placeholder="First Name" required />
+                    </div>
+        
+                    <div class="input-container">
+                        <input type="text" name="Last Name" placeholder="Last Name" required />
+                    </div>
+        
+                    <div class="input-container">
+                        <select name="Gender" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+        
+                    <div class="input-container">
+                        <input type="text" name="Contact No." placeholder="Contact No. (optional)" />
+                    </div>
+        
+                    <div class="input-container">
+                        <input type="text" name="Address" placeholder="Address (optional)" />
+                    </div>
+        
+                    <div class="input-container">
+                        <input type="date" name="Date of Birth" placeholder="Date of Birth" required />
+                    </div>
+        
+                    <button type="button" name="next" class="next action-button">Next</button>
+                </fieldset>
+        
+                <fieldset style="display: none;">
+                    <h2 class="fs-title">Goals</h2>
+                    <h3 class="fs-subtitle">"Legday"</h3>
+        
+                    <div class="input-container">
+                        <select name="FitnessLevel" placeholder="Fitness Level" required>
+                            <option value="" disabled selected>Select level</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+        
+                        <div class="input-container">
+                            <select name="GoalType" placeholder="Goal Type" required>
+                                <option value="" disabled selected>Select Goal Type</option>
+                                <option value="Muscle Gain">Muscle Gain</option>
+                                <option value="Weight Loss">Weight Loss</option>
+                                <option value="Body Recomposition">Body Recomposition</option>
+                            </select>
+                        </div>
+        
+                        <div class="input-container">
+                            <input type="text" name="Goal Details" placeholder="Goal details" />
+        
+                        </div>
+        
+                        <button type="button" name="back" class="back action-button">Back</button>
+                        <button type="button" name="next" class="next action-button">Next</button>
+                </fieldset>
+        
+                <fieldset style="display: none;">
+                    <h2 class="fs-title">Health Information</h2>
+                    <h3 class="fs-subtitle">"Legday"</h3>
+        
+                    <div class="input-container">
+                        <input type="text" name="Medical History" placeholder="Medical History" />
+        
+                    </div>
+                    <div class="input-container">
+                        <input type="text" name="Medications" placeholder="Medications" />
+        
+                    </div>
+                    <div class="input-container">
+                        <input type="text" name="Physical Limitations" placeholder="Physical Limitations" />
+                    </div>
+        
+                    </div>
+                    <!--- MAY PROBLEMA DITO-->
+                    <button type="button" name="back" class="back action-button">Back</button>
+                    <button type="button" name="submit" class="submit action-button">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+        <!---End of Add Client-->
         <!-- PROGRAMS CONTENT -->
         <div id="programs-content">
             <div class="workout-form">
