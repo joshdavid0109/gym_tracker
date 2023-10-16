@@ -4,14 +4,28 @@ const aboutContent = document.getElementById("about-content");
 const programs = document.getElementById("programs");
 const programsContent = document.getElementById("programs-content");
 
+const dashboardButt = document.getElementsByClassName("active")[0];
+
 const addClient = document.getElementById("add-client");
 const addClientContent = document.getElementById("add-client-content");
+
+const searchClient = document.getElementById("search-client");
+const searchClientContent = document.getElementById("search-client-content");
 
 const mainContent = document.querySelector("main");
 
 programsContent.style.display = "none";
 aboutContent.style.display = "none";
 addClientContent.style.display = "none";
+searchClientContent.style.display = "none";
+
+dashboardButt.addEventListener("click", function (event) {
+    mainContent.style.display = "block";
+    addClientContent.style.display = "none";
+    programsContent.style.display = "none";
+    aboutContent.style.display = "none";
+    searchClientContent.style.display = "none";
+});
 
 addClient.addEventListener("click", function (event) {
     event.preventDefault();
@@ -19,8 +33,17 @@ addClient.addEventListener("click", function (event) {
     addClientContent.style.display = "block";
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
+    searchClientContent.style.display = "none";
 });
 
+searchClient.addEventListener("click", function (event) {
+    event.preventDefault();
+    searchClientContent.style.display = "block";
+    mainContent.style.display = "none";
+    addClientContent.style.display = "none";
+    programsContent.style.display = "none";
+    aboutContent.style.display = "none";
+});
 programs.addEventListener("click", function (event) {
     event.preventDefault();
     mainContent.style.display = "none";

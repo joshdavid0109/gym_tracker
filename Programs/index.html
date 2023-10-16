@@ -39,7 +39,7 @@
                     <span class="material-icons-sharp">add</span>
                     <h3>Add Client</h3>
                 </a>
-                <a href="/SearchClients/index.html">
+                <a href="#" id="search-client">
                     <span class="material-icons-sharp">search</span>
                     <h3>Search</h3>
                 </a>
@@ -218,21 +218,21 @@
                     <li>Fitnes Information</li>
                     <li>Health Information</li>
                 </ul>
-        
+
                 <fieldset>
                     <h2 class="fs-title">Add a client</h2>
                     <h3 class="fs-subtitle">"Legday"</h3>
-        
+
                     <p>First Name</p>
                     <div class="input-container">
                         <input type="text" name="First Name" placeholder="First Name" required />
                     </div>
-        
+
                     <p>Last Name</p>
                     <div class="input-container">
                         <input type="text" name="Last Name" placeholder="Last Name" required />
                     </div>
-        
+
                     <p>Gender</p>
                     <div class="input-container">
                         <select name="Gender" required>
@@ -242,29 +242,29 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-        
+
                     <p>Contact Number</p>
                     <div class="input-container">
                         <input type="text" name="Contact No." placeholder="Contact No. (optional)" />
                     </div>
-        
+
                     <p>Address</p>
                     <div class="input-container">
                         <input type="text" name="Address" placeholder="Address (optional)" />
                     </div>
-        
+
                     <p>Birthday</p>
                     <div class="input-container">
                         <input type="date" name="Date of Birth" placeholder="Date of Birth" required />
                     </div>
-        
+
                     <button type="button" name="next" class="next action-button">Next</button>
                 </fieldset>
-        
+
                 <fieldset style="display: none;">
                     <h2 class="fs-title">Goals</h2>
                     <h3 class="fs-subtitle">"Legday"</h3>
-        
+
                     <p>Fitness Level</p>
                     <div class="input-container">
                         <select name="FitnessLevel" placeholder="Fitness Level" required>
@@ -284,7 +284,7 @@
                             <option value="Body Recomposition">Body Recomposition</option>
                         </select>
                     </div>
-        
+
                     <p>Goal Details</p>
                     <div class="input-container">
                         <input type="text" name="Goal Details" placeholder="Goal details" />
@@ -293,16 +293,16 @@
                     <button type="button" name="back" class="back action-button">Back</button>
                     <button type="button" name="next" class="next action-button">Next</button>
                 </fieldset>
-        
+
                 <fieldset style="display: none;">
                     <h2 class="fs-title">Health Information</h2>
                     <h3 class="fs-subtitle">"Legday"</h3>
-        
+
                     <p>Medical History</p>
                     <div class="input-container">
                         <input type="text" name="Medical History" placeholder="Medical History" />
                     </div>
-                    
+
                     <p>Medications</p>
                     <div class="input-container">
                         <input type="text" name="Medications" placeholder="Medications" />
@@ -312,15 +312,73 @@
                     <div class="input-container">
                         <input type="text" name="Physical Limitations" placeholder="Physical Limitations" />
                     </div>
-    
-                    <!--- MAY PROBLEMA DITO-->
+
+
                     <button type="button" name="back" class="back action-button">Back</button>
                     <button type="button" name="submit" class="submit action-button">Submit</button>
                 </fieldset>
             </form>
         </div>
         <!---End of Add Client-->
-        
+
+        <!-- SEARCH CLIENT -->
+        <div id="search-client-content">
+            <form class="search-container">
+                <input type="text" id="search-bar" placeholder="Search client">
+            </form>
+
+            <div class="filter-container">
+                <div class="filter-options">
+                    <label>Gender:</label>
+                    <select id="gender-filter">
+                        <option value="">All</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <label>Goal Type:</label>
+                    <select id="goal-type-filter">
+                        <option value="">All</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                    </select>
+
+                    <label>Fitness Level:</label>
+                    <select id="fitness-level-filter">
+                        <option value="">All</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+
+                <div class="filter-options">
+                    <label>Physical Limitation:</label>
+                    <input type="checkbox" id="physical-limitation-filter" />
+
+                    <label>Medications:</label>
+                    <input type="checkbox" id="medications-filter" />
+
+                    <label>Medical History:</label>
+                    <input type="checkbox" id="medical-history-filter" />
+                </div>
+            </div>
+
+
+
+            <div class="main-container">
+
+            </div>
+
+            <div id="no-records-found">
+                <p>No matching records found. huhu</p>
+                <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">
+                <img src="/images/jannsen.png" alt="Image Description" class="pic-none-found">
+                <img src="/images/change.png" alt="Image Description" class="pic-none-found">
+                <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">
+            </div>
+        </div>
+
         <!-- PROGRAMS CONTENT -->
         <div id="programs-content">
             <div class="workout-form">
