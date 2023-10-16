@@ -446,7 +446,7 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
 });
 
 
-// add client
+// ADD CLIENT FUNCTIONALITY
 // const to make sure shit wont change #pranning
 const form = document.getElementById("input-form");
 const fieldsets = form.querySelectorAll("fieldset");
@@ -611,6 +611,7 @@ function saveClientData(clientJSON) {
     }
 }
 
+// SEARCH CLIENT FUNCTIONALITY
 // main container of the clients
 const clientContainer = document.querySelector(".main-container");
 
