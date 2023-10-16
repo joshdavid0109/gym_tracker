@@ -1350,3 +1350,202 @@ DESIGN KO - BADS
     font-weight: bold;
     text-align: left;
 }
+
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input#search-bar {
+    width: 400px;
+    height: 45px;
+    border: 1px solid #D0CFCE;
+    transition: border 0.35s ease;
+
+    &:focus {
+        border: 1px solid #008ABF;
+        transition: 0.35s ease;
+        color: #008ABF;
+    }
+
+    &::placeholder {
+        transition: opacity 0.35s ease;
+        opacity: 1;
+    }
+
+    &:focus::placeholder {
+        opacity: 0;
+
+    }
+}
+
+
+#filter-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background-image: url('/images/filter_icon.jpg');
+    background-size: cover;
+}
+
+/* Add hover styles to the filter button */
+#filter-button:hover+#filter-container {
+    display: block;
+}
+
+/*Style for the filter container */
+#filter-container {
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: absolute;
+    top: 40px;
+    /* Adjust the distance from the button as needed */
+    right: 0;
+    width: 200px;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the filter container */
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Margin for labels in the filter container */
+.filter-container label {
+    margin-bottom: 10px;
+
+}
+
+/* Style for select elements inside the filter container */
+.filter-container select {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.filter-container input {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#apply-filters {
+    background-color: #008ABF;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+
+#apply-filters:hover {
+    background-color: #006a9e;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(3, 0fr);
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.client-object {
+    width: 300px;
+    height: auto;
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+    transition: all 0.5s ease;
+}
+
+
+
+.client-info {
+    background: linear-gradient(to right, #01a9ac, #01dbdf);
+    text-align: center;
+    color: #fff;
+}
+
+.client-info h1 {
+    margin-bottom: 5px;
+}
+
+.client-info p {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.client-data {
+    background: #fff;
+    padding: 5px;
+    justify-content: center;
+}
+
+.data h4 {
+    font-size: 15px;
+    color: #353c4e;
+    margin-bottom: 5px;
+}
+
+.data p {
+    font-size: 12px;
+}
+
+#no-records-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#no-records-found p {
+    font-size: 50px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+
+}
+
+.pic-none-found {
+    width: 150px;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* for the no record found <p> */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* for the client object containers */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
