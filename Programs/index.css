@@ -1352,6 +1352,34 @@ DESIGN KO - BADS
     color: #007BFF;
 }
 
+#input-form li {
+    color: var(--color-dark);
+}
+
+#input-form h1 {
+    font-size: 2em;
+}
+
+#input-form fieldset {
+    background: var(--color-white);
+    color: rgb(107, 163, 104);
+}
+
+#input-form fieldset input, select {
+    color: var(--color-dark);
+}
+
+#input-form fieldset select {
+    background: var(--color-white);
+    color: var(--color-dark);
+}
+
+.workout-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    background: var(--color-light);
+    color: var(--color-dark);
+}
 
 .search-container {
     display: flex;
