@@ -409,5 +409,3 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function() {
         });
     }
 });
-
-
