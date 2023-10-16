@@ -1385,20 +1385,22 @@ DESIGN KO - BADS
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    margin-top: 5%;
     margin-bottom: 20px;
 }
 
 input#search-bar {
     width: 400px;
     height: 45px;
+    background: var(--color-white);
+    color: var(--color-dark);
     border: 1px solid #D0CFCE;
     transition: border 0.35s ease;
 
     &:focus {
-        border: 1px solid #008ABF;
+        border: 1px solid var(--color-dark);
         transition: 0.35s ease;
-        color: #008ABF;
+        color: var(--color-dark);
     }
 
     &::placeholder {
@@ -1431,15 +1433,16 @@ input#search-bar {
 
 /*Style for the filter container */
 #filter-container {
-    display: none;
+    display: flex;
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 50px;
     position: absolute;
     top: 40px;
     /* Adjust the distance from the button as needed */
     right: 0;
-    width: 200px;
+    width: 100%;
     z-index: 1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -1447,25 +1450,30 @@ input#search-bar {
 /* Style for the filter container */
 .filter-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
 }
 
 /* Margin for labels in the filter container */
 .filter-container label {
     margin-bottom: 10px;
-
+    color: var(--color-dark);
 }
 
 /* Style for select elements inside the filter container */
 .filter-container select {
     padding: 5px;
+    margin-right: 100px;
     margin-bottom: 10px;
+    background: var(--color-white);
+    color: var(--color-dark);
 }
 
 .filter-container input {
     padding: 5px;
+    margin-right: 100px;
     margin-bottom: 10px;
+    background: var(--color-white);
+    color: var(--color-dark);
 }
 
 #apply-filters {
