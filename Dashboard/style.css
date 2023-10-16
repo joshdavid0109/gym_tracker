@@ -152,18 +152,17 @@ small{
   display: block;
 }
 
-
-/* Updated CSS for the "About Us" section */
+/* === ABOUT US === */
 #about-content {
   margin: 20px;
   padding: 20px;
-  background: var(--color-background); /* Light Gray or Off-White background */
-  color: #EE2E31; /* Dark Gray text */
+  background: var(--color-background);
+  color: #EE2E31; 
 }
 
 #about-content h1 {
   font-size: 40px;
-  color: #1098F7; /* Muted Blue or Green for headers */
+  color: #1098F7; 
   margin: 10px 0;
 }
 
@@ -174,35 +173,32 @@ small{
 
 #about-content p {
   font-size: 18px;
-  line-height: 1.5; /* Improved line height for readability */
+  line-height: 1.5;
   margin: 10px 0;
   color: var(--color-dark);
 }
 
-/* Add some spacing between sections */
 #about-content h2:first-of-type {
   margin-top: 20px;
 }
 
-/* Use the specified colors for the mission and vision headings */
 #about-content h2:nth-of-type(2) {
-  color: #EE2E31; /* Red for mission heading */
+  color: #EE2E31;
 }
 
 #about-content h2:nth-of-type(3) {
-  color: #6BA368; /* Green for vision heading */
+  color: #6BA368;
 }
 
-/* Style the border and padding for a professional look */
 #about-content h2 {
-  border-bottom: 2px solid #1098F7; /* Muted Blue or Green */
+  border-bottom: 2px solid #1098F7;
   padding-bottom: 5px;
 }
 
 .team-separator {
   border: none;
-  border-top: 2px solid var(--color-primary); /* Adjust the color and size as needed */
-  margin: 20px auto; /* Adjust the margin as needed */
+  border-top: 2px solid var(--color-primary);
+  margin: 20px auto;
 }
 
 
