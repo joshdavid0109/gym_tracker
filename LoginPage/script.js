@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        // You can add your login logic here
         if (username === "yourusername" && password === "yourpassword") {
             message.textContent = "Login successful!";
         } else {
