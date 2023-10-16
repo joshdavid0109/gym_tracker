@@ -209,6 +209,7 @@
 
         </main>
         <!---END OF MAIN-->
+
         <!---Add Client Content-->
         <div id="add-client-content">
             <form id="input-form">
@@ -222,14 +223,17 @@
                     <h2 class="fs-title">Add a client</h2>
                     <h3 class="fs-subtitle">"Legday"</h3>
         
+                    <p>First Name</p>
                     <div class="input-container">
                         <input type="text" name="First Name" placeholder="First Name" required />
                     </div>
         
+                    <p>Last Name</p>
                     <div class="input-container">
                         <input type="text" name="Last Name" placeholder="Last Name" required />
                     </div>
         
+                    <p>Gender</p>
                     <div class="input-container">
                         <select name="Gender" required>
                             <option value="" disabled selected>Select Gender</option>
@@ -239,14 +243,17 @@
                         </select>
                     </div>
         
+                    <p>Contact Number</p>
                     <div class="input-container">
                         <input type="text" name="Contact No." placeholder="Contact No. (optional)" />
                     </div>
         
+                    <p>Address</p>
                     <div class="input-container">
                         <input type="text" name="Address" placeholder="Address (optional)" />
                     </div>
         
+                    <p>Birthday</p>
                     <div class="input-container">
                         <input type="date" name="Date of Birth" placeholder="Date of Birth" required />
                     </div>
@@ -258,6 +265,7 @@
                     <h2 class="fs-title">Goals</h2>
                     <h3 class="fs-subtitle">"Legday"</h3>
         
+                    <p>Fitness Level</p>
                     <div class="input-container">
                         <select name="FitnessLevel" placeholder="Fitness Level" required>
                             <option value="" disabled selected>Select level</option>
@@ -265,42 +273,46 @@
                             <option value="Intermediate">Intermediate</option>
                             <option value="Advanced">Advanced</option>
                         </select>
+                    </div>
+
+                    <p>Goal</p>
+                    <div class="input-container">
+                        <select name="GoalType" placeholder="Goal Type" required>
+                            <option value="" disabled selected>Select Goal Type</option>
+                            <option value="Muscle Gain">Muscle Gain</option>
+                            <option value="Weight Loss">Weight Loss</option>
+                            <option value="Body Recomposition">Body Recomposition</option>
+                        </select>
+                    </div>
         
-                        <div class="input-container">
-                            <select name="GoalType" placeholder="Goal Type" required>
-                                <option value="" disabled selected>Select Goal Type</option>
-                                <option value="Muscle Gain">Muscle Gain</option>
-                                <option value="Weight Loss">Weight Loss</option>
-                                <option value="Body Recomposition">Body Recomposition</option>
-                            </select>
-                        </div>
-        
-                        <div class="input-container">
-                            <input type="text" name="Goal Details" placeholder="Goal details" />
-        
-                        </div>
-        
-                        <button type="button" name="back" class="back action-button">Back</button>
-                        <button type="button" name="next" class="next action-button">Next</button>
+                    <p>Goal Details</p>
+                    <div class="input-container">
+                        <input type="text" name="Goal Details" placeholder="Goal details" />
+                    </div>
+
+                    <button type="button" name="back" class="back action-button">Back</button>
+                    <button type="button" name="next" class="next action-button">Next</button>
                 </fieldset>
         
                 <fieldset style="display: none;">
                     <h2 class="fs-title">Health Information</h2>
                     <h3 class="fs-subtitle">"Legday"</h3>
         
+                    <p>Medical History</p>
                     <div class="input-container">
                         <input type="text" name="Medical History" placeholder="Medical History" />
-        
                     </div>
+                    
+                    <p>Medications</p>
                     <div class="input-container">
                         <input type="text" name="Medications" placeholder="Medications" />
-        
                     </div>
+
+                    <p>Physical Limitations</p>
                     <div class="input-container">
                         <input type="text" name="Physical Limitations" placeholder="Physical Limitations" />
                     </div>
-        
-                    </div>
+    
                     <!--- MAY PROBLEMA DITO-->
                     <button type="button" name="back" class="back action-button">Back</button>
                     <button type="button" name="submit" class="submit action-button">Submit</button>
@@ -308,6 +320,7 @@
             </form>
         </div>
         <!---End of Add Client-->
+        
         <!-- PROGRAMS CONTENT -->
         <div id="programs-content">
             <div class="workout-form">
