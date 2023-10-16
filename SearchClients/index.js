@@ -1,3 +1,4 @@
+
 // main container of the clients
 const clientContainer = document.querySelector(".main-container");
 

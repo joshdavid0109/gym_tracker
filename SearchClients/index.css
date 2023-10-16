@@ -122,8 +122,13 @@ input#search-bar {
     height: auto;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     border-radius: 5px;
-
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+    transition: all 0.5s ease;
 }
+
+
 
 .client-info {
     background: linear-gradient(to right, #01a9ac, #01dbdf);
@@ -165,14 +170,38 @@ input#search-bar {
 
 #no-records-found p {
     font-size: 50px;
-}
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 
+}
 
 .pic-none-found {
     width: 150px;
     transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 }
 
-.pic-none-found:hover {
-    opacity: 0.7;
+/* for the no record found <p> */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* for the client object containers */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
