@@ -21,7 +21,7 @@ body {
     height: 400px;
     padding: 30px;
     border-radius: 5px;
-    box-shadow: #A23E48;
+    box-shadow: 5px 5px 5px 5px gray;
 }
 
 h2 {
@@ -44,9 +44,14 @@ input[type="password"] {
     font-size: 18px; 
 }
 
+.login-container p{
+    margin-top: 50px;
+    text-align: center;
+}
+
 button {
     padding: 15px;
-    margin-top: 75px;
+    margin-top: 10px;
     background-color: #333;
     color: #fff;
     border: none;
