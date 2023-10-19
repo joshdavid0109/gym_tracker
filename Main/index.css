@@ -158,6 +158,17 @@ small {
     display: block;
 }
 
+#about-content h1 {
+    margin-top: 90px;
+}
+
+#about-content h2 {
+    margin-top: 20px;
+}
+
+#about-content p {
+    margin-top: 10px;
+}
 
 .text-muted {
     color: var(--color-info-dark);
@@ -839,6 +850,7 @@ header .current-date {
 .container-team {
     margin: 20px 40px;
     color: rgb(226, 0, 0);
+    width: 100%;
 }
 
 .heading {
@@ -858,10 +870,13 @@ header .current-date {
 } */
 
 .team-profile {
+    display: flex;
     flex-basis: 100px;
 }
 
 .team-profile .profile-img {
+    margin-right: 30px;
+    margin-top: 50px;
     height: 100px;
     width: 100px;
     border-radius: 50%;
@@ -875,33 +890,32 @@ header .current-date {
 }
 
 .user-name {
-    margin-top: 16px;
-    font-size: 20px;
-    color: red
+    width: 300px;
+    margin-top: 50px;
+    font-size: 24px;
+    color: var(--color-dark)
 }
 
 .team-profile h5 {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 100;
     letter-spacing: 3px;
     color: red;
 }
 
 .team-profile p {
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 10px;
     text-align: justify;
     color: rgb(0, 56, 240);
 }
 
 .top-profiles {
-    display: flex;
     justify-content: space-around;
     margin: 20px 80px;
 }
 
 .bottom-profiles {
-    display: flex;
     justify-content: space-around;
     margin: 20px 80px;
 }
@@ -1517,19 +1531,20 @@ input#search-bar {
 /* Client info (name, id) */
 .client-info {
     text-align: left;
-    color: var(--color-dark);
     margin-top: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid #E0E0E0;
 }
 
 .client-info h1 {
+    color: #007BFF;
     font-size: 20px;
     margin-bottom: 5px;
     margin-left: 20px;
 }
 
 .client-info h2 {
+    color: var(--color-dark);
     font-size: 14px;
     margin-bottom: 30px;
     margin-left: 20px;
