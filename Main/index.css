@@ -2,6 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
+/* just ctrl f to search the styles of each page kingina 1.5k lines*/
 
 :root {
     --color-primary: #1098F7;
@@ -1341,9 +1342,7 @@ button#saveWorkoutBtn {
     transition: top 0.3s, font-size 0.3s;
 }
 
-/*
-DESIGN KO - BADS
-*/
+
 #input-form p {
     margin-bottom: 10px;
     font-weight: bold;
@@ -1380,6 +1379,9 @@ select {
     background: var(--color-light);
     color: var(--color-dark);
 }
+
+
+/*Search Client */
 
 .search-container {
     display: flex;

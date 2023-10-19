@@ -63,6 +63,7 @@ aboutLink.addEventListener("click", function (event) {
     aboutContent.style.display = "block";
     programsContent.style.display = "none";
     addClientContent.style.display = "none";
+    searchClientContent.style.display = "none";
 });
 
 document.querySelector(".sidebar a.active").addEventListener("click", function (event) {
