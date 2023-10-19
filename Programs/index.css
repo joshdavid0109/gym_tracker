@@ -351,6 +351,7 @@ main .client-box .progress {
     width: 92px;
     height: 92px;
     border-radius: 50%;
+    margin-left: 20px;
 }
 
 main .client-box svg {

@@ -69,18 +69,18 @@
                 <div class="client-count">
                     <span class="material-icons-sharp">person_add</span>
                     <div class="middle">
-                        <div class="left">
+                        <div id="client-count-parent" class="left">
                             <h3>Client Count</h3>
-                            <h1>958</h1>
+                            <h1 id="client-count"></h1>
                         </div>
-                        <div class="progress">
+                        <!-- <div class="progress">
                             <svg>
                                 <circle cx='38' cy='38' r='36'></circle>
                             </svg>
                             <div class="number">
                                 <p class="active-client">81%</p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <small class="text-muted">Last 24 Hours</small>
                 </div>
@@ -136,22 +136,21 @@
                 <div class="client-list">
 
                     <div class="client">
-                        <ul class="client-details">
+                        <ul id="client-details" class="client-details">
                             <img src="/images/profile-1.png">
-                            <li><span>Client ID:</span> 001</li>
-                            <li><span>Name:</span> John Doe</li>
-                            <li class="expand-icon" data-expanded="false">
+                            <li id="client-id"><span>Client ID:</span> 01256</li>
+                            <li id="client-name"><span>Name:</span> John Doe</li>
+                            <li id="expand-icon" class="expand-icon" data-expanded="false">
                                 <span class="material-icons-sharp expand">expand_more</span>
                                 <span class="material-icons-sharp collapse">expand_less</span>
                             </li>
                             <li class="additional-details">
                                 <span class="details-label">Additional Details:</span>
-                                <ul>
-                                    <li class="contact"><span>Contact:</span> +123456789</li>
-                                    <li class="address"><span>Address:</span> 123 Main St</li>
-                                    <li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
-                                    <li class="gender"><span>Gender:</span> Male</li>
-                                    <li class="emergency"><span>Emergency Contact:</span> +987654321</li>
+                                <ul id="additional-details">
+                                    <li id="contact" class="contact"><span>Contact:</span> +123456789</li>
+                                    <li id="address" class="address"><span>Address:</span> 123 Main St</li>
+                                    <li id="dob" class="dob"><span>Date of Birth:</span> 01/01/1980</li>
+                                    <li id="gender" class="gender"><span>Gender:</span> Male</li>
                                     <li class="program">Programs:</li>
                                 </ul>
                             </li>
@@ -616,7 +615,7 @@
         </div>
 
 
-        <script src="index.js"></script>
+        <script type="module" src="index.js"></script>
 </body>
 
 </html>
