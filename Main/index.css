@@ -1439,7 +1439,7 @@ input#search-bar {
     justify-content: center;
     align-items: center;
     align-content: center;
-    box-shadow: 0px 1px 5px black;
+    box-shadow: 0px 1px 10px black;
 }
 
 .filter-container label,
@@ -1470,7 +1470,7 @@ input#search-bar {
     justify-content: space-between;
     align-items: left;
     align-content: left;
-    box-shadow: 0px 1px 5px black;
+    box-shadow: 0px 1px 10px black;
 }
 
 .filter-container-additional label {
@@ -1504,6 +1504,8 @@ input#search-bar {
     width: 293px;
     height: auto;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    background: var(--color-white);
+    border: 1px solid white;
     border-radius: 5px;
     opacity: 0;
     transform: translateY(20px);
@@ -1515,20 +1517,22 @@ input#search-bar {
 /* Client info (name, id) */
 .client-info {
     text-align: left;
-    color: black;
+    color: var(--color-dark);
+    margin-top: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid #E0E0E0;
-    margin-bottom: 10px;
 }
 
 .client-info h1 {
     font-size: 20px;
     margin-bottom: 5px;
+    margin-left: 20px;
 }
 
 .client-info h2 {
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin-bottom: 30px;
+    margin-left: 20px;
 }
 
 .client-info p {
@@ -1539,12 +1543,14 @@ input#search-bar {
 
 /* Client data (personal, fitness, health) */
 .client-data {
+    height: 350px;
     background: #fff;
     padding: 5px;
     text-align: left;
 }
 
 .data h4 {
+    margin-top: 15px;
     font-size: 15px;
     color: #353c4e;
     margin-bottom: 5px;
@@ -1554,13 +1560,23 @@ input#search-bar {
     font-size: 12px;
 }
 
-.delete-button,
-.edit-button {
+.delete-button {
+    padding-left: 200px;
+    margin-top: 20px;
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 20px;
-    margin: 5px;
+    font-size: 14px;
+}
+
+
+.edit-button {
+    padding-left: 10px;
+    margin-top: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 .delete-button:hover,
