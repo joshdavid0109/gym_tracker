@@ -46,6 +46,7 @@ const aboutLink = document.getElementById("about-link");
 const aboutContent = document.getElementById("about-content");
 const programs = document.getElementById("programs");
 const programsContent = document.getElementById("programs-content");
+const calendar = document.getElementById("calendar");
 
 const dashboardButt = document.getElementsByClassName("active")[0];
 
@@ -66,6 +67,7 @@ searchClientContent.style.display = "none";
 
 dashboardButt.addEventListener("click", function (event) {
     mainContent.style.display = "block";
+    calendar.style.display = "block";
     addClientContent.style.display = "none";
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
@@ -79,6 +81,7 @@ addClient.addEventListener("click", function (event) {
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
     searchClientContent.style.display = "none";
+    calendar.style.display = "none";
 });
 
 searchClient.addEventListener("click", function (event) {
@@ -88,6 +91,7 @@ searchClient.addEventListener("click", function (event) {
     addClientContent.style.display = "none";
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
+    calendar.style.display = "none";
 });
 programs.addEventListener("click", function (event) {
     event.preventDefault();
@@ -95,6 +99,7 @@ programs.addEventListener("click", function (event) {
     programsContent.style.display = "block";
     aboutContent.style.display = "none";
     addClientContent.style.display = "none";
+    searchClientContent.style.display = "none";
 });
 
 aboutLink.addEventListener("click", function (event) {
@@ -103,6 +108,7 @@ aboutLink.addEventListener("click", function (event) {
     aboutContent.style.display = "block";
     programsContent.style.display = "none";
     addClientContent.style.display = "none";
+    searchClientContent.style.display = "none";
 });
 
 document.querySelector(".sidebar a.active").addEventListener("click", function (event) {
@@ -112,10 +118,6 @@ document.querySelector(".sidebar a.active").addEventListener("click", function (
     aboutContent.style.display = "none";
 });
 
-// change theme
-// themeToggler.addEventListener('click', () => {
-//     document.body.classList.toggle('dark-theme-variables');
-// })
 
 aboutContent.style.display = "none";
 
@@ -330,33 +332,45 @@ inputFields.forEach(input => {
     });
 });
 
-
-
 // Initialize a counter for generating unique Program IDs and workout IDs
 let programIdCounter = 1;
 let workoutIdCounter = 1;
 
-document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
-    // Get all the rows in the workout table
-    const rows = document.querySelectorAll('.workout-table tbody tr');
+// Load saved workouts from localStorage on page load
+document.addEventListener('DOMContentLoaded', function () {
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
     const savedWorkoutsContainer = document.querySelector('.saved-programs');
 
+    // Find the highest programId in the savedWorkouts
+    let highestProgramId = 0;
+    savedWorkouts.forEach(savedWorkout => {
+        const programId = parseInt(savedWorkout.id.match(/\d+/));
+        if (programId > highestProgramId) {
+            highestProgramId = programId;
+        }
+    });
+
+    programIdCounter = highestProgramId + 1;
+
+    savedWorkouts.forEach(savedWorkout => {
+        const programDiv = createProgramDiv(savedWorkout);
+        savedWorkoutsContainer.appendChild(programDiv);
+
+        programIdCounter++;
+        workoutIdCounter++;
+    });
+});
+
+document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
+    const rows = document.querySelectorAll('.workout-table tbody tr');
+    const savedWorkoutsContainer = document.querySelector('.saved-programs');
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+
     if (rows.length > 0) {
-        // Create a new div for the program
-        const programDiv = document.createElement('div');
-        programDiv.classList.add('program');
-
-        programDiv.setAttribute('data-program-id', `Program ID #${programIdCounter}`);
-
-        // Create a header for the program
-        const programHeader = document.createElement('h3');
-        programHeader.textContent = `Program ID #${programIdCounter}`;
-        programDiv.appendChild(programHeader);
-
-        // Create a container for the workouts within the program
-        const workoutsContainer = document.createElement('div');
-        workoutsContainer.classList.add('workouts-container');
-        programDiv.appendChild(workoutsContainer);
+        const savedProgram = {
+            id: `Program ID #${programIdCounter}`,
+            workouts: [],
+        };
 
         rows.forEach(row => {
             const workoutName = row.querySelector('input[name="workoutName"]').value;
@@ -366,88 +380,200 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
             const reps = row.querySelector('input[name="reps"]').value;
 
             if (workoutName && day && activity && sets && reps) {
-                // Create a new div for the saved workout
-                const savedWorkoutDiv = document.createElement('div');
-                savedWorkoutDiv.classList.add('saved-workout');
-
-                // Assign a unique Workout ID to the saved workout
-                savedWorkoutDiv.setAttribute('data-workout-id', `Workout ID #${workoutIdCounter}`);
-
-                // Construct the content for the saved workout
-                savedWorkoutDiv.innerHTML = `
-                    <h3>${workoutName}</h3>
-                    <p>${day} days</p>
-                    <p>${activity}</p>
-                    <p>Sets: ${sets}, Reps: ${reps}</p>
-                `;
-
-                // Create the "Modify" and "Delete" buttons
-                const modifyButton = document.createElement('button');
-                modifyButton.innerText = 'Modify';
-                const deleteButton = document.createElement('button');
-                deleteButton.innerText = 'Delete';
-
-                // Create the "Assign" button
-                const assignButton = document.createElement('button');
-                assignButton.innerText = 'Assign';
-
-                // Create an accordion for the client list
-                const accordion = document.createElement('div');
-                accordion.classList.add('accordion');
-
-                // Example list of clients
-                const clients = ['Client 1', 'Client 2'];
-
-                // Create a list of clients in the accordion
-                const clientList = document.createElement('ul');
-                clientList.classList.add('client-list');
-
-                clients.forEach(client => {
-                    const listItem = document.createElement('li');
-                    listItem.classList.add('client-list-item');
-                    listItem.innerText = client;
-                    listItem.addEventListener('click', function () {
-                        // Handle client selection logic here
-                        console.log(`Assigned workout to ${client}`);
-                    });
-                    clientList.appendChild(listItem);
+                savedProgram.workouts.push({
+                    id: `Workout ID #${workoutIdCounter}`,
+                    workoutName,
+                    day,
+                    activity,
+                    sets,
+                    reps,
                 });
 
-                accordion.appendChild(clientList);
-
-                // Add the "Modify," "Delete," and "Assign" buttons to the saved workout div
-                savedWorkoutDiv.appendChild(modifyButton);
-                savedWorkoutDiv.appendChild(deleteButton);
-                savedWorkoutDiv.appendChild(assignButton);
-                savedWorkoutDiv.appendChild(accordion);
-
-                // Add the saved workout div to the workouts container
-                workoutsContainer.appendChild(savedWorkoutDiv);
-
-                // Increment the workout ID counter for the next saved workout
                 workoutIdCounter++;
             }
         });
 
-        // Add the program div to the "Saved Workouts" section
-        savedWorkoutsContainer.appendChild(programDiv);
+        if (savedProgram.workouts.length > 0) {
+            savedWorkouts.push(savedProgram);
+            localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
 
-        // Increment the Program ID counter for the next program
-        programIdCounter++;
+            const programDiv = createProgramDiv(savedProgram);
+            savedWorkoutsContainer.appendChild(programDiv);
 
-        // Clear the input fields in all rows
-        rows.forEach(row => {
-            const inputs = row.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.value = '';
+            updateProgramIdCounter(); 
+
+            // Clear the input fields in all rows
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.value = '';
+                });
             });
-        });
+
+            
+        }
     }
 });
 
+function removeProgramFromLocalStorage(programId) {
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    const updatedSavedWorkouts = savedWorkouts.filter(savedProgram => savedProgram.id !== programId);
+    localStorage.setItem('savedWorkouts', JSON.stringify(updatedSavedWorkouts));
 
-// add client
-// const to make sure shit wont change #pranning
+    updateProgramIdCounter();
+}
+
+function createProgramDiv(savedProgram) {
+    const programDiv = document.createElement('div');
+    programDiv.classList.add('program');
+    programDiv.setAttribute('data-program-id', savedProgram.id);
+
+    const programHeader = document.createElement('h3');
+    programHeader.textContent = savedProgram.id;
+    programDiv.appendChild(programHeader);
+
+    const workoutsContainer = document.createElement('div');
+    workoutsContainer.classList.add('workouts-container');
+    programDiv.appendChild(workoutsContainer);
+
+    savedProgram.workouts.forEach(workout => {
+        const savedWorkoutDiv = document.createElement('div');
+        savedWorkoutDiv.classList.add('saved-workout');
+        savedWorkoutDiv.setAttribute('data-workout-id', workout.id);
+    
+        savedWorkoutDiv.innerHTML = `
+            <h3>${workout.workoutName}</h3>
+            <p>${workout.day} days</p>
+            <p>${workout.activity}</p>
+            <p>Sets: ${workout.sets}, Reps: ${workout.reps}
+        `;
+    
+        const modifyButton = document.createElement('button');
+        modifyButton.innerText = 'Modify';
+        modifyButton.addEventListener('click', function () {
+            const editDiv = savedWorkoutDiv.querySelector('.edit-div');
+        
+            if (!editDiv) {
+                const setsRepsText = savedWorkoutDiv.querySelectorAll('p')[2].textContent;
+                const setsRepsMatch = /Sets: (\d+), Reps: (\d+)/.exec(setsRepsText);
+
+                const newEditDiv = document.createElement('div');
+                newEditDiv.classList.add('edit-div');
+                newEditDiv.innerHTML = `
+                    <div class="edit-header">Workout Name</div>
+                    <input type="text" class="edit-input" value="${savedWorkoutDiv.querySelector('h3').textContent}" id="edit-workout-name">
+                    <div class="edit-header">Day</div>
+                    <input type="text" class="edit-input" value="${savedWorkoutDiv.querySelectorAll('p')[0].textContent.replace(' days', '')}" id="edit-workout-day">
+                    <div class="edit-header">Activity</div>
+                    <input type="text" class="edit-input" value="${savedWorkoutDiv.querySelectorAll('p')[1].textContent}" id="edit-workout-activity">
+                    <div class="edit-header">Sets</div>
+                    <input type="number" class="edit-input" value="${setsRepsMatch[1]}" id="edit-workout-sets">
+                    <div class="edit-header">Reps</div>
+                    <input type="number" class="edit-input" value="${setsRepsMatch[2]}" id="edit-workout-reps">
+                `;
+
+                // Append the small div to the savedWorkoutDiv
+                savedWorkoutDiv.appendChild(newEditDiv);
+                modifyButton.innerText = 'Update';
+            } else {
+                if (modifyButton.innerText === 'Update') {
+                    // Update the displayed values with the edited values
+                    const editedWorkoutName = editDiv.querySelector('#edit-workout-name').value;
+                    const editedWorkoutDay = editDiv.querySelector('#edit-workout-day').value;
+                    const editedWorkoutActivity = editDiv.querySelector('#edit-workout-activity').value;
+                    const editedWorkoutSets = editDiv.querySelector('#edit-workout-sets').value;
+                    const editedWorkoutReps = editDiv.querySelector('#edit-workout-reps').value;
+        
+                    // Update the existing elements with new values
+                    const workoutNameElement = savedWorkoutDiv.querySelector('h3');
+                    const dayElement = savedWorkoutDiv.querySelectorAll('p')[0];
+                    const activityElement = savedWorkoutDiv.querySelectorAll('p')[1];
+                    const setsRepsElement = savedWorkoutDiv.querySelectorAll('p')[2];
+
+                    workoutNameElement.textContent = editedWorkoutName;
+                    dayElement.textContent = `${editedWorkoutDay} days`;
+                    activityElement.textContent = editedWorkoutActivity;
+                    setsRepsElement.textContent = `Sets: ${editedWorkoutSets}, Reps: ${editedWorkoutReps}`;
+
+                    // Update the workout details in localStorage
+                    updateWorkoutInLocalStorage(savedProgram.id, workout.id, {
+                        workoutName: editedWorkoutName,
+                        day: editedWorkoutDay,
+                        activity: editedWorkoutActivity,
+                        sets: editedWorkoutSets,
+                        reps: editedWorkoutReps,
+                    });
+
+                    modifyButton.innerText = 'Modify';
+        
+                    // Remove the edit form after updating
+                    editDiv.remove();
+                }
+            }
+        });
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.addEventListener('click', function () {
+            const programId = programDiv.getAttribute('data-program-id');
+            // Remove the program div from the local storage
+            removeProgramFromLocalStorage(programId);
+            // Remove the program div from the displayed programs
+            programDiv.remove();
+        });
+ 
+        const assignButton = document.createElement('button');
+        assignButton.innerText = 'Assign';
+
+        const accordion = document.createElement('div');
+        accordion.classList.add('accordion');
+        const clientList = document.createElement('ul');
+        clientList.classList.add('client-list');
+        // Add client list items here...
+
+        accordion.appendChild(clientList);
+
+        savedWorkoutDiv.appendChild(modifyButton);
+        savedWorkoutDiv.appendChild(deleteButton);
+        savedWorkoutDiv.appendChild(assignButton);
+        savedWorkoutDiv.appendChild(accordion);
+
+        workoutsContainer.appendChild(savedWorkoutDiv);
+    });
+
+    return programDiv;
+}
+
+// Update program id counter
+function updateProgramIdCounter() {
+    // Find the highest programId in the savedWorkouts
+    let highestProgramId = 0;
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    savedWorkouts.forEach(savedProgram => {
+        const programId = parseInt(savedProgram.id.match(/\d+/));
+        if (programId > highestProgramId) {
+            highestProgramId = programId;
+        }
+    });
+
+    programIdCounter = highestProgramId + 1;
+}
+
+// Function to update the workout details in localStorage
+function updateWorkoutInLocalStorage(programId, workoutId, updatedDetails) {
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    const program = savedWorkouts.find(program => program.id === programId);
+    if (program) {
+        const workout = program.workouts.find(workout => workout.id === workoutId);
+        if (workout) {
+            Object.assign(workout, updatedDetails);
+            localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
+        }
+    }
+}
+
+// ADD CLIENT FUNCTIONALITY
+// const to make sure it wont change 
 const form = document.getElementById("input-form");
 const fieldsets = form.querySelectorAll("fieldset");
 const nextButtons = form.querySelectorAll(".next");
@@ -470,6 +596,13 @@ if (clientListJSON) {
     });
 } else {
     console.log("No client data found in local storage.");
+}
+
+// Before saving client to local storage, assign an ID
+function assignClientID() {
+    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    let clientCount = existingClients.length;
+    client.id = `#${String(clientCount + 1).padStart(5, '0')}`;
 }
 
 //initially, only show the first fieldset
@@ -542,11 +675,14 @@ submitButton.addEventListener("click", function () {
         const clientJSON = JSON.stringify(client);
         // save the JSON object in local storage
         saveClientData(clientJSON);
+        // show succes message
+        alert('Client was added successfully.');
     }
 });
 
 // client object
 let client = {
+    id: '',
     personalInfo: {
         firstName: '',      // First Name
         lastName: '',       // Last Name
@@ -568,11 +704,18 @@ let client = {
     programs: null // no programs assigned yet to a new client
 };
 
+// function to assign id to a client
+function assignClientID() {
+    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    let clientCount = existingClients.length;
+    client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
+}
 
 // function to populate the client object with form data
 function populateClientObject() {
     // personal Information
     const personalInfoFieldset = fieldsets[0];
+    assignClientID();
     client.personalInfo.firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
     client.personalInfo.lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
     client.personalInfo.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
@@ -594,7 +737,6 @@ function populateClientObject() {
 }
 // function to save client data to local storage
 function saveClientData(clientJSON) {
-
     // check if local storage is available
     if (typeof Storage !== "undefined") {
         // get existing client data from local storage (if any)
@@ -611,6 +753,11 @@ function saveClientData(clientJSON) {
     }
 }
 
+function displayClientOverview() {
+
+}
+
+// SEARCH CLIENT FUNCTIONALITY
 // main container of the clients
 const clientContainer = document.querySelector(".main-container");
 
@@ -637,6 +784,7 @@ if (clientListJSON) {
             clientInfo.innerHTML = `
             <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
             <p>No program assigned to client</p>
+            <p>${clientData.id}</p>
         `;
         }
 
@@ -648,7 +796,7 @@ if (clientListJSON) {
         const personalInfo = document.createElement("div");
         personalInfo.classList.add("data");
         personalInfo.innerHTML = `
-            <h4>Email</h4>
+            <h4>Personal Information</h4>
             <p>Gender: ${clientData.personalInfo.gender}</p>
             <p>Date of Birth: ${clientData.personalInfo.dateOfBirth}</p>
             <p>Contact: ${clientData.personalInfo.contactNo}</p>

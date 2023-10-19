@@ -69,18 +69,18 @@
                 <div class="client-count">
                     <span class="material-icons-sharp">person_add</span>
                     <div class="middle">
-                        <div id="client-count-parent" class="left">
+                        <div class="left">
                             <h3>Client Count</h3>
-                            <h1 id="client-count"></h1>
+                            <h1>958</h1>
                         </div>
-                        <!-- <div class="progress">
+                        <div class="progress">
                             <svg>
                                 <circle cx='38' cy='38' r='36'></circle>
                             </svg>
                             <div class="number">
                                 <p class="active-client">81%</p>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <small class="text-muted">Last 24 Hours</small>
                 </div>
@@ -136,21 +136,22 @@
                 <div class="client-list">
 
                     <div class="client">
-                        <ul id="client-details" class="client-details">
+                        <ul class="client-details">
                             <img src="/images/profile-1.png">
-                            <li id="client-id"><span>Client ID:</span> 01256</li>
-                            <li id="client-name"><span>Name:</span> John Doe</li>
-                            <li id="expand-icon" class="expand-icon" data-expanded="false">
+                            <li><span>Client ID:</span> 001</li>
+                            <li><span>Name:</span> John Doe</li>
+                            <li class="expand-icon" data-expanded="false">
                                 <span class="material-icons-sharp expand">expand_more</span>
                                 <span class="material-icons-sharp collapse">expand_less</span>
                             </li>
                             <li class="additional-details">
                                 <span class="details-label">Additional Details:</span>
-                                <ul id="additional-details">
-                                    <li id="contact" class="contact"><span>Contact:</span> +123456789</li>
-                                    <li id="address" class="address"><span>Address:</span> 123 Main St</li>
-                                    <li id="dob" class="dob"><span>Date of Birth:</span> 01/01/1980</li>
-                                    <li id="gender" class="gender"><span>Gender:</span> Male</li>
+                                <ul>
+                                    <li class="contact"><span>Contact:</span> +123456789</li>
+                                    <li class="address"><span>Address:</span> 123 Main St</li>
+                                    <li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
+                                    <li class="gender"><span>Gender:</span> Male</li>
+                                    <li class="emergency"><span>Emergency Contact:</span> +987654321</li>
                                     <li class="program">Programs:</li>
                                 </ul>
                             </li>
@@ -341,6 +342,7 @@
                         <option value="">All</option>
                         <option value="Muscle Gain">Muscle Gain</option>
                         <option value="Weight Loss">Weight Loss</option>
+                        <option value="Body Recomposition">Body Recomposition</option>
                     </select>
 
                     <label>Fitness Level:</label>
@@ -355,25 +357,23 @@
 
             <div class="filter-container">
                 <div class="filter-options">
-                    <label>Physical Limitation:</label>
-                    <input type="checkbox" id="physical-limitation-filter" />
-    
-                    <label>Medications:</label>
+                    <label for="physical-limitation-filter">Physical Limitation:</label>
+                    <input type="checkbox" id="physical-limitation-filter">
+
+                    <label for="medications-filter">Medications:</label>
                     <input type="checkbox" id="medications-filter" />
-    
-                    <label>Medical History:</label>
+
+                    <label for="medical-history-filter">Medical History:</label>
                     <input type="checkbox" id="medical-history-filter" />
                 </div>
             </div>
 
             <div class="main-container">
+                <!-- where da client objects will be placed-->
             </div>
 
             <div id="no-records-found">
                 <p>No matching records found. huhu</p>
-                <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">
-                <img src="/images/jannsen.png" alt="Image Description" class="pic-none-found">
-                <img src="/images/change.png" alt="Image Description" class="pic-none-found">
                 <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">
             </div>
         </div>
@@ -445,8 +445,6 @@
                 We aim to revolutionize the fitness industry by providing innovative solutions that empower coaches and
                 gyms to achieve their full potential,
                 ultimately helping individuals lead healthier lives.</p>
-
-
 
             <div class="container-team">
                 <h1 class="heading"><span>Meet</span> Our Team</h1>
@@ -582,40 +580,42 @@
 				</div>
 			</div> -->
             <!--END OF RECENT UPDATES-->
-            <div class="sales-analytics">
-                <h2>Calendar</h2>
-                <div class="wrapper">
-                    <header>
-                        <p class="current-date"></p>
-                        <div class="icons">
-                            <span id="prev" class="material-symbols-rounded">chevron_left</span>
-                            <span id="next" class="material-symbols-rounded">chevron_right</span>
+            <div id="calendar">
+
+                <div class="sales-analytics">
+                    <h2>Calendar</h2>
+                    <div class="wrapper">
+                        <header>
+                            <p class="current-date"></p>
+                            <div class="icons">
+                                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                                <span id="next" class="material-symbols-rounded">chevron_right</span>
+                            </div>
+                        </header>
+                        <div class="calendar">
+                            <ul class="weeks">
+                                <li>Sun</li>
+                                <li>Mon</li>
+                                <li>Tue</li>
+                                <li>Wed</li>
+                                <li>Thu</li>
+                                <li>Fri</li>
+                                <li>Sat</li>
+                            </ul>
+                            <ul class="days"></ul>
                         </div>
-                    </header>
-                    <div class="calendar">
-                        <ul class="weeks">
-                            <li>Sun</li>
-                            <li>Mon</li>
-                            <li>Tue</li>
-                            <li>Wed</li>
-                            <li>Thu</li>
-                            <li>Fri</li>
-                            <li>Sat</li>
-                        </ul>
-                        <ul class="days"></ul>
-                    </div>
-                    <!-- <div class="item add-product">
+                        <!-- <div class="item add-product">
 					<div>
 						<span class="material-icons-sharp">add</span>
 						<h3>Add Task</h3>
 					</div>
 				</div> -->
+                    </div>
                 </div>
             </div>
         </div>
 
-
-        <script type="module" src="index.js"></script>
+        <script src="index.js"></script>
 </body>
 
 </html>

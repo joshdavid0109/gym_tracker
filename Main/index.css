@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap');
 
+/* just ctrl f to search the styles of each page kingina 1.5k lines
+1. Search Client
+2. Add Client */
 
 :root {
     --color-primary: #1098F7;
@@ -42,7 +45,6 @@
     margin: 0;
     padding: 0;
     outline: 0;
-    appearance: none;
     border: 0;
     text-decoration: none;
     list-style: none;
@@ -1156,8 +1158,6 @@ button#saveWorkoutBtn {
 }
 
 /* Add Client */
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap');
-
 
 #input-form {
     width: 500px;
@@ -1343,9 +1343,7 @@ button#saveWorkoutBtn {
     transition: top 0.3s, font-size 0.3s;
 }
 
-/*
-DESIGN KO - BADS
-*/
+
 #input-form p {
     margin-bottom: 10px;
     font-weight: bold;
@@ -1366,7 +1364,8 @@ DESIGN KO - BADS
     color: rgb(107, 163, 104);
 }
 
-#input-form fieldset input, select {
+#input-form fieldset input,
+select {
     color: var(--color-dark);
 }
 
@@ -1381,6 +1380,9 @@ DESIGN KO - BADS
     background: var(--color-light);
     color: var(--color-dark);
 }
+
+
+/*Search Client */
 
 .search-container {
     display: flex;
@@ -1415,88 +1417,35 @@ input#search-bar {
     }
 }
 
-
-#filter-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    background-image: url('/images/filter_icon.jpg');
-    background-size: cover;
-}
-
-/* Add hover styles to the filter button */
-#filter-button:hover+#filter-container {
-    display: block;
-}
-
-/*Style for the filter container */
-#filter-container {
-    display: flex;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding-top: 10px;
-    padding-right: 50px;
-    position: absolute;
-    top: 40px;
-    /* Adjust the distance from the button as needed */
-    right: 0;
-    width: 100%;
-    z-index: 1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Style for the filter container */
 .filter-container {
     display: flex;
-    justify-content: center;
-}
-
-/* Margin for labels in the filter container */
-.filter-container label {
-    margin-bottom: 10px;
-    color: var(--color-dark);
-}
-
-/* Style for select elements inside the filter container */
-.filter-container select {
-    padding: 5px;
-    margin-right: 100px;
-    margin-bottom: 10px;
-    background: var(--color-white);
-    color: var(--color-dark);
-}
-
-.filter-container input {
-    padding: 5px;
-    margin-right: 100px;
-    margin-bottom: 10px;
-    background: var(--color-white);
-    color: var(--color-dark);
-}
-
-#apply-filters {
-    background-color: #008ABF;
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.filter-container label,
+.filter-container select,
+.filter-container input {
+    margin: 0 10px;
+}
 
-#apply-filters:hover {
-    background-color: #006a9e;
+.filter-container select,
+.filter-container input {
+    margin-right: 10px;
 }
 
 .main-container {
     display: grid;
-    grid-template-columns: repeat(3, 0fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: 20px;
 }
 
 .client-object {
@@ -1509,8 +1458,6 @@ input#search-bar {
     animation: fadeInUp 0.5s forwards;
     transition: all 0.5s ease;
 }
-
-
 
 .client-info {
     background: linear-gradient(to right, #01a9ac, #01dbdf);
@@ -1546,23 +1493,19 @@ input#search-bar {
 #no-records-found {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 300px;
     text-align: center;
 }
 
 #no-records-found p {
+    margin-top: 20px;
     font-size: 50px;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-
-}
-
-.pic-none-found {
-    width: 150px;
-    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
-    opacity: 0;
     animation: fadeIn 1s forwards;
 }
+
+
 
 /* for the no record found <p> */
 @keyframes fadeIn {
