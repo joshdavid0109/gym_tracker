@@ -439,16 +439,78 @@ function createProgramDiv(savedProgram) {
         const savedWorkoutDiv = document.createElement('div');
         savedWorkoutDiv.classList.add('saved-workout');
         savedWorkoutDiv.setAttribute('data-workout-id', workout.id);
-
+    
         savedWorkoutDiv.innerHTML = `
             <h3>${workout.workoutName}</h3>
             <p>${workout.day} days</p>
             <p>${workout.activity}</p>
-            <p>Sets: ${workout.sets}, Reps: ${workout.reps}</p>
+            <p>Sets: ${workout.sets}, Reps: ${workout.reps}
         `;
-
+    
         const modifyButton = document.createElement('button');
         modifyButton.innerText = 'Modify';
+        modifyButton.addEventListener('click', function () {
+            const editDiv = savedWorkoutDiv.querySelector('.edit-div');
+        
+            if (!editDiv) {
+                const setsRepsText = savedWorkoutDiv.querySelectorAll('p')[2].textContent;
+                const setsRepsMatch = /Sets: (\d+), Reps: (\d+)/.exec(setsRepsText);
+
+                const newEditDiv = document.createElement('div');
+                newEditDiv.classList.add('edit-div');
+                newEditDiv.innerHTML = `
+                    <div class="edit-header">Workout Name</div>
+                    <input type="text" class="edit-input" value="${savedWorkoutDiv.querySelector('h3').textContent}" id="edit-workout-name">
+                    <div class="edit-header">Day</div>
+                    <input type="text" class="edit-input" value="${savedWorkoutDiv.querySelectorAll('p')[0].textContent.replace(' days', '')}" id="edit-workout-day">
+                    <div class="edit-header">Activity</div>
+                    <input type="text" class="edit-input" value="${savedWorkoutDiv.querySelectorAll('p')[1].textContent}" id="edit-workout-activity">
+                    <div class="edit-header">Sets</div>
+                    <input type="number" class="edit-input" value="${setsRepsMatch[1]}" id="edit-workout-sets">
+                    <div class="edit-header">Reps</div>
+                    <input type="number" class="edit-input" value="${setsRepsMatch[2]}" id="edit-workout-reps">
+                `;
+
+                // Append the small div to the savedWorkoutDiv
+                savedWorkoutDiv.appendChild(newEditDiv);
+                modifyButton.innerText = 'Update';
+            } else {
+                if (modifyButton.innerText === 'Update') {
+                    // Update the displayed values with the edited values
+                    const editedWorkoutName = editDiv.querySelector('#edit-workout-name').value;
+                    const editedWorkoutDay = editDiv.querySelector('#edit-workout-day').value;
+                    const editedWorkoutActivity = editDiv.querySelector('#edit-workout-activity').value;
+                    const editedWorkoutSets = editDiv.querySelector('#edit-workout-sets').value;
+                    const editedWorkoutReps = editDiv.querySelector('#edit-workout-reps').value;
+        
+                    // Update the existing elements with new values
+                    const workoutNameElement = savedWorkoutDiv.querySelector('h3');
+                    const dayElement = savedWorkoutDiv.querySelectorAll('p')[0];
+                    const activityElement = savedWorkoutDiv.querySelectorAll('p')[1];
+                    const setsRepsElement = savedWorkoutDiv.querySelectorAll('p')[2];
+
+                    workoutNameElement.textContent = editedWorkoutName;
+                    dayElement.textContent = `${editedWorkoutDay} days`;
+                    activityElement.textContent = editedWorkoutActivity;
+                    setsRepsElement.textContent = `Sets: ${editedWorkoutSets}, Reps: ${editedWorkoutReps}`;
+
+                    // Update the workout details in localStorage
+                    updateWorkoutInLocalStorage(savedProgram.id, workout.id, {
+                        workoutName: editedWorkoutName,
+                        day: editedWorkoutDay,
+                        activity: editedWorkoutActivity,
+                        sets: editedWorkoutSets,
+                        reps: editedWorkoutReps,
+                    });
+
+                    modifyButton.innerText = 'Modify';
+        
+                    // Remove the edit form after updating
+                    editDiv.remove();
+                }
+            }
+        });
+        
         const deleteButton = document.createElement('button');
         deleteButton.innerText = 'Delete';
         deleteButton.addEventListener('click', function () {
@@ -496,6 +558,18 @@ function updateProgramIdCounter() {
     programIdCounter = highestProgramId + 1;
 }
 
+// Function to update the workout details in localStorage
+function updateWorkoutInLocalStorage(programId, workoutId, updatedDetails) {
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    const program = savedWorkouts.find(program => program.id === programId);
+    if (program) {
+        const workout = program.workouts.find(workout => workout.id === workoutId);
+        if (workout) {
+            Object.assign(workout, updatedDetails);
+            localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
+        }
+    }
+}
 
 // ADD CLIENT FUNCTIONALITY
 // const to make sure it wont change 
