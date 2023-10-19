@@ -331,33 +331,34 @@ inputFields.forEach(input => {
     });
 });
 
-
-
 // Initialize a counter for generating unique Program IDs and workout IDs
 let programIdCounter = 1;
 let workoutIdCounter = 1;
 
-document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
-    // Get all the rows in the workout table
-    const rows = document.querySelectorAll('.workout-table tbody tr');
+// Load saved workouts from localStorage on page load
+document.addEventListener('DOMContentLoaded', function () {
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
     const savedWorkoutsContainer = document.querySelector('.saved-programs');
 
+    savedWorkouts.forEach(savedWorkout => {
+        const programDiv = createProgramDiv(savedWorkout);
+        savedWorkoutsContainer.appendChild(programDiv);
+
+        programIdCounter++;
+        workoutIdCounter++;
+    });
+});
+
+document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
+    const rows = document.querySelectorAll('.workout-table tbody tr');
+    const savedWorkoutsContainer = document.querySelector('.saved-programs');
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+
     if (rows.length > 0) {
-        // Create a new div for the program
-        const programDiv = document.createElement('div');
-        programDiv.classList.add('program');
-
-        programDiv.setAttribute('data-program-id', `Program ID #${programIdCounter}`);
-
-        // Create a header for the program
-        const programHeader = document.createElement('h3');
-        programHeader.textContent = `Program ID #${programIdCounter}`;
-        programDiv.appendChild(programHeader);
-
-        // Create a container for the workouts within the program
-        const workoutsContainer = document.createElement('div');
-        workoutsContainer.classList.add('workouts-container');
-        programDiv.appendChild(workoutsContainer);
+        const savedProgram = {
+            id: `Program ID #${programIdCounter}`,
+            workouts: [],
+        };
 
         rows.forEach(row => {
             const workoutName = row.querySelector('input[name="workoutName"]').value;
@@ -367,84 +368,90 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
             const reps = row.querySelector('input[name="reps"]').value;
 
             if (workoutName && day && activity && sets && reps) {
-                // Create a new div for the saved workout
-                const savedWorkoutDiv = document.createElement('div');
-                savedWorkoutDiv.classList.add('saved-workout');
-
-                // Assign a unique Workout ID to the saved workout
-                savedWorkoutDiv.setAttribute('data-workout-id', `Workout ID #${workoutIdCounter}`);
-
-                // Construct the content for the saved workout
-                savedWorkoutDiv.innerHTML = `
-                    <h3>${workoutName}</h3>
-                    <p>${day} days</p>
-                    <p>${activity}</p>
-                    <p>Sets: ${sets}, Reps: ${reps}</p>
-                `;
-
-                // Create the "Modify" and "Delete" buttons
-                const modifyButton = document.createElement('button');
-                modifyButton.innerText = 'Modify';
-                const deleteButton = document.createElement('button');
-                deleteButton.innerText = 'Delete';
-
-                // Create the "Assign" button
-                const assignButton = document.createElement('button');
-                assignButton.innerText = 'Assign';
-
-                // Create an accordion for the client list
-                const accordion = document.createElement('div');
-                accordion.classList.add('accordion');
-
-                // Example list of clients
-                const clients = ['Client 1', 'Client 2'];
-
-                // Create a list of clients in the accordion
-                const clientList = document.createElement('ul');
-                clientList.classList.add('client-list');
-
-                clients.forEach(client => {
-                    const listItem = document.createElement('li');
-                    listItem.classList.add('client-list-item');
-                    listItem.innerText = client;
-                    listItem.addEventListener('click', function () {
-                        // Handle client selection logic here
-                        console.log(`Assigned workout to ${client}`);
-                    });
-                    clientList.appendChild(listItem);
+                savedProgram.workouts.push({
+                    id: `Workout ID #${workoutIdCounter}`,
+                    workoutName,
+                    day,
+                    activity,
+                    sets,
+                    reps,
                 });
 
-                accordion.appendChild(clientList);
-
-                // Add the "Modify," "Delete," and "Assign" buttons to the saved workout div
-                savedWorkoutDiv.appendChild(modifyButton);
-                savedWorkoutDiv.appendChild(deleteButton);
-                savedWorkoutDiv.appendChild(assignButton);
-                savedWorkoutDiv.appendChild(accordion);
-
-                // Add the saved workout div to the workouts container
-                workoutsContainer.appendChild(savedWorkoutDiv);
-
-                // Increment the workout ID counter for the next saved workout
                 workoutIdCounter++;
             }
         });
 
-        // Add the program div to the "Saved Workouts" section
-        savedWorkoutsContainer.appendChild(programDiv);
+        if (savedProgram.workouts.length > 0) {
+            savedWorkouts.push(savedProgram);
+            localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
 
-        // Increment the Program ID counter for the next program
-        programIdCounter++;
+            const programDiv = createProgramDiv(savedProgram);
+            savedWorkoutsContainer.appendChild(programDiv);
 
-        // Clear the input fields in all rows
-        rows.forEach(row => {
-            const inputs = row.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.value = '';
+            programIdCounter++;
+
+            // Clear the input fields in all rows
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.value = '';
+                });
             });
-        });
+        }
     }
 });
+
+function createProgramDiv(savedProgram) {
+    const programDiv = document.createElement('div');
+    programDiv.classList.add('program');
+    programDiv.setAttribute('data-program-id', savedProgram.id);
+
+    const programHeader = document.createElement('h3');
+    programHeader.textContent = savedProgram.id;
+    programDiv.appendChild(programHeader);
+
+    const workoutsContainer = document.createElement('div');
+    workoutsContainer.classList.add('workouts-container');
+    programDiv.appendChild(workoutsContainer);
+
+    savedProgram.workouts.forEach(workout => {
+        const savedWorkoutDiv = document.createElement('div');
+        savedWorkoutDiv.classList.add('saved-workout');
+        savedWorkoutDiv.setAttribute('data-workout-id', workout.id);
+
+        savedWorkoutDiv.innerHTML = `
+            <h3>${workout.workoutName}</h3>
+            <p>${workout.day} days</p>
+            <p>${workout.activity}</p>
+            <p>Sets: ${workout.sets}, Reps: ${workout.reps}</p>
+        `;
+
+        const modifyButton = document.createElement('button');
+        modifyButton.innerText = 'Modify';
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        const assignButton = document.createElement('button');
+        assignButton.innerText = 'Assign';
+
+        const accordion = document.createElement('div');
+        accordion.classList.add('accordion');
+        const clientList = document.createElement('ul');
+        clientList.classList.add('client-list');
+        // Add client list items here...
+
+        accordion.appendChild(clientList);
+
+        savedWorkoutDiv.appendChild(modifyButton);
+        savedWorkoutDiv.appendChild(deleteButton);
+        savedWorkoutDiv.appendChild(assignButton);
+        savedWorkoutDiv.appendChild(accordion);
+
+        workoutsContainer.appendChild(savedWorkoutDiv);
+    });
+
+    return programDiv;
+}
+
 
 
 // ADD CLIENT FUNCTIONALITY
