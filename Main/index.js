@@ -340,6 +340,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
     const savedWorkoutsContainer = document.querySelector('.saved-programs');
 
+    // Find the highest programId in the savedWorkouts
+    let highestProgramId = 0;
+    savedWorkouts.forEach(savedWorkout => {
+        const programId = parseInt(savedWorkout.id.match(/\d+/));
+        if (programId > highestProgramId) {
+            highestProgramId = programId;
+        }
+    });
+
+    programIdCounter = highestProgramId + 1;
+
     savedWorkouts.forEach(savedWorkout => {
         const programDiv = createProgramDiv(savedWorkout);
         savedWorkoutsContainer.appendChild(programDiv);
@@ -388,7 +399,7 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
             const programDiv = createProgramDiv(savedProgram);
             savedWorkoutsContainer.appendChild(programDiv);
 
-            programIdCounter++;
+            updateProgramIdCounter(); 
 
             // Clear the input fields in all rows
             rows.forEach(row => {
@@ -397,6 +408,8 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
                     input.value = '';
                 });
             });
+
+            
         }
     }
 });
@@ -405,6 +418,8 @@ function removeProgramFromLocalStorage(programId) {
     const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
     const updatedSavedWorkouts = savedWorkouts.filter(savedProgram => savedProgram.id !== programId);
     localStorage.setItem('savedWorkouts', JSON.stringify(updatedSavedWorkouts));
+
+    updateProgramIdCounter();
 }
 
 function createProgramDiv(savedProgram) {
@@ -464,6 +479,21 @@ function createProgramDiv(savedProgram) {
     });
 
     return programDiv;
+}
+
+// Update program id counter
+function updateProgramIdCounter() {
+    // Find the highest programId in the savedWorkouts
+    let highestProgramId = 0;
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    savedWorkouts.forEach(savedProgram => {
+        const programId = parseInt(savedProgram.id.match(/\d+/));
+        if (programId > highestProgramId) {
+            highestProgramId = programId;
+        }
+    });
+
+    programIdCounter = highestProgramId + 1;
 }
 
 
