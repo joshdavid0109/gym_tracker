@@ -1,3 +1,46 @@
+
+// json-generator.com 
+// code below
+/*
+
+[
+  '{{repeat(10, 15)}}',
+  {
+    _id: '{{objectId()}}',
+    index: '{{index()}}',
+    guid: '{{guid()}}',
+    isActive: '{{bool()}}',
+    picture: 'http://placehold.it/32x32',
+    age: '{{integer(20, 40)}}',
+    name: '{{firstName()}} {{surname()}}',
+    gender: '{{gender()}}',
+    email: '{{email()}}',
+    phone: '+639 {{phone(xxx - xxx)}}',
+    address: '{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}',
+    birthDate: '{{date(new Date(2014, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ss Z")}}',
+     coach: function (tags) {
+      var coaches = ['AJ', 'Joshua', 'Kiko'];
+      return coaches[tags.integer(0, coaches.length - 1)];
+    },
+    
+    goals: {
+      level: function (tags) {
+        var levels = ['Beginner', 'Intermediate', 'Advanced'];
+        return levels[tags.integer(0, levels.length-1)];
+      },
+      goal: function(tags) {
+        var goals = ['Muscle Gain', 'Weight Loss',
+                     'Body Recomposition'];
+      },
+      goaldetails:{}
+    }
+  }
+]
+
+*/
+
+
+
 const themeToggler = document.querySelector(".theme-toggler");
 const aboutLink = document.getElementById("about-link");
 const aboutContent = document.getElementById("about-content");
@@ -19,6 +62,8 @@ programsContent.style.display = "none";
 aboutContent.style.display = "none";
 addClientContent.style.display = "none";
 searchClientContent.style.display = "none";
+
+
 
 dashboardButt.addEventListener("click", function (event) {
     mainContent.style.display = "block";
@@ -194,51 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const clients = document.querySelectorAll(".client");
 
-    clients.forEach((client) => {
-        const expandIcon = client.querySelector(".expand");
-        const collapseIcon = client.querySelector(".collapse");
-        const additionalDetails = client.querySelector(".additional-details");
-
-        client.addEventListener("click", function (event) {
-            event.stopPropagation();
-
-            if (!client.classList.contains("expanded")) {
-
-                clients.forEach((c) => {
-                    c.classList.remove("expanded");
-                    c.querySelector(".additional-details").style.display = "none";
-                    c.querySelector(".expand").classList.remove("rotate");
-                    c.querySelector(".collapse").classList.add("rotate");
-                });
-
-
-                client.classList.add("expanded");
-                additionalDetails.style.display = "block";
-                expandIcon.classList.add("rotate");
-                collapseIcon.classList.remove("rotate");
-            } else {
-
-                client.classList.remove("expanded");
-                additionalDetails.style.display = "none";
-                expandIcon.classList.remove("rotate");
-                collapseIcon.classList.add("rotate");
-            }
-        });
-
-        expandIcon.addEventListener("click", function (event) {
-            event.stopPropagation();
-            client.click();
-        });
-
-        collapseIcon.addEventListener("click", function (event) {
-            event.stopPropagation();
-            client.click();
-        });
-    });
-});
 
 
 // Programs
@@ -254,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // assignWorkoutBtn.addEventListener('click', () => {
 //     console.log('Assign Workout button clicked');
-// });
+// });F
 
 // createWorkoutBtn.addEventListener('click', () => {
 //     console.log('Create New Workout button clicked');
@@ -964,3 +965,155 @@ document.addEventListener("DOMContentLoaded", function () {
     // display all clients initially
     filterAndDisplayClients();
 });
+
+
+fetch('ClientData.json')
+.then (res => {
+    return res.json();
+})
+.then(json => {
+    var clientCounter = 0;
+
+    json.forEach(el => {
+        switch (el.coach) {
+            case 'Kiko': {
+                clientCounter++;
+            }
+        }
+    });
+
+    var clientCount = document.getElementById('client-count');
+    var content = document.createTextNode(clientCounter);
+
+    console.log(clientCount)
+    var parent = document.getElementById('client-count-parent');
+    clientCount.appendChild(content);
+    parent.appendChild(clientCount);
+
+    json.forEach(el => {
+        var clientId;
+        var clientName;
+        var contact;
+        var address;
+        var dateOfBirth;
+        var gender;
+
+        var cidTextNode;
+        var cnTextNode;
+        var contactTextNode;
+        var addressTextNode;
+        var dobTextNode;
+        var genderTextNode;
+
+        var parent = document.getElementById("client-list");
+        var addDParent = document.getElementById("additional-details");
+
+        var clientDetailsRef = document.getElementById("expand-icon");
+
+        // console.log(el);
+        switch (el.coach) {
+            case 'Kiko': {
+                // clientId = document.getElementById("client-id");
+                // clientName =document.getElementById("client-name");
+                // contact = document.getElementById("contact");
+                // address = document.getElementById("address");
+                // dateOfBirth = document.getElementById("dob");
+                // gender = document.getElementById("gender");
+
+  
+                cidTextNode = document.createTextNode(el._id);
+                cnTextNode = document.createTextNode(el.name);
+                contactTextNode = document.createTextNode(el.phone);
+                addressTextNode = document.createTextNode(el.address);
+                dobTextNode = document.createTextNode(el.birthDate);
+                genderTextNode = document.createTextNode(el.gender.charAt(0).toUpperCase() + el.gender.slice(1));
+
+                // clientId.appendChild(cidTextNode);
+                // clientName.appendChild(cnTextNode);
+                // contact.appendChild(contactTextNode);
+                // address.appendChild(addressTextNode);
+                // dateOfBirth.appendChild(dobTextNode);
+                // gender.appendChild(genderTextNode);
+
+                // console.log(clientId);
+                
+                // parent.insertBefore(clientDetailsRef,clientId);
+                // parent.insertBefore(clientDetailsRef, clientName);
+
+                const clientMarkup = 
+                ` <div class="client">
+                    <ul id="client-d" class="client-details">
+                    <img src="/images/profile-1.png">
+                    <li id="client-id"><span>Client ID:</span> ${el._id}</li>
+                    <li id="client-name"><span>Name:</span> ${el.name}</li>
+                    <li id="expand-icon" class="expand-icon" data-expanded="false">
+                        <span class="material-icons-sharp expand">expand_more</span>
+                        <span class="material-icons-sharp collapse">expand_less</span>
+                    </li>
+                    <li class="additional-details">
+                        <span class="details-label">Additional Details:</span>
+                        <ul id="additional-details">
+                            <li id="contact" class="contact"><span>Contact:</span> ${el.phone}</li>
+                            <li id="address" class="address"><span>Address:</span> ${el.address}</li>
+                            <li id="dob" class="dob"><span>Date of Birth:</span> ${el.birthDate}</li>
+                            <li id="gender" class="gender"><span>Gender:</span> ${el.gender.charAt(0).toUpperCase() + el.gender.slice(1)}</li>
+                            <li class="program">Programs:</li>
+                        </ul>
+                    </li>
+                    </ul>
+                 </div>`
+
+
+                 parent.insertAdjacentHTML("beforeend", clientMarkup);              
+                
+            }
+        }
+        
+
+    })
+})
+
+
+    const clients = document.querySelectorAll(".client");
+
+    console.log("clients " + clients.length)
+
+    clients.forEach((client) => {
+        const expandIcon = client.querySelector(".expand");
+        const collapseIcon = client.querySelector(".collapse");
+        const additionalDetails = client.querySelector(".additional-details");
+
+        client.addEventListener("click", function (event) {
+            event.stopPropagation();
+
+            if (!client.classList.contains("expanded")) {
+
+                clients.forEach((c) => {
+                    c.classList.remove("expanded");
+                    c.querySelector(".additional-details").style.display = "none";
+                    c.querySelector(".expand").classList.remove("rotate");
+                    c.querySelector(".collapse").classList.add("rotate");
+                });
+                client.classList.add("expanded");
+                additionalDetails.style.display = "block";
+                expandIcon.classList.add("rotate");
+                collapseIcon.classList.remove("rotate");
+            } else {
+
+                client.classList.remove("expanded");
+                additionalDetails.style.display = "none";
+                expandIcon.classList.remove("rotate");
+                collapseIcon.classList.add("rotate");
+            }
+        });
+
+        expandIcon.addEventListener("click", function (event) {
+            event.stopPropagation();
+            client.click();
+        });
+
+        collapseIcon.addEventListener("click", function (event) {
+            event.stopPropagation();
+            client.click();
+        });
+    });
