@@ -401,6 +401,12 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
     }
 });
 
+function removeProgramFromLocalStorage(programId) {
+    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    const updatedSavedWorkouts = savedWorkouts.filter(savedProgram => savedProgram.id !== programId);
+    localStorage.setItem('savedWorkouts', JSON.stringify(updatedSavedWorkouts));
+}
+
 function createProgramDiv(savedProgram) {
     const programDiv = document.createElement('div');
     programDiv.classList.add('program');
@@ -430,6 +436,14 @@ function createProgramDiv(savedProgram) {
         modifyButton.innerText = 'Modify';
         const deleteButton = document.createElement('button');
         deleteButton.innerText = 'Delete';
+        deleteButton.addEventListener('click', function () {
+            const programId = programDiv.getAttribute('data-program-id');
+            // Remove the program div from the local storage
+            removeProgramFromLocalStorage(programId);
+            // Remove the program div from the displayed programs
+            programDiv.remove();
+        });
+ 
         const assignButton = document.createElement('button');
         assignButton.innerText = 'Assign';
 
@@ -451,7 +465,6 @@ function createProgramDiv(savedProgram) {
 
     return programDiv;
 }
-
 
 
 // ADD CLIENT FUNCTIONALITY
