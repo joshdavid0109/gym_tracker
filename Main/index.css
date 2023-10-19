@@ -1320,7 +1320,6 @@ button#saveWorkoutBtn {
 
 .input-container select {
     padding: 10px;
-
     border-bottom: 1px solid #ccc;
     width: 100%;
     font-size: 14px;
@@ -1382,22 +1381,30 @@ select {
 
 
 /*Search Client */
+.search-main {
+    width: 900px;
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+
+}
 
 .search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5%;
-    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    text-align: center;
 }
 
 input#search-bar {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     width: 400px;
-    height: 45px;
-    background: var(--color-white);
-    color: var(--color-dark);
-    border: 1px solid #D0CFCE;
-    transition: border 0.35s ease;
+    font-size: 14px;
+    background: transparent;
+    transition: border-color 0.2s;
 
     &:focus {
         border: 1px solid var(--color-dark);
@@ -1412,33 +1419,78 @@ input#search-bar {
 
     &:focus::placeholder {
         opacity: 0;
-
     }
 }
 
 .filter-container {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 25px;
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid #eee;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background: var(--color-white);
+    color: var(--color-dark);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    box-shadow: 0px 1px 5px black;
 }
 
 .filter-container label,
-.filter-container select,
-.filter-container input {
+.filter-container select {
     margin: 0 10px;
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-radius: 5px;
 }
 
-.filter-container select,
-.filter-container input {
+.filter-container select {
+    border: 1px solid #eee;
     margin-right: 10px;
+    color: var(--color-dark);
+    width: 150px;
+}
+
+.filter-container-additional {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background: var(--color-white);
+    color: var(--color-dark);
+    text-align: left;
+    justify-content: space-between;
+    align-items: left;
+    align-content: left;
+    box-shadow: 0px 1px 5px black;
+}
+
+.filter-container-additional label {
+    margin-left: 60px;
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-radius: 5px;
+}
+
+.filter-container-additional input {
+    border: 1px solid #eee;
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-radius: 5px;
+    margin-left: 20px;
+    margin-right: 40px;
 }
 
 .main-container {
+    width: 100%;
+    height: fit-content;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;
@@ -1448,7 +1500,7 @@ input#search-bar {
 }
 
 .client-object {
-    width: 300px;
+    width: 293px;
     height: auto;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     border-radius: 5px;
@@ -1490,16 +1542,24 @@ input#search-bar {
 }
 
 #no-records-found {
+    background: var(--color-white);
+    transition: 0.35s ease;
+    color: var(--color-dark);
+    width: 100%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 300px;
     text-align: center;
+    border-radius: 10px;
 }
 
 #no-records-found p {
-    margin-top: 20px;
+    width: 100%;
+    height: fit-content;
+    padding-top: 2em;
     font-size: 50px;
     animation: fadeIn 1s forwards;
 }
