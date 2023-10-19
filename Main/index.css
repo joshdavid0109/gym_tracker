@@ -1450,34 +1450,48 @@ input#search-bar {
 
 .client-object {
     width: 300px;
-    height: auto;
+    padding: 10px;
+    background-color: #F9F9F9;
+    border: 1px solid #E0E0E0;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     border-radius: 5px;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.5s forwards;
     transition: all 0.5s ease;
+    position: relative;
 }
 
+/* Client info (name, id) */
 .client-info {
-    background: linear-gradient(to right, #01a9ac, #01dbdf);
-    text-align: center;
-    color: #fff;
+    text-align: left;
+    color: black;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E0E0E0;
+    margin-bottom: 10px;
 }
 
 .client-info h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.client-info h2 {
+    font-size: 20px;
     margin-bottom: 5px;
 }
 
 .client-info p {
+    text-align: center;
     font-size: 12px;
     margin-bottom: 5px;
 }
 
+/* Client data (personal, fitness, health) */
 .client-data {
     background: #fff;
     padding: 5px;
-    justify-content: center;
+    text-align: left;
 }
 
 .data h4 {
@@ -1488,6 +1502,28 @@ input#search-bar {
 
 .data p {
     font-size: 12px;
+}
+
+.delete-button,
+.edit-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 5px;
+}
+
+.delete-button:hover,
+.edit-button:hover {
+    opacity: 0.8;
+}
+
+.delete-button {
+    color: red;
+}
+
+.edit-button {
+    color: green;
 }
 
 #no-records-found {
