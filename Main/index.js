@@ -473,6 +473,13 @@ if (clientListJSON) {
     console.log("No client data found in local storage.");
 }
 
+// Before saving client to local storage, assign an ID
+function assignClientID() {
+    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    let clientCount = existingClients.length;
+    client.id = `#${String(clientCount + 1).padStart(5, '0')}`;
+}
+
 //initially, only show the first fieldset
 showFieldset(currentFieldsetIndex);
 
@@ -550,6 +557,7 @@ submitButton.addEventListener("click", function () {
 
 // client object
 let client = {
+    id: '',
     personalInfo: {
         firstName: '',      // First Name
         lastName: '',       // Last Name
@@ -571,11 +579,18 @@ let client = {
     programs: null // no programs assigned yet to a new client
 };
 
+// function to assign id to a client
+function assignClientID() {
+    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    let clientCount = existingClients.length;
+    client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
+}
 
 // function to populate the client object with form data
 function populateClientObject() {
     // personal Information
     const personalInfoFieldset = fieldsets[0];
+    assignClientID();
     client.personalInfo.firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
     client.personalInfo.lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
     client.personalInfo.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
@@ -597,7 +612,6 @@ function populateClientObject() {
 }
 // function to save client data to local storage
 function saveClientData(clientJSON) {
-
     // check if local storage is available
     if (typeof Storage !== "undefined") {
         // get existing client data from local storage (if any)
@@ -612,6 +626,10 @@ function saveClientData(clientJSON) {
         alert("Local storage is not available. Client data cannot be saved.");
         console.log("Local storage is not available. Client data cannot be saved.");
     }
+}
+
+function displayClientOverview() {
+
 }
 
 // SEARCH CLIENT FUNCTIONALITY
@@ -641,6 +659,7 @@ if (clientListJSON) {
             clientInfo.innerHTML = `
             <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
             <p>No program assigned to client</p>
+            <p>${clientData.id}</p>
         `;
         }
 
@@ -652,7 +671,7 @@ if (clientListJSON) {
         const personalInfo = document.createElement("div");
         personalInfo.classList.add("data");
         personalInfo.innerHTML = `
-            <h4>Email</h4>
+            <h4>Personal Information</h4>
             <p>Gender: ${clientData.personalInfo.gender}</p>
             <p>Date of Birth: ${clientData.personalInfo.dateOfBirth}</p>
             <p>Contact: ${clientData.personalInfo.contactNo}</p>
