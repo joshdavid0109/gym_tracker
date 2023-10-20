@@ -1,4 +1,4 @@
-
+console.log('Age is ' + computeAge('2000-11-01'));
 // json-generator.com 
 // code below
 /*
@@ -155,6 +155,15 @@ function toggleTheme() {
 themeToggler.addEventListener("click", toggleTheme);
 
 
+const topIcon = document.getElementById('top-icon');
+
+function changeColors() {
+    const randomHue = Math.floor(Math.random() * 360);
+    topIcon.style.setProperty('--hue-rotate', `${randomHue}deg`);
+}
+changeColors();
+
+
 const sidebarItems = document.querySelectorAll(".sidebar a");
 sidebarItems.forEach((item) => {
     item.addEventListener("click", () => {
@@ -218,25 +227,25 @@ prevNextIcon.forEach(icon => {
     });
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const profilePhoto = document.getElementById("profile-photo");
-    const profileDropdown = document.getElementById("profile-dropdown");
-    profilePhoto.addEventListener("click", function (e) {
-        e.stopPropagation();
-        if (profileDropdown.classList.contains("active")) {
-            profileDropdown.classList.remove("active");
-        } else {
-            profileDropdown.classList.add("active");
-        }
-    });
-    document.addEventListener("click", function () {
-        profileDropdown.classList.remove("active");
-    });
-    profileDropdown.addEventListener("click", function (e) {
-        e.stopPropagation();
-    });
-});
+// PROFILE PHOTO DROPDOWN - SETTINGS, LOG-OUT 
+// document.addEventListener("DOMContentLoaded", function () {
+//     const profilePhoto = document.getElementById("profile-photo");
+//     const profileDropdown = document.getElementById("profile-dropdown");
+//     profilePhoto.addEventListener("click", function (e) {
+//         e.stopPropagation();
+//         if (profileDropdown.classList.contains("active")) {
+//             profileDropdown.classList.remove("active");
+//         } else {
+//             profileDropdown.classList.add("active");
+//         }
+//     });
+//     document.addEventListener("click", function () {
+//         profileDropdown.classList.remove("active");
+//     });
+//     profileDropdown.addEventListener("click", function (e) {
+//         e.stopPropagation();
+//     });
+// });
 
 
 
@@ -400,7 +409,7 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
             const programDiv = createProgramDiv(savedProgram);
             savedWorkoutsContainer.appendChild(programDiv);
 
-            updateProgramIdCounter(); 
+            updateProgramIdCounter();
 
             // Clear the input fields in all rows
             rows.forEach(row => {
@@ -410,7 +419,7 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
                 });
             });
 
-            
+
         }
     }
 });
@@ -440,19 +449,19 @@ function createProgramDiv(savedProgram) {
         const savedWorkoutDiv = document.createElement('div');
         savedWorkoutDiv.classList.add('saved-workout');
         savedWorkoutDiv.setAttribute('data-workout-id', workout.id);
-    
+
         savedWorkoutDiv.innerHTML = `
             <h3>${workout.workoutName}</h3>
             <p>${workout.day} days</p>
             <p>${workout.activity}</p>
             <p>Sets: ${workout.sets}, Reps: ${workout.reps}
         `;
-    
+
         const modifyButton = document.createElement('button');
         modifyButton.innerText = 'Modify';
         modifyButton.addEventListener('click', function () {
             const editDiv = savedWorkoutDiv.querySelector('.edit-div');
-        
+
             if (!editDiv) {
                 const setsRepsText = savedWorkoutDiv.querySelectorAll('p')[2].textContent;
                 const setsRepsMatch = /Sets: (\d+), Reps: (\d+)/.exec(setsRepsText);
@@ -483,7 +492,7 @@ function createProgramDiv(savedProgram) {
                     const editedWorkoutActivity = editDiv.querySelector('#edit-workout-activity').value;
                     const editedWorkoutSets = editDiv.querySelector('#edit-workout-sets').value;
                     const editedWorkoutReps = editDiv.querySelector('#edit-workout-reps').value;
-        
+
                     // Update the existing elements with new values
                     const workoutNameElement = savedWorkoutDiv.querySelector('h3');
                     const dayElement = savedWorkoutDiv.querySelectorAll('p')[0];
@@ -505,13 +514,13 @@ function createProgramDiv(savedProgram) {
                     });
 
                     modifyButton.innerText = 'Modify';
-        
+
                     // Remove the edit form after updating
                     editDiv.remove();
                 }
             }
         });
-        
+
         const deleteButton = document.createElement('button');
         deleteButton.innerText = 'Delete';
         deleteButton.addEventListener('click', function () {
@@ -521,15 +530,19 @@ function createProgramDiv(savedProgram) {
             // Remove the program div from the displayed programs
             programDiv.remove();
         });
- 
+
         const assignButton = document.createElement('button');
         assignButton.innerText = 'Assign';
+        assignButton.addEventListener('click', function () {
+            const programId = programDiv.getAttribute('data-program-id');
+            assignProgramToClient(programId, savedWorkoutDiv);
+        });
 
         const accordion = document.createElement('div');
         accordion.classList.add('accordion');
         const clientList = document.createElement('ul');
         clientList.classList.add('client-list');
-        // Add client list items here...
+
 
         accordion.appendChild(clientList);
 
@@ -542,6 +555,63 @@ function createProgramDiv(savedProgram) {
     });
 
     return programDiv;
+}
+
+function assignProgramToClient(programId, workoutDiv) {
+    const clientListJSON = localStorage.getItem("clients");
+    if (clientListJSON) {
+        const clientList = JSON.parse(clientListJSON);
+
+        const accordion = workoutDiv.querySelector('.accordion');
+        const clientListContainer = accordion.querySelector('.client-list');
+        clientListContainer.innerHTML = "";
+
+        clientList.forEach((clientJSON) => {
+            const clientData = JSON.parse(clientJSON);
+
+            // checks if the client already has this program assigned
+            if (clientData.programs && clientData.programs.includes(programId)) {
+                return; // skips this client if program is already assigned
+            }
+
+            // creates a list item for the client
+            const listItem = document.createElement('li');
+            listItem.textContent = `${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}`;
+            listItem.addEventListener('click', function () {
+                // updates the client's program assignment
+                if (!clientData.programs) {
+                    clientData.programs = [];
+                }
+                clientData.programs.push(programId);
+
+                // updates the client's data in local storage
+                updateClientInLocalStorage(clientData.id, clientData);
+
+                // updates the accordion to reflect the assignment
+                accordion.style.display = 'none';
+                listItem.style.display = 'none'; // hides the clicked client in the list
+                alert(`${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName} has been assigned the ${programId}`)
+            });
+
+            clientListContainer.appendChild(listItem);
+        });
+
+        accordion.style.display = 'block'; // Show the accordion with the list of available clients
+    }
+}
+
+// Function to update a client's data in local storage
+function updateClientInLocalStorage(clientId, clientData) {
+    const existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    const updatedClients = existingClients.map((clientJSON) => {
+        const client = JSON.parse(clientJSON);
+        if (client.id === clientId) {
+            return JSON.stringify(clientData);
+        } else {
+            return clientJSON;
+        }
+    });
+    localStorage.setItem('clients', JSON.stringify(updatedClients));
 }
 
 // Update program id counter
@@ -572,6 +642,18 @@ function updateWorkoutInLocalStorage(programId, workoutId, updatedDetails) {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 // ADD CLIENT FUNCTIONALITY
 // const to make sure it wont change 
 const form = document.getElementById("input-form");
@@ -586,23 +668,27 @@ let currentFieldsetIndex = 0;
 // retrieve client ob from localstorage
 const clientListJSON = localStorage.getItem("clients");
 
-if (clientListJSON) {
-    const clientList = JSON.parse(clientListJSON);
-
-    // loop sa array of client objess
-    clientList.forEach((clientJSON, index) => {
-        const clientData = JSON.parse(clientJSON);
-        console.log(`Client Object ${index + 1}:`, clientData.personalInfo.gender);
-    });
-} else {
-    console.log("No client data found in local storage.");
-}
-
-// Before saving client to local storage, assign an ID
+// func to assign an ID
 function assignClientID() {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-    let clientCount = existingClients.length;
-    client.id = `#${String(clientCount + 1).padStart(5, '0')}`;
+    let maxID = 0;
+
+    // find the maximum ID from existing clients
+    existingClients.forEach((clientJSON) => {
+        const clientData = JSON.parse(clientJSON);
+        const clientID = parseInt(clientData.id.substring(1)); // Remove the '#' and convert to integer
+        if (clientID > maxID) {
+            maxID = clientID;
+        }
+    });
+
+    // if there are no existing clients or the latest client was deleted, increment the maxID by 1
+    if (existingClients.length === 0 || existingClients.length === maxID) {
+        maxID++;
+    }
+
+    // assign the next available ID
+    client.id = `#${String(maxID).padStart(5, '0')}`;
 }
 
 //initially, only show the first fieldset
@@ -669,46 +755,78 @@ backButtons.forEach((button, index) => {
 
 submitButton.addEventListener("click", function () {
     if (validateForm()) {
-        // populate the client object with form data
         populateClientObject();
-        // Cceate a JSON representation of the client object
+        // create a JSON representation of the client object
         const clientJSON = JSON.stringify(client);
-        // save the JSON object in local storage
+
+        // attempt to send data to the server
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/add-client', // change to your server endpoint
+            data: clientJSON,
+            contentType: 'application/json',
+            success: function (response) {
+                // Show success message
+                alert(response.message);
+            },
+            error: function (error) {
+                // Handle error
+                alert('Error adding client data to the server: ' + error.statusText);
+            }
+        });
+
+        // save the JSON object in local storage regardless of server success/failure
         saveClientData(clientJSON);
-        // show succes message
-        alert('Client was added successfully.');
+
+        // sow success message for local storage save
+        alert('Client data saved locally.');
     }
 });
+
 
 // client object
 let client = {
     id: '',
-    personalInfo: {
-        firstName: '',      // First Name
-        lastName: '',       // Last Name
-        gender: '',         // Gender
-        contactNo: '',      // Contact No.
-        address: '',        // Address
-        dateOfBirth: '',    // Date of Birth
-    },
-    fitnessInfo: {
-        fitnessLevel: '',   // Fitness Level
-        goalType: '',       // Goal Type
-        goalDetails: '',    // Goal Details
+    index: 0,
+    isActive: true,
+    picture: "http://placehold.it/32x32",
+    name: '',
+    gender: '',
+    age: 0,
+    email: '',
+    phone: '',
+    address: '',
+    birthDate: '',
+    coach: 'Kiko', // default?
+    goals: {
+        level: '',
+        goalType: '',
+        goalDetails: ''
     },
     healthInfo: {
-        medicalHistory: '',         // Medical History
-        medications: '',            // Medications
-        physicalLimitations: '',    // Physical Limitations
+        medicalHistory: '',
+        medications: '',
+        physicalLimitations: ''
     },
-    programs: null // no programs assigned yet to a new client
+    programs: null
 };
 
-// function to assign id to a client
+// function to assign id to a client (ill change dis)
 function assignClientID() {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
     let clientCount = existingClients.length;
     client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
+}
+
+function computeAge(dob) {
+    const birthDate = new Date(dob);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    const m = currentDate.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && currentDate.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
 }
 
 // function to populate the client object with form data
@@ -716,18 +834,23 @@ function populateClientObject() {
     // personal Information
     const personalInfoFieldset = fieldsets[0];
     assignClientID();
-    client.personalInfo.firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
-    client.personalInfo.lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
-    client.personalInfo.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
-    client.personalInfo.contactNo = personalInfoFieldset.querySelector('input[name="Contact No."]').value;
-    client.personalInfo.address = personalInfoFieldset.querySelector('input[name="Address"]').value;
-    client.personalInfo.dateOfBirth = personalInfoFieldset.querySelector('input[name="Date of Birth"]').value;
+    const firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
+    const lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
+    // Set the name property by concatenating firstName and lastName
+    client.name = `${firstName} ${lastName}`;
+
+    client.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
+    client.email = personalInfoFieldset.querySelector('input[name="Email"]').value;
+    client.phone = personalInfoFieldset.querySelector('input[name="Contact No."]').value;
+    client.address = personalInfoFieldset.querySelector('input[name="Address"]').value;
+    client.birthDate = personalInfoFieldset.querySelector('input[name="Date of Birth"]').value;
+    client.age = computeAge(client.birthDate);
 
     // fitness information
     const fitnessInfoFieldset = fieldsets[1];
-    client.fitnessInfo.fitnessLevel = fitnessInfoFieldset.querySelector('select[name="FitnessLevel"]').value;
-    client.fitnessInfo.goalType = fitnessInfoFieldset.querySelector('select[name="GoalType"]').value;
-    client.fitnessInfo.goalDetails = fitnessInfoFieldset.querySelector('input[name="Goal Details"]').value;
+    client.goals.level = fitnessInfoFieldset.querySelector('select[name="FitnessLevel"]').value;
+    client.goals.goalType = fitnessInfoFieldset.querySelector('select[name="GoalType"]').value;
+    client.goals.goalDetails = fitnessInfoFieldset.querySelector('input[name="Goal Details"]').value;
 
     // health Information
     const healthInfoFieldset = fieldsets[2];
@@ -753,10 +876,6 @@ function saveClientData(clientJSON) {
     }
 }
 
-function displayClientOverview() {
-
-}
-
 // SEARCH CLIENT FUNCTIONALITY
 // main container of the clients
 const clientContainer = document.querySelector(".main-container");
@@ -776,15 +895,28 @@ if (clientListJSON) {
         const clientInfo = document.createElement("div");
         clientInfo.classList.add("client-info");
         clientInfo.innerHTML = `
-            <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
+            <h1>${clientData.name}</h1>
+            <h2>${clientData.id}</h2>
             <p>Program: ${clientData.programs}</p>
         `;
 
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete-button");
+        deleteButton.innerHTML = '❌';
+
+        const editButton = document.createElement("button");
+        editButton.classList.add("edit-button");
+
+        clientObjectContainer.appendChild(deleteButton);
+        clientObjectContainer.appendChild(editButton);
+
+
         if (clientData.programs === null) { // still gonan do dis btttttich
             clientInfo.innerHTML = `
-            <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
+            <h1>${clientData.name}</h1>
+            <h2>${clientData.id}</h2>
             <p>No program assigned to client</p>
-            <p>${clientData.id}</p>
+            
         `;
         }
 
@@ -797,20 +929,21 @@ if (clientListJSON) {
         personalInfo.classList.add("data");
         personalInfo.innerHTML = `
             <h4>Personal Information</h4>
-            <p>Gender: ${clientData.personalInfo.gender}</p>
-            <p>Date of Birth: ${clientData.personalInfo.dateOfBirth}</p>
-            <p>Contact: ${clientData.personalInfo.contactNo}</p>
-            <p>Address: ${clientData.personalInfo.address}</p>
+            <p>Gender: ${clientData.gender}</p>
+            <p>Age: ${clientData.age}</p> 
+            <p>Date of Birth: ${clientData.birthDate}</p>
+            <p>Contact: ${clientData.phone}</p>
+            <p>Address: ${clientData.address}</p>
         `;
-
+        console.log(client.birthDate)
         // create and populate fitness information
         const fitnessInfo = document.createElement("div");
         fitnessInfo.classList.add("data");
         fitnessInfo.innerHTML = `
             <h4>Fitness Goals</h4>
-            <p>Fitness Level: ${clientData.fitnessInfo.fitnessLevel}</p>
-            <p>Goal Type: ${clientData.fitnessInfo.goalType}</p>
-            <p>Goal Details: ${clientData.fitnessInfo.goalDetails}</p>
+            <p>Fitness Level: ${clientData.goals.level}</p>
+            <p>Goal Type: ${clientData.goals.goalType}</p>
+            <p>Goal Details: ${clientData.goals.goalDetails}</p>
         `;
 
         // create and populate health information
@@ -822,6 +955,38 @@ if (clientListJSON) {
             <p>Medications: ${clientData.healthInfo.medications}</p>
             <p>Physical Limitations: ${clientData.healthInfo.physicalLimitations}</p>
         `;
+
+        deleteButton.addEventListener("click", function () {
+            let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+            if (existingClients.length > 0) {
+                existingClients.splice(index, 1);
+                localStorage.setItem('clients', JSON.stringify(existingClients));
+
+                clientObjectContainer.remove(); // Remove the client card from the DOM
+
+                // Attempt to send a request to the server for deletion (even if the server is not available)
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/delete-client', // Change to your server endpoint for deleting a client
+                    data: JSON.stringify({ index }), // Send the index of the deleted client
+                    contentType: 'application/json',
+                    success: function (response) {
+                        // Show success message if the server is available
+                        alert(response.message);
+                    },
+                    error: function (error) {
+                        // If the server is not available, this will handle the error
+                        console.error('Error deleting client data on the server:', error);
+                    }
+                });
+            }
+        });
+
+
+        editButton.innerHTML = '✏️';
+        editButton.addEventListener("click", function () {
+
+        });
 
         // append elements to the clientDataContainer
         clientDataContainer.appendChild(personalInfo);
@@ -850,7 +1015,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const physicalLimitationFilter = document.getElementById("physical-limitation-filter");
     const medicationsFilter = document.getElementById("medications-filter");
     const medicalHistoryFilter = document.getElementById("medical-history-filter");
-    let recordFound = false;
+
 
     // function to display the clients based on the search
     function filterAndDisplayClients() {
@@ -874,7 +1039,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let clientFitnessLevel = '';
 
             // nth child(n) gets the 3 existing divs within the parent div client data
-
             const personalInfoDiv = clientObject.querySelector(".client-data .data:nth-child(1)");
             if (personalInfoDiv) {
                 personalInfoDiv.querySelectorAll('p').forEach(p => {
@@ -994,67 +1158,80 @@ fetch('ClientData.json')
             }
         }
     });
+    .then(res => {
+        return res.json();
+    })
+    .then(json => {
+        var clientCounter = 0;
 
-    var clientCount = document.getElementById('client-count');
-    var content = document.createTextNode(clientCounter);
+        json.forEach(el => {
+            switch (el.coach) {
+                case 'Kiko': {
+                    clientCounter++;
+                }
+            }
+        });
 
-    console.log(clientCount)
-    var parent = document.getElementById('client-count-parent');
-    clientCount.appendChild(content);
-    parent.appendChild(clientCount);
+        var clientCount = document.getElementById('client-count');
+        var content = document.createTextNode(clientCounter);
 
-    json.forEach(el => {
-        var clientId;
-        var clientName;
-        var contact;
-        var address;
-        var dateOfBirth;
-        var gender;
+        console.log(clientCount)
+        var parent = document.getElementById('client-count-parent');
+        clientCount.appendChild(content);
+        parent.appendChild(clientCount);
 
-        var cidTextNode;
-        var cnTextNode;
-        var contactTextNode;
-        var addressTextNode;
-        var dobTextNode;
-        var genderTextNode;
+        json.forEach(el => {
+            var clientId;
+            var clientName;
+            var contact;
+            var address;
+            var dateOfBirth;
+            var gender;
 
-        var parent = document.getElementById("client-list");
-        var addDParent = document.getElementById("additional-details");
+            var cidTextNode;
+            var cnTextNode;
+            var contactTextNode;
+            var addressTextNode;
+            var dobTextNode;
+            var genderTextNode;
 
-        var clientDetailsRef = document.getElementById("expand-icon");
+            var parent = document.getElementById("client-list");
+            var addDParent = document.getElementById("additional-details");
 
-        // console.log(el);
-        switch (el.coach) {
-            case 'Kiko': {
-                // clientId = document.getElementById("client-id");
-                // clientName =document.getElementById("client-name");
-                // contact = document.getElementById("contact");
-                // address = document.getElementById("address");
-                // dateOfBirth = document.getElementById("dob");
-                // gender = document.getElementById("gender");
+            var clientDetailsRef = document.getElementById("expand-icon");
 
-  
-                cidTextNode = document.createTextNode(el._id);
-                cnTextNode = document.createTextNode(el.name);
-                contactTextNode = document.createTextNode(el.phone);
-                addressTextNode = document.createTextNode(el.address);
-                dobTextNode = document.createTextNode(el.birthDate);
-                genderTextNode = document.createTextNode(el.gender.charAt(0).toUpperCase() + el.gender.slice(1));
+            // console.log(el);
+            switch (el.coach) {
+                case 'Kiko': {
+                    // clientId = document.getElementById("client-id");
+                    // clientName =document.getElementById("client-name");
+                    // contact = document.getElementById("contact");
+                    // address = document.getElementById("address");
+                    // dateOfBirth = document.getElementById("dob");
+                    // gender = document.getElementById("gender");
 
-                // clientId.appendChild(cidTextNode);
-                // clientName.appendChild(cnTextNode);
-                // contact.appendChild(contactTextNode);
-                // address.appendChild(addressTextNode);
-                // dateOfBirth.appendChild(dobTextNode);
-                // gender.appendChild(genderTextNode);
 
-                // console.log(clientId);
-                
-                // parent.insertBefore(clientDetailsRef,clientId);
-                // parent.insertBefore(clientDetailsRef, clientName);
+                    cidTextNode = document.createTextNode(el._id);
+                    cnTextNode = document.createTextNode(el.name);
+                    contactTextNode = document.createTextNode(el.phone);
+                    addressTextNode = document.createTextNode(el.address);
+                    dobTextNode = document.createTextNode(el.birthDate);
+                    genderTextNode = document.createTextNode(el.gender.charAt(0).toUpperCase() + el.gender.slice(1));
 
-                const clientMarkup = 
-                ` <div class="client">
+                    // clientId.appendChild(cidTextNode);
+                    // clientName.appendChild(cnTextNode);
+                    // contact.appendChild(contactTextNode);
+                    // address.appendChild(addressTextNode);
+                    // dateOfBirth.appendChild(dobTextNode);
+                    // gender.appendChild(genderTextNode);
+
+                    // console.log(clientId);
+
+                    // parent.insertBefore(clientDetailsRef,clientId);
+                    // parent.insertBefore(clientDetailsRef, clientName);
+
+                    const clientMarkup =
+                        ` <div class="client">
                     <ul id="client-d" class="client-details">
                     <img src="/images/profile-1.png">
                     <li id="client-id"><span>Client ID:</span> ${el._id}</li>
@@ -1077,53 +1254,53 @@ fetch('ClientData.json')
                  </div>`
 
 
-                 parent.insertAdjacentHTML("beforeend", clientMarkup);              
-                
-            }
-        }
-        
+                    parent.insertAdjacentHTML("beforeend", clientMarkup);
 
+                }
+            }
+
+
+        })
     })
-})
 
 
-    const clients = document.querySelectorAll(".client");
+const clients = document.querySelectorAll(".client");
 
-    console.log("clients " + clients.length)
+console.log("clients " + clients.length)
 
-    clients.forEach((client) => {
-        const expandIcon = client.querySelector(".expand");
-        const collapseIcon = client.querySelector(".collapse");
-        const additionalDetails = client.querySelector(".additional-details");
+clients.forEach((client) => {
+    const expandIcon = client.querySelector(".expand");
+    const collapseIcon = client.querySelector(".collapse");
+    const additionalDetails = client.querySelector(".additional-details");
 
-        client.addEventListener("click", function (event) {
-            event.stopPropagation();
+    client.addEventListener("click", function (event) {
+        event.stopPropagation();
 
-            if (!client.classList.contains("expanded")) {
+        if (!client.classList.contains("expanded")) {
 
-                clients.forEach((c) => {
-                    c.classList.remove("expanded");
-                    c.querySelector(".additional-details").style.display = "none";
-                    c.querySelector(".expand").classList.remove("rotate");
-                    c.querySelector(".collapse").classList.add("rotate");
-                });
-                client.classList.add("expanded");
-                additionalDetails.style.display = "block";
-                expandIcon.classList.add("rotate");
-                collapseIcon.classList.remove("rotate");
-            } else {
+            clients.forEach((c) => {
+                c.classList.remove("expanded");
+                c.querySelector(".additional-details").style.display = "none";
+                c.querySelector(".expand").classList.remove("rotate");
+                c.querySelector(".collapse").classList.add("rotate");
+            });
+            client.classList.add("expanded");
+            additionalDetails.style.display = "block";
+            expandIcon.classList.add("rotate");
+            collapseIcon.classList.remove("rotate");
+        } else {
 
-                client.classList.remove("expanded");
-                additionalDetails.style.display = "none";
-                expandIcon.classList.remove("rotate");
-                collapseIcon.classList.add("rotate");
-            }
-        });
+            client.classList.remove("expanded");
+            additionalDetails.style.display = "none";
+            expandIcon.classList.remove("rotate");
+            collapseIcon.classList.add("rotate");
+        }
+    });
 
-        expandIcon.addEventListener("click", function (event) {
-            event.stopPropagation();
-            client.click();
-        });
+    expandIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        client.click();
+    });
 
         collapseIcon.addEventListener("click", function (event) {
             event.stopPropagation();

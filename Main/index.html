@@ -14,7 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
     <link rel="stylesheet" href="index.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="icon" href="/images/TL-icon.png">
 </head>
 
@@ -24,7 +24,7 @@
         <aside>
             <div class="top">
                 <div class="logo">
-                    <img src="/images/TL-icon.png">
+                    <img src="/images/TL-icon.png" id="top-icon">
                     <h2>Trainer<span class="danger">Link</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -173,6 +173,11 @@
                             <option value="female">Female</option>
                             <option value="other">Other</option>
                         </select>
+                    </div>
+
+                    <p>Email</p>
+                    <div class="input-container">
+                        <input type="text" name="Email" placeholder="Email (optional)" />
                     </div>
 
                     <p>Contact Number</p>
@@ -382,26 +387,37 @@
                 <div class="top-profiles">
                     <div class="team-profile">
                         <img src="/images/p1.png" class="profile-img">
-                        <h3 class="user-name">Albert Jannsen Ramos</h3>
-                        <h5>Project Manager</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat dolorem nobis porro?</p>
+                        <div>
+                            <h3 class="user-name">Albert Jannsen Ramos</h3>
+                            <h5>Project Manager</h5>
+                            <p>A project manager is responsible for planning, coordinating, and overseeing all aspects
+                                of a
+                                web development project to ensure it is completed successfully and on time.</p>
+                        </div>
                     </div>
                     <!---END of Profile1-->
 
                     <div class="team-profile">
                         <img src="/images/p2.png" class="profile-img">
-                        <h3 class="user-name">Jahn Crystan Abella</h3>
-                        <h5>Back-End Developer</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi nulla repellendus incidunt.
-                        </p>
+                        <div>
+                            <h3 class="user-name">Jahn Crystan Abella</h3>
+                            <h5>Back-End Developer</h5>
+                            <p>A back-end developer is responsible for creating and maintaining the server-side logic,
+                                databases, and infrastructure that enable the functionality of a website or web
+                                application.</p>
+                        </div>
                     </div>
                     <!---END of Profile2-->
 
                     <div class="team-profile">
                         <img src="/images/p3.png" class="profile-img">
-                        <h3 class="user-name">Joshua Daniel David</h3>
-                        <h5>Full-Stack</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat mollitia dolor possimus!</p>
+                        <div>
+                            <h3 class="user-name">Joshua Daniel David</h3>
+                            <h5>Full-Stack</h5>
+                            <p>A full-stack developer is skilled in both front-end and back-end development,
+                                capable of working on all aspects of a web project, from user interfaces to server-side
+                                logic and databases.</p>
+                        </div>
                     </div>
                     <!---END of Profile3-->
                 </div>
@@ -409,35 +425,49 @@
                 <div class="bottom-profiles">
                     <div class="team-profile">
                         <img src="/images/p4.png" class="profile-img">
-                        <h3 class="user-name">Jonison Molintas</h3>
-                        <h5>Quality Assurance Engineer</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit nobis id animi
-                            laudantium.</p>
+                        <div>
+                            <h3 class="user-name">Jonison Molintas</h3>
+                            <h5>Quality Assurance Engineer</h5>
+                            <p>A Quality Assurance Engineer is responsible for testing and ensuring the quality
+                                and functionality of a website or web application, identifying and reporting defects,
+                                and ensuring it meets the specified requirements.</p>
+                        </div>
                     </div>
                     <!---END of Profile4-->
 
                     <div class="team-profile">
                         <img src="/images/p5.png" class="profile-img">
-                        <h3 class="user-name">Haydee Shane Saguid</h3>
-                        <h5>DevOps Engineer</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae quas non molestias provident
-                            laudantium.</p>
+                        <div>
+                            <h3 class="user-name">Haydee Shane Saguid</h3>
+                            <h5>DevOps Engineer</h5>
+                            <p>A DevOps Engineer in is responsible for bridging the gap between development and
+                                IT operations, automating processes, and ensuring the continuous integration,
+                                delivery, and deployment of web applications.</p>
+                        </div>
                     </div>
                     <!---END of Profile5-->
 
                     <div class="team-profile">
                         <img src="/images/p6.png" class="profile-img">
-                        <h3 class="user-name">Ariel Tarlit</h3>
-                        <h5>Front-End Developer</h5>
-                        <p>Lorem ipsum dolor sit amet.</p>
+                        <div>
+                            <h3 class="user-name">Ariel Tarlit</h3>
+                            <h5>Front-End Developer</h5>
+                            <p>A front-end developer is responsible for designing and implementing
+                                the user interface and client-side functionality of a website or web
+                                application, ensuring an engaging and responsive user experience.</p>
+                        </div>
                     </div>
                     <!---END of Profile6-->
 
                     <div class="team-profile">
                         <img src="/images/p7.png" class="profile-img">
-                        <h3 class="user-name">Maervin Villalobos</h3>
-                        <h5>UI/UX Designer</h5>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi, repudiandae.</p>
+                        <div>
+                            <h3 class="user-name">Maervin Villalobos</h3>
+                            <h5>UI/UX Designer</h5>
+                            <p>A UI/UX developer focuses on creating and optimizing the user interface
+                                and user experience of a website or web application to enhance usability
+                                and user satisfaction.</p>
+                        </div>
                     </div>
                     <!---END of Profile7-->
                 </div>

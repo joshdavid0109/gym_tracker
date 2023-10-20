@@ -158,6 +158,17 @@ small {
     display: block;
 }
 
+#about-content h1 {
+    margin-top: 90px;
+}
+
+#about-content h2 {
+    margin-top: 20px;
+}
+
+#about-content p {
+    margin-top: 10px;
+}
 
 .text-muted {
     color: var(--color-info-dark);
@@ -210,6 +221,20 @@ aside .logo img {
     width: 2rem;
     height: 2rem;
 }
+
+#top-icon {
+    animation: colorFade 4s linear infinite;
+}
+
+@keyframes colorFade{
+    0%{
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
 
 aside .close {
     display: none;
@@ -839,6 +864,7 @@ header .current-date {
 .container-team {
     margin: 20px 40px;
     color: rgb(226, 0, 0);
+    width: 100%;
 }
 
 .heading {
@@ -858,10 +884,13 @@ header .current-date {
 } */
 
 .team-profile {
+    display: flex;
     flex-basis: 100px;
 }
 
 .team-profile .profile-img {
+    margin-right: 30px;
+    margin-top: 50px;
     height: 100px;
     width: 100px;
     border-radius: 50%;
@@ -875,33 +904,32 @@ header .current-date {
 }
 
 .user-name {
-    margin-top: 16px;
-    font-size: 20px;
-    color: red
+    width: 300px;
+    margin-top: 50px;
+    font-size: 24px;
+    color: var(--color-dark)
 }
 
 .team-profile h5 {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 100;
     letter-spacing: 3px;
     color: red;
 }
 
 .team-profile p {
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 10px;
     text-align: justify;
     color: rgb(0, 56, 240);
 }
 
 .top-profiles {
-    display: flex;
     justify-content: space-around;
     margin: 20px 80px;
 }
 
 .bottom-profiles {
-    display: flex;
     justify-content: space-around;
     margin: 20px 80px;
 }
@@ -1042,7 +1070,6 @@ button#saveWorkoutBtn {
 .saved-programs {
     display: flex;
     flex-direction: column;
-    display: grid;
     align-items: center;
     justify-content: flex-start;
 }
@@ -1439,7 +1466,7 @@ input#search-bar {
     justify-content: center;
     align-items: center;
     align-content: center;
-    box-shadow: 0px 1px 5px black;
+    box-shadow: 0px 1px 10px black;
 }
 
 .filter-container label,
@@ -1470,7 +1497,7 @@ input#search-bar {
     justify-content: space-between;
     align-items: left;
     align-content: left;
-    box-shadow: 0px 1px 5px black;
+    box-shadow: 0px 1px 10px black;
 }
 
 .filter-container-additional label {
@@ -1504,35 +1531,54 @@ input#search-bar {
     width: 293px;
     height: auto;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    background: var(--color-white);
+    border: 1px solid white;
     border-radius: 5px;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.5s forwards;
     transition: all 0.5s ease;
+    position: relative;
 }
 
+/* Client info (name, id) */
 .client-info {
-    background: linear-gradient(to right, #01a9ac, #01dbdf);
-    text-align: center;
-    color: #fff;
+    text-align: left;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E0E0E0;
 }
 
 .client-info h1 {
+    color: #007BFF;
+    font-size: 20px;
     margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.client-info h2 {
+    color: var(--color-dark);
+    font-size: 14px;
+    margin-bottom: 30px;
+    margin-left: 20px;
 }
 
 .client-info p {
+    text-align: center;
     font-size: 12px;
     margin-bottom: 5px;
 }
 
+/* Client data (personal, fitness, health) */
 .client-data {
+    height: 350px;
     background: #fff;
     padding: 5px;
-    justify-content: center;
+    text-align: left;
 }
 
 .data h4 {
+    margin-top: 15px;
     font-size: 15px;
     color: #353c4e;
     margin-bottom: 5px;
@@ -1540,6 +1586,38 @@ input#search-bar {
 
 .data p {
     font-size: 12px;
+}
+
+.delete-button {
+    padding-left: 200px;
+    margin-top: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+.edit-button {
+    padding-left: 10px;
+    margin-top: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-button:hover,
+.edit-button:hover {
+    opacity: 0.8;
+}
+
+.delete-button {
+    color: red;
+}
+
+.edit-button {
+    color: green;
 }
 
 #no-records-found {
