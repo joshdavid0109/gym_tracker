@@ -586,24 +586,33 @@ let currentFieldsetIndex = 0;
 // retrieve client ob from localstorage
 const clientListJSON = localStorage.getItem("clients");
 
-if (clientListJSON) {
-    const clientList = JSON.parse(clientListJSON);
 
-    // loop sa array of client objess
-    clientList.forEach((clientJSON, index) => {
-        const clientData = JSON.parse(clientJSON);
-        console.log(`Client Object ${index + 1}:`, clientData.personalInfo.gender);
-    });
-} else {
-    console.log("No client data found in local storage.");
-}
 
 // func to assign an ID
 function assignClientID() {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-    let clientCount = existingClients.length;
-    client.id = `#${String(clientCount + 1).padStart(5, '0')}`;
+    let maxID = 0;
+
+    // find the maximum ID from existing clients
+    existingClients.forEach((clientJSON) => {
+        const clientData = JSON.parse(clientJSON);
+        const clientID = parseInt(clientData.id.substring(1)); // Remove the '#' and convert to integer
+        if (clientID > maxID) {
+            maxID = clientID;
+        }
+    });
+
+    // if there are no existing clients or the latest client was deleted, increment the maxID by 1
+    if (existingClients.length === 0 || existingClients.length === maxID) {
+        maxID++;
+    }
+
+    // assign the next available ID
+    client.id = `#${String(maxID).padStart(5, '0')}`;
 }
+
+
+
 
 //initially, only show the first fieldset
 showFieldset(currentFieldsetIndex);

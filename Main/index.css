@@ -1556,6 +1556,7 @@ input#search-bar {
 
 .delete-button,
 .edit-button {
+
     background-color: transparent;
     border: none;
     cursor: pointer;
