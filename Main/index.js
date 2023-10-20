@@ -1198,6 +1198,77 @@ function displayClients(clientsList) {
     }
 }
 
+
+function statusCheck(data) {
+    const date = new Date();
+
+    let latestCheckIn = null;
+    let day = date.getDate(); 
+
+    const idsWithNoCheckIns = [];
+    const idsWithCheckIns = [];
+
+    data.forEach((client) => {
+        const clientId = client.id;
+        const checkIns = client.checkIns?.October || {};
+  
+        // Check if the target date is missing in the client's check-ins for October
+        if (!checkIns[day]) {
+          idsWithNoCheckIns.push(clientId);
+        } else {
+            idsWithCheckIns.push(clientId);
+        }
+      });
+
+      console.log(`IDs with no check-ins for ${day}:`, idsWithNoCheckIns);
+
+      idsWithCheckIns.forEach(e => {
+
+        fetch('ClientData.json')
+            .then(res => {
+                return res.json();
+            })
+            .then(json2 => {
+                json2.forEach(el => {
+                    // console.log(el)
+            if (el._id == e) {
+                const clientStatusParent = document.getElementById("client-status");
+                const csMarkup = `  <li>${el.name} <button class="invoice-btn">Check</button></li>
+                `;
+                clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
+            }
+                }) 
+        // console.log(clientCounter);
+        })
+
+      })
+
+
+      
+      idsWithNoCheckIns.forEach(e => {
+
+        fetch('ClientData.json')
+            .then(res => {
+                return res.json();
+            })
+            .then(json2 => {
+                json2.forEach(el => {
+                    // console.log(el)
+            if (el._id == e) {
+                const clientStatusParent = document.getElementById("client-status");
+                const csMarkup = `  <li>${el.name   } <button class="invoice-btn-red">Not Yet</button></li>
+                `;
+                clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
+            }
+                }) 
+        // console.log(clientCounter);
+        })
+
+      })
+}
+
+
+
 function findLatestCheckIn(data) {
     const date = new Date();
 
@@ -1228,13 +1299,18 @@ function findLatestCheckIn(data) {
 }
 
 
+
+
+
+
+
 fetch('ClientCheckIns.json')
     .then(res => {
         return res.json();
     })
     .then(json => {
+        statusCheck(json);
         const asd = findLatestCheckIn(json);
-        console.log(asd.id);
 
         fetch('ClientData.json')
             .then(res => {
@@ -1242,20 +1318,15 @@ fetch('ClientCheckIns.json')
             })
             .then(json2 => {
                 json2.forEach(el => {
-                    console.log(el)
+                    // console.log(el)
             if (el._id == asd.id) {
-                        console.log(el.name);
                         const recentClient = document.getElementById("recent-client");
                         recentClient.innerHTML = `${el.name}`
                     }
                 }) 
         // console.log(clientCounter);
-    })
-
-
-
-
-    })
+        })
+})
 
 
 fetch('ClientData.json')
@@ -1332,10 +1403,8 @@ fetch('ClientData.json')
                 }
             }
         })
-        console.log("qwecas");
         const clients = document.querySelectorAll(".client");
 
-        console.log("clients " + clients.length)
         
         clients.forEach((client) => {
             const expandIcon = client.querySelector(".expand");
