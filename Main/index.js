@@ -1165,14 +1165,20 @@ fetch('ClientCheckIns.json')
     .then(res => {
         return res.json();
     })
-    .then(el.forEach(element => {
-        if (element.id == asd.id) {
-            console.log(element)
-            console.log("match");
-            const checkinElement = document.getElementById("recent-client");
-            checkinElement.innerHTML = `${element.id}`;
-        }
-    }))
+    .then(json2 => {
+        json2.forEach(el => {
+            // console.log(el)
+            if (el._id == asd.id) {
+                console.log(el.name);
+                const recentClient = document.getElementById("recent-client");
+                recentClient.innerHTML = `${el.name}`
+            }
+        }) 
+        // console.log(clientCounter);
+    })
+
+
+
 
 })
 
@@ -1247,53 +1253,53 @@ fetch('ClientData.json')
 
                     parent.insertAdjacentHTML("beforeend", clientMarkup);
 
+                    
                 }
             }
-
         })
-    })
+        console.log("qwecas");
+        const clients = document.querySelectorAll(".client");
 
+        console.log("clients " + clients.length)
+        
+        clients.forEach((client) => {
+            const expandIcon = client.querySelector(".expand");
+            const collapseIcon = client.querySelector(".collapse");
+            const additionalDetails = client.querySelector(".additional-details");
+        
+            client.addEventListener("click", function (event) {
+                event.stopPropagation();
+        
+                if (!client.classList.contains("expanded")) {
 
-const clients = document.querySelectorAll(".client");
-
-console.log("clients " + clients.length)
-
-clients.forEach((client) => {
-    const expandIcon = client.querySelector(".expand");
-    const collapseIcon = client.querySelector(".collapse");
-    const additionalDetails = client.querySelector(".additional-details");
-
-    client.addEventListener("click", function (event) {
-        event.stopPropagation();
-
-        if (!client.classList.contains("expanded")) {
-
-            clients.forEach((c) => {
-                c.classList.remove("expanded");
-                c.querySelector(".additional-details").style.display = "none";
-                c.querySelector(".expand").classList.remove("rotate");
-                c.querySelector(".collapse").classList.add("rotate");
+                    clients.forEach((c) => {
+                        c.classList.remove("expanded");
+                        c.querySelector(".additional-details").style.display = "none";
+                        c.querySelector(".expand").classList.remove("rotate");
+                        c.querySelector(".collapse").classList.add("rotate");
+                    });
+                    console.log("expand")
+                    client.classList.add("expanded");
+                    additionalDetails.style.display = "block";
+                    expandIcon.classList.add("rotate");
+                    collapseIcon.classList.remove("rotate");
+                } else {
+                    console.log("click")
+                    client.classList.remove("expanded");
+                    additionalDetails.style.display = "none";
+                    expandIcon.classList.remove("rotate");
+                    collapseIcon.classList.add("rotate");
+                }
             });
-            client.classList.add("expanded");
-            additionalDetails.style.display = "block";
-            expandIcon.classList.add("rotate");
-            collapseIcon.classList.remove("rotate");
-        } else {
-
-            client.classList.remove("expanded");
-            additionalDetails.style.display = "none";
-            expandIcon.classList.remove("rotate");
-            collapseIcon.classList.add("rotate");
-        }
-    });
-
-    expandIcon.addEventListener("click", function (event) {
-        event.stopPropagation();
-        client.click();
-    });
-
-        collapseIcon.addEventListener("click", function (event) {
-            event.stopPropagation();
-            client.click();
+        
+            expandIcon.addEventListener("click", function (event) {
+                event.stopPropagation();
+                client.click();
+            });
+        
+                collapseIcon.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    client.click();
+                });
         });
-    });
+    })

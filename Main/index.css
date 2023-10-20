@@ -383,7 +383,7 @@ main .client-box .progress {
 
 main .client-box svg {
     /* background: red; */
-    width: 7rem;
+    width: 3rem;
     height: 7rem;
 }
 
@@ -398,7 +398,7 @@ main .client-box svg circle {
 }
 
 main .client-box .client-count svg circle {
-    stroke-dashoffset: -30;
+    stroke-dashoffset: -50;
     stroke-dasharray: 200;
 }
 
