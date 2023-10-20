@@ -1242,7 +1242,7 @@ fetch('ClientCheckIns.json')
             })
             .then(json2 => {
                 json2.forEach(el => {
-                    // console.log(el)
+                    console.log(el)
             if (el._id == asd.id) {
                         console.log(el.name);
                         const recentClient = document.getElementById("recent-client");
