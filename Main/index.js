@@ -1,4 +1,4 @@
-
+console.log('Age is ' + computeAge('2000-11-01'));
 // json-generator.com 
 // code below
 /*
@@ -555,7 +555,7 @@ function assignProgramToClient(programId, workoutDiv) {
 
         const accordion = workoutDiv.querySelector('.accordion');
         const clientListContainer = accordion.querySelector('.client-list');
-        clientListContainer.innerHTML = ""; 
+        clientListContainer.innerHTML = "";
 
         clientList.forEach((clientJSON) => {
             const clientData = JSON.parse(clientJSON);
@@ -579,7 +579,7 @@ function assignProgramToClient(programId, workoutDiv) {
                 updateClientInLocalStorage(clientData.id, clientData);
 
                 // updates the accordion to reflect the assignment
-                accordion.style.display = 'none'; 
+                accordion.style.display = 'none';
                 listItem.style.display = 'none'; // hides the clicked client in the list
                 alert(`${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName} has been assigned the ${programId}`)
             });
@@ -633,6 +633,18 @@ function updateWorkoutInLocalStorage(programId, workoutId, updatedDetails) {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 // ADD CLIENT FUNCTIONALITY
 // const to make sure it wont change 
 const form = document.getElementById("input-form");
@@ -646,8 +658,6 @@ let currentFieldsetIndex = 0;
 
 // retrieve client ob from localstorage
 const clientListJSON = localStorage.getItem("clients");
-
-
 
 // func to assign an ID
 function assignClientID() {
@@ -671,9 +681,6 @@ function assignClientID() {
     // assign the next available ID
     client.id = `#${String(maxID).padStart(5, '0')}`;
 }
-
-
-
 
 //initially, only show the first fieldset
 showFieldset(currentFieldsetIndex);
@@ -739,7 +746,6 @@ backButtons.forEach((button, index) => {
 
 submitButton.addEventListener("click", function () {
     if (validateForm()) {
-        // populate the client object with form data
         populateClientObject();
         // Cceate a JSON representation of the client object
         const clientJSON = JSON.stringify(client);
@@ -753,25 +759,28 @@ submitButton.addEventListener("click", function () {
 // client object
 let client = {
     id: '',
-    personalInfo: {
-        firstName: '',      // First Name
-        lastName: '',       // Last Name
-        gender: '',         // Gender
-        contactNo: '',      // Contact No.
-        address: '',        // Address
-        dateOfBirth: '',    // Date of Birth
-    },
-    fitnessInfo: {
-        fitnessLevel: '',   // Fitness Level
-        goalType: '',       // Goal Type
-        goalDetails: '',    // Goal Details
+    index: 0,
+    isActive: true,
+    picture: "http://placehold.it/32x32",
+    name: '',
+    gender: '',
+    age: 0,
+    email: '',
+    phone: '',
+    address: '',
+    birthDate: '',
+    coach: 'Kiko', // default?
+    goals: {
+        level: '',
+        goalType: '',
+        goalDetails: ''
     },
     healthInfo: {
-        medicalHistory: '',         // Medical History
-        medications: '',            // Medications
-        physicalLimitations: '',    // Physical Limitations
+        medicalHistory: '',
+        medications: '',
+        physicalLimitations: ''
     },
-    programs: null // no programs assigned yet to a new client
+    programs: null
 };
 
 // function to assign id to a client (ill change dis)
@@ -781,23 +790,40 @@ function assignClientID() {
     client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
 }
 
+
+function computeAge(dob) {
+    const birthDate = new Date(dob);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    const m = currentDate.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && currentDate.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
 // function to populate the client object with form data
 function populateClientObject() {
     // personal Information
     const personalInfoFieldset = fieldsets[0];
     assignClientID();
-    client.personalInfo.firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
-    client.personalInfo.lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
-    client.personalInfo.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
-    client.personalInfo.contactNo = personalInfoFieldset.querySelector('input[name="Contact No."]').value;
-    client.personalInfo.address = personalInfoFieldset.querySelector('input[name="Address"]').value;
-    client.personalInfo.dateOfBirth = personalInfoFieldset.querySelector('input[name="Date of Birth"]').value;
+    const firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
+    const lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
+    // Set the name property by concatenating firstName and lastName
+    client.name = `${firstName} ${lastName}`;
+
+    client.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
+    client.email = personalInfoFieldset.querySelector('input[name="Email"]').value;
+    client.phone = personalInfoFieldset.querySelector('input[name="Contact No."]').value;
+    client.address = personalInfoFieldset.querySelector('input[name="Address"]').value;
+    client.birthDate = personalInfoFieldset.querySelector('input[name="Date of Birth"]').value;
+    client.age = computeAge(client.birthDate);
 
     // fitness information
     const fitnessInfoFieldset = fieldsets[1];
-    client.fitnessInfo.fitnessLevel = fitnessInfoFieldset.querySelector('select[name="FitnessLevel"]').value;
-    client.fitnessInfo.goalType = fitnessInfoFieldset.querySelector('select[name="GoalType"]').value;
-    client.fitnessInfo.goalDetails = fitnessInfoFieldset.querySelector('input[name="Goal Details"]').value;
+    client.goals.level = fitnessInfoFieldset.querySelector('select[name="FitnessLevel"]').value;
+    client.goals.goalType = fitnessInfoFieldset.querySelector('select[name="GoalType"]').value;
+    client.goals.goalDetails = fitnessInfoFieldset.querySelector('input[name="Goal Details"]').value;
 
     // health Information
     const healthInfoFieldset = fieldsets[2];
@@ -823,8 +849,6 @@ function saveClientData(clientJSON) {
     }
 }
 
-
-
 // SEARCH CLIENT FUNCTIONALITY
 // main container of the clients
 const clientContainer = document.querySelector(".main-container");
@@ -844,7 +868,7 @@ if (clientListJSON) {
         const clientInfo = document.createElement("div");
         clientInfo.classList.add("client-info");
         clientInfo.innerHTML = `
-            <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
+            <h1>${clientData.name}</h1>
             <h2>${clientData.id}</h2>
             <p>Program: ${clientData.programs}</p>
         `;
@@ -862,7 +886,7 @@ if (clientListJSON) {
 
         if (clientData.programs === null) { // still gonan do dis btttttich
             clientInfo.innerHTML = `
-            <h1>${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}</h1>
+            <h1>${clientData.name}</h1>
             <h2>${clientData.id}</h2>
             <p>No program assigned to client</p>
             
@@ -878,20 +902,21 @@ if (clientListJSON) {
         personalInfo.classList.add("data");
         personalInfo.innerHTML = `
             <h4>Personal Information</h4>
-            <p>Gender: ${clientData.personalInfo.gender}</p>
-            <p>Date of Birth: ${clientData.personalInfo.dateOfBirth}</p>
-            <p>Contact: ${clientData.personalInfo.contactNo}</p>
-            <p>Address: ${clientData.personalInfo.address}</p>
+            <p>Gender: ${clientData.gender}</p>
+            <p>Age: ${clientData.age}</p> 
+            <p>Date of Birth: ${clientData.birthDate}</p>
+            <p>Contact: ${clientData.phone}</p>
+            <p>Address: ${clientData.address}</p>
         `;
-
+        console.log(client.birthDate)
         // create and populate fitness information
         const fitnessInfo = document.createElement("div");
         fitnessInfo.classList.add("data");
         fitnessInfo.innerHTML = `
             <h4>Fitness Goals</h4>
-            <p>Fitness Level: ${clientData.fitnessInfo.fitnessLevel}</p>
-            <p>Goal Type: ${clientData.fitnessInfo.goalType}</p>
-            <p>Goal Details: ${clientData.fitnessInfo.goalDetails}</p>
+            <p>Fitness Level: ${clientData.goals.level}</p>
+            <p>Goal Type: ${clientData.goals.goalType}</p>
+            <p>Goal Details: ${clientData.goals.goalDetails}</p>
         `;
 
         // create and populate health information
