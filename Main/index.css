@@ -226,10 +226,11 @@ aside .logo img {
     animation: colorFade 4s linear infinite;
 }
 
-@keyframes colorFade{
-    0%{
+@keyframes colorFade {
+    0% {
         filter: hue-rotate(0deg);
     }
+
     100% {
         filter: hue-rotate(360deg);
     }
@@ -1618,18 +1619,7 @@ input#search-bar {
     font-size: 14px;
 }
 
-
-.edit-button {
-    padding-left: 10px;
-    margin-top: 20px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.delete-button:hover,
-.edit-button:hover {
+.delete-button:hover {
     opacity: 0.8;
 }
 

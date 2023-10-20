@@ -39,6 +39,23 @@
 
 */
 
+// Function to read JSON data from an external file and save it to local storage
+function saveJsonToLocalStorage() {
+    // Replace 'your_external_json_file.json' with the actual path to your JSON file
+    fetch('ClientData.json')
+        .then(response => response.json())
+        .then(data => {
+            // Store the JSON data in local storage
+            localStorage.setItem('clients', JSON.stringify(data));
+            console.log('JSON data saved to local storage');
+        })
+        .catch(error => {
+            console.error('Error fetching JSON data:', error);
+        });
+}
+
+// Call the function to save JSON data to local storage
+saveJsonToLocalStorage();
 
 
 const themeToggler = document.querySelector(".theme-toggler");
@@ -887,12 +904,8 @@ const clientContainer = document.querySelector(".main-container");
 if (clientListJSON) {
     const clientList = JSON.parse(clientListJSON);
 
-    // loop through the da array of client objects
-    clientList.forEach((clientJSON, index) => {
-        const clientData = JSON.parse(clientJSON);
-
-        // console.log(clientData)
-
+    // Loop through the array of client objects
+    clientList.forEach((clientData, index) => {
         // create a new client object container
         const clientObjectContainer = document.createElement("div");
         clientObjectContainer.classList.add("client-object");
@@ -903,26 +916,8 @@ if (clientListJSON) {
         clientInfo.innerHTML = `
             <h1>${clientData.name}</h1>
             <h2>${clientData.id}</h2>
-            <p>Program: ${clientData.programs}</p>
+            <p>Program: ${clientData.programs || "No program assigned to client"}</p>
         `;
-
-
-
-        const editButton = document.createElement("button");
-        editButton.classList.add("edit-button");
-
-
-        clientObjectContainer.appendChild(editButton);
-
-
-        if (clientData.programs === null) { // still gonan do dis btttttich
-            clientInfo.innerHTML = `
-            <h1>${clientData.name}</h1>
-            <h2>${clientData.id}</h2>
-            <p>No program assigned to client</p>
-            
-        `;
-        }
 
         // create and populate client data
         const clientDataContainer = document.createElement("div");
@@ -939,7 +934,7 @@ if (clientListJSON) {
             <p>Contact: ${clientData.phone}</p>
             <p>Address: ${clientData.address}</p>
         `;
-        // console.log(client.goals)
+
         // create and populate fitness information
         const fitnessInfo = document.createElement("div");
         fitnessInfo.classList.add("data");
@@ -966,11 +961,6 @@ if (clientListJSON) {
             deleteClient(index); // Pass the index to the deleteClient function
         });
         clientObjectContainer.appendChild(deleteButton);
-
-        editButton.innerHTML = '✏️';
-        editButton.addEventListener("click", function () {
-
-        });
 
         // append elements to the clientDataContainer
         clientDataContainer.appendChild(personalInfo);
@@ -1399,7 +1389,7 @@ fetch('ClientData.json')
 
                     parent.insertAdjacentHTML("beforeend", clientMarkup);
 
-                    
+
                 }
             }
         })
@@ -1410,10 +1400,10 @@ fetch('ClientData.json')
             const expandIcon = client.querySelector(".expand");
             const collapseIcon = client.querySelector(".collapse");
             const additionalDetails = client.querySelector(".additional-details");
-        
+
             client.addEventListener("click", function (event) {
                 event.stopPropagation();
-        
+
                 if (!client.classList.contains("expanded")) {
 
                     clients.forEach((c) => {
@@ -1435,15 +1425,16 @@ fetch('ClientData.json')
                     collapseIcon.classList.add("rotate");
                 }
             });
-        
+
             expandIcon.addEventListener("click", function (event) {
                 event.stopPropagation();
                 client.click();
             });
-        
+
             collapseIcon.addEventListener("click", function (event) {
                 event.stopPropagation();
                 client.click();
-            });    });
+            });
+        });
 
     })
