@@ -1,4 +1,4 @@
-console.log('Age is ' + computeAge('2000-11-01'));
+// console.log('Age is ' + computeAge('2000-11-01'));
 // json-generator.com 
 // code below
 /*
@@ -887,6 +887,8 @@ if (clientListJSON) {
     clientList.forEach((clientJSON, index) => {
         const clientData = JSON.parse(clientJSON);
 
+        // console.log(clientData)
+
         // create a new client object container
         const clientObjectContainer = document.createElement("div");
         clientObjectContainer.classList.add("client-object");
@@ -935,15 +937,15 @@ if (clientListJSON) {
             <p>Contact: ${clientData.phone}</p>
             <p>Address: ${clientData.address}</p>
         `;
-        console.log(client.birthDate)
+        // console.log(client.goals)
         // create and populate fitness information
         const fitnessInfo = document.createElement("div");
         fitnessInfo.classList.add("data");
         fitnessInfo.innerHTML = `
             <h4>Fitness Goals</h4>
-            <p>Fitness Level: ${clientData.goals.level}</p>
-            <p>Goal Type: ${clientData.goals.goalType}</p>
-            <p>Goal Details: ${clientData.goals.goalDetails}</p>
+            <p>Fitness Level: ${clientData.fitnessInfo.fitnessLevel}</p>
+            <p>Goal Type: ${clientData.fitnessInfo.goalType}</p>
+            <p>Goal Details: ${clientData.fitnessInfo.goalDetails}</p>
         `;
 
         // create and populate health information
@@ -1130,17 +1132,49 @@ document.addEventListener("DOMContentLoaded", function () {
     filterAndDisplayClients();
 });
 
+function findLatestCheckIn(data) {
+    const date = new Date();
 
-fetch('ClientCheckIns')
+    let latestCheckIn = null;
+    let day = date.getDate();''
+
+    data.forEach(element => {
+        const checkIns = element.checkIns.October;
+        for (const date in checkIns) {
+            if (day == date) {
+                if (checkIns.hasOwnProperty(date)) {
+                    const time = checkIns[date];
+                    const checkInDateTime = new Date(`2023-10-${date}T${time}:00`);
+
+                    if (!latestCheckIn || checkInDateTime > latestCheckIn.dateTime) {
+                        latestCheckIn = {
+                            id: element.id,
+                            dateTime: checkInDateTime,
+                            time: time
+                        };
+                    }
+                }
+            }
+        }
+    });
+
+    return latestCheckIn;
+}
+
+
+fetch('ClientCheckIns.json')
 .then (res => {
     return res.json();
 })
 .then(json => {
-    json.forEach(element => {
-        console.log();
-        ;
-    })
+    const asd = findLatestCheckIn(json);
+    console.log(asd.id);
 
+    fetch('ClientData.json')
+    .then(res => {
+        return res.json();
+    })
+    .then
 })
 
 
@@ -1150,14 +1184,16 @@ fetch('ClientData.json')
 })
 .then(json => {
     var clientCounter = 0;
-    console.log(json);
     json.forEach(el => {
         switch (el.coach) {
             case 'Kiko': {
                 clientCounter++;
             }
         }
-    });
+    })
+});
+
+fetch('ClientData.json')
     .then(res => {
         return res.json();
     })
@@ -1172,63 +1208,20 @@ fetch('ClientData.json')
             }
         });
 
+        // console.log(clientCounter);
+
         var clientCount = document.getElementById('client-count');
         var content = document.createTextNode(clientCounter);
 
         console.log(clientCount)
-        var parent = document.getElementById('client-count-parent');
         clientCount.appendChild(content);
-        parent.appendChild(clientCount);
 
         json.forEach(el => {
-            var clientId;
-            var clientName;
-            var contact;
-            var address;
-            var dateOfBirth;
-            var gender;
-
-            var cidTextNode;
-            var cnTextNode;
-            var contactTextNode;
-            var addressTextNode;
-            var dobTextNode;
-            var genderTextNode;
 
             var parent = document.getElementById("client-list");
-            var addDParent = document.getElementById("additional-details");
 
-            var clientDetailsRef = document.getElementById("expand-icon");
-
-            // console.log(el);
             switch (el.coach) {
                 case 'Kiko': {
-                    // clientId = document.getElementById("client-id");
-                    // clientName =document.getElementById("client-name");
-                    // contact = document.getElementById("contact");
-                    // address = document.getElementById("address");
-                    // dateOfBirth = document.getElementById("dob");
-                    // gender = document.getElementById("gender");
-
-
-                    cidTextNode = document.createTextNode(el._id);
-                    cnTextNode = document.createTextNode(el.name);
-                    contactTextNode = document.createTextNode(el.phone);
-                    addressTextNode = document.createTextNode(el.address);
-                    dobTextNode = document.createTextNode(el.birthDate);
-                    genderTextNode = document.createTextNode(el.gender.charAt(0).toUpperCase() + el.gender.slice(1));
-
-                    // clientId.appendChild(cidTextNode);
-                    // clientName.appendChild(cnTextNode);
-                    // contact.appendChild(contactTextNode);
-                    // address.appendChild(addressTextNode);
-                    // dateOfBirth.appendChild(dobTextNode);
-                    // gender.appendChild(genderTextNode);
-
-                    // console.log(clientId);
-
-                    // parent.insertBefore(clientDetailsRef,clientId);
-                    // parent.insertBefore(clientDetailsRef, clientName);
 
                     const clientMarkup =
                         ` <div class="client">
@@ -1258,7 +1251,6 @@ fetch('ClientData.json')
 
                 }
             }
-
 
         })
     })
@@ -1309,7 +1301,7 @@ clients.forEach((client) => {
     });
 
 
-fetch('ClientCheckIns')
+fetch('ClientCheckIns.json')
 .then(res => {
     return res.json();
 })
@@ -1331,6 +1323,8 @@ fetch('ClientData.json')
                 clientCounter++;
             }
         }
+
+        console.log(clientCounter);
     });
     json.forEach(el => {
         var clientId;
@@ -1459,4 +1453,3 @@ fetch('ClientData.json')
 })
 
 
-   
