@@ -682,10 +682,8 @@ function assignClientID() {
         }
     });
 
-    // if there are no existing clients or the latest client was deleted, increment the maxID by 1
-    if (existingClients.length === 0 || existingClients.length === maxID) {
-        maxID++;
-    }
+    // increment the maxID by 1 regardless of other conditions
+    maxID++;
 
     // assign the next available ID
     client.id = `#${String(maxID).padStart(5, '0')}`;
@@ -759,15 +757,16 @@ submitButton.addEventListener("click", function () {
         // create a JSON representation of the client object
         const clientJSON = JSON.stringify(client);
 
-        // attempt to send data to the server
+        // Send data to the server
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/add-client', // change to your server endpoint
+            url: 'http://localhost:3000/add-client',
             data: clientJSON,
             contentType: 'application/json',
             success: function (response) {
-                // Show success message
+
                 alert(response.message);
+                saveClientDataToJSONFile(clientJSON);
             },
             error: function (error) {
                 // Handle error
@@ -775,13 +774,33 @@ submitButton.addEventListener("click", function () {
             }
         });
 
-        // save the JSON object in local storage regardless of server success/failure
+        // Save the JSON object in local storage regardless of server success/failure
         saveClientData(clientJSON);
 
-        // sow success message for local storage save
+        // Show success message for local storage save
         alert('Client data saved locally.');
     }
 });
+
+// Function to save client data to the external JSON file
+function saveClientDataToJSONFile(clientData) {
+    // Send a request to your server to update the JSON file
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/update-client-json', // Define the correct server endpoint
+        data: clientData,
+        contentType: 'application/json',
+        success: function (response) {
+            // Handle the response from the server (e.g., show a success message)
+            alert(response.message);
+        },
+        // it goes here pero gumagana naman? wtf
+        error: function (error) {
+            // Handle error (e.g., show an error message)
+            //alert('Error updating external JSON file: ' + error.statusText);
+        }
+    });
+}
 
 
 // client object
@@ -797,7 +816,7 @@ let client = {
     phone: '',
     address: '',
     birthDate: '',
-    coach: 'Kiko', // default?
+    coach: 'fromUser', // default?
     goals: {
         level: '',
         goalType: '',
@@ -811,12 +830,6 @@ let client = {
     programs: null
 };
 
-// function to assign id to a client (ill change dis)
-function assignClientID() {
-    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-    let clientCount = existingClients.length;
-    client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
-}
 
 function computeAge(dob) {
     const birthDate = new Date(dob);
@@ -859,21 +872,10 @@ function populateClientObject() {
     client.healthInfo.physicalLimitations = healthInfoFieldset.querySelector('input[name="Physical Limitations"]').value;
 }
 // function to save client data to local storage
-function saveClientData(clientJSON) {
-    // check if local storage is available
-    if (typeof Storage !== "undefined") {
-        // get existing client data from local storage (if any)
-        let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-        // add the new client data to the existing data
-        existingClients.push(clientJSON);
-        // save the updated client data to local storage
-        localStorage.setItem("clients", JSON.stringify(existingClients)); // KEY IS clients
-        console.log("Client data saved to local storage.");
-
-    } else {
-        alert("Local storage is not available. Client data cannot be saved.");
-        console.log("Local storage is not available. Client data cannot be saved.");
-    }
+function saveClientData(clientData) {
+    let localClients = JSON.parse(localStorage.getItem("clients")) || [];
+    localClients.push(clientData);
+    localStorage.setItem("clients", JSON.stringify(localClients));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -888,11 +890,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const medicationsFilter = document.getElementById("medications-filter");
     const medicalHistoryFilter = document.getElementById("medical-history-filter");
 
-    // function to display the clients based on the search
     function filterAndDisplayClients() {
         const searchText = searchBar.value.toLowerCase();
 
-        // get filter values
         const selectedGender = genderFilter.value;
         const selectedGoalType = goalTypeFilter.value;
         const selectedFitnessLevel = fitnessLevelFilter.value;
@@ -904,12 +904,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
             const clientName = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
-
             let clientGender = '';
             let clientGoalType = '';
             let clientFitnessLevel = '';
 
-            // nth child(n) gets the 3 existing divs within the parent div client data
             const personalInfoDiv = clientObject.querySelector(".client-data .data:nth-child(1)");
             if (personalInfoDiv) {
                 personalInfoDiv.querySelectorAll('p').forEach(p => {
@@ -951,18 +949,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
-            // functions says it all hheuehue
             function getTextAfterColon(text) {
                 const parts = text.split(":");
                 return parts.length > 1 ? parts[1].trim() : "";
             }
 
-            // cccccccccccccccccheck fitness and personal information based on dropdowns
             const matchesGender = !selectedGender || clientGender.toLowerCase() === selectedGender.toLowerCase();
             const matchesGoalType = !selectedGoalType || clientGoalType.toLowerCase() === selectedGoalType.toLowerCase();
             const matchesFitnessLevel = !selectedFitnessLevel || clientFitnessLevel.toLowerCase() === selectedFitnessLevel.toLowerCase();
 
-            // final check
             if (
                 clientName.startsWith(searchText) &&
                 matchesGender &&
@@ -986,7 +981,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // add an input event listener to the search bar to update results while typing
     searchBar.addEventListener("input", filterAndDisplayClients);
     genderFilter.addEventListener("change", filterAndDisplayClients);
     goalTypeFilter.addEventListener("change", filterAndDisplayClients);
@@ -994,58 +988,36 @@ document.addEventListener("DOMContentLoaded", function () {
     physicalLimitationFilter.addEventListener("change", filterAndDisplayClients);
     medicationsFilter.addEventListener("change", filterAndDisplayClients);
     medicalHistoryFilter.addEventListener("change", filterAndDisplayClients);
-    // display all clients initially
+
     filterAndDisplayClients();
-
 });
-// Fetch client data from JSON file and local storage
-let localClients = JSON.parse(localStorage.getItem("clients")) || [];
 
-// Fetch client data from JSON file
 fetch('MainClientData.json')
     .then(response => response.json())
     .then(data => {
-        // Check if the data contains a 'clients' property and use that
         let clientDataClients = data.clients ? data.clients : data;
-
-        // Check if clientDataClients is actually an array
         if (!Array.isArray(clientDataClients)) {
             throw new Error("expected clientDataClients to be an array but it isn't.");
         }
-
-        // Display the JSON client data separately
         displayClients(clientDataClients);
 
-        // Fetch local storage data and display it separately
+        // Retrieve client data from local storage
         let localClients = JSON.parse(localStorage.getItem("clients")) || [];
+
+        // Display clients from local storage
         displayClients(localClients);
     })
     .catch(error => {
         console.error("Error fetching client data from JSON file:", error);
     });
 
-
-
-
-
-
-
-
-// SEARCH CLIENT FUNCTIONALITY
-// main container of the clients
 function displayClients(clientsList) {
     const clientContainer = document.querySelector(".main-container");
 
     if (clientsList) {
-
-        // loop through the da array of client objects
         clientsList.forEach((clientData, index) => {
-
-            // create a new client object container
             const clientObjectContainer = document.createElement("div");
             clientObjectContainer.classList.add("client-object");
-
-            // create and populate client info
             const clientInfo = document.createElement("div");
             clientInfo.classList.add("client-info");
             clientInfo.innerHTML = `
@@ -1053,114 +1025,51 @@ function displayClients(clientsList) {
                 <h2>${clientData.id}</h2>
                 <p>Program: ${clientData.programs}</p>
             `;
-
             const deleteButton = document.createElement("button");
-            deleteButton.classList.add("delete-button");
-            deleteButton.innerHTML = '❌';
-
-            const editButton = document.createElement("button");
-            editButton.classList.add("edit-button");
-
-            clientObjectContainer.appendChild(deleteButton);
-            clientObjectContainer.appendChild(editButton);
-
-
-            if (clientData.programs === null) { // still gonan do dis btttttich
-                clientInfo.innerHTML = `
-                <h1>${clientData.name}</h1>
-                <h2>${clientData.id}</h2>
-                <p>No program assigned to client</p>
-                
-            `;
-            }
-
-            // create and populate client data
-            const clientDataContainer = document.createElement("div");
-            clientDataContainer.classList.add("client-data");
-
-            // create and populate personal information
-            const personalInfo = document.createElement("div");
-            personalInfo.classList.add("data");
-            personalInfo.innerHTML = `
-                <h4>Personal Information</h4>
-                <p>Gender: ${clientData.gender}</p>
-                <p>Age: ${clientData.age}</p> 
-                <p>Date of Birth: ${clientData.birthDate}</p>
-                <p>Contact: ${clientData.phone}</p>
-                <p>Address: ${clientData.address}</p>
-            `;
-            console.log('here')
-            // create and populate fitness information
-            const fitnessInfo = document.createElement("div");
-            fitnessInfo.classList.add("data");
-            fitnessInfo.innerHTML = `
-                <h4>Fitness Goals</h4>
-                <p>Fitness Level: ${clientData.goals.level}</p>
-                <p>Goal Type: ${clientData.goals.goalType}</p>
-                <p>Goal Details: ${clientData.goals.goalDetails}</p>
-            `;
-
-            // create and populate health information
-            const healthInfo = document.createElement("div");
-            healthInfo.classList.add("data");
-            healthInfo.innerHTML = `
-                <h4>Health Information</h4>
-                <p>Medical History: ${clientData.healthInfo.medicalHistory}</p>
-                <p>Medications: ${clientData.healthInfo.medications}</p>
-                <p>Physical Limitations: ${clientData.healthInfo.physicalLimitations}</p>
-            `;
-
+            deleteButton.innerHTML = "Delete";
             deleteButton.addEventListener("click", function () {
-                let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-                if (existingClients.length > 0) {
-                    existingClients.splice(index, 1);
-                    localStorage.setItem('clients', JSON.stringify(existingClients));
-
-                    clientObjectContainer.remove(); // Remove the client card from the DOM
-
-                    // Attempt to send a request to the server for deletion (even if the server is not available)
-                    $.ajax({
-                        type: 'POST',
-                        url: 'http://localhost:3000/delete-client', // Change to your server endpoint for deleting a client
-                        data: JSON.stringify({ index }), // Send the index of the deleted client
-                        contentType: 'application/json',
-                        success: function (response) {
-                            // Show success message if the server is available
-                            alert(response.message);
-                        },
-                        error: function (error) {
-                            // If the server is not available, this will handle the error
-                            console.error('Error deleting client data on the server:', error);
-                        }
-                    });
-                }
+                deleteClient(clientData.id);
             });
 
-
-            editButton.innerHTML = '✏️';
-            editButton.addEventListener("click", function () {
-
-            });
-
-            // append elements to the clientDataContainer
-            clientDataContainer.appendChild(personalInfo);
-            clientDataContainer.appendChild(fitnessInfo);
-            clientDataContainer.appendChild(healthInfo);
-
-            // append elements to the clientObjectContainer
+            clientInfo.appendChild(deleteButton);
             clientObjectContainer.appendChild(clientInfo);
-            clientObjectContainer.appendChild(clientDataContainer);
 
-            // append the clientObjectContainer to the main container in the HTML
+            // add client data sections
+            clientObjectContainer.innerHTML += `
+                <div class="client-data">
+                    <div class="data">
+                        <h2>Personal Info</h2>
+                        <p>Gender: ${clientData.gender || "Unknown"}</p>
+                        <p>Date of Birth: ${clientData.birthDate || "Unknown"}</p>
+                        <p>Age: ${clientData.age || "Unknown"}</p>
+                    </div>
+                    <div class="data">
+                        <h2>Goals</h2>
+                        <p>Goal Type: ${clientData.goalType || "Unknown"}</p>
+                        <p>Fitness Level: ${clientData.level || "Unknown"}</p>
+                    </div>
+                    <div class="data">
+                        <h2>Health</h2>
+                        <p>Medical History: ${clientData.medicalHistory || "None"}</p>
+                        <p>Medications: ${clientData.medications || "None"}</p>
+                        <p>Physical Limitations: ${clientData.physicalLimitations || "None"}</p>
+                    </div>
+                </div>
+            `;
+
             clientContainer.appendChild(clientObjectContainer);
         });
-    } else {
-        console.log("No client data found in local storage.");
     }
-
 }
-
-
+function deleteClient(clientID) {
+    let localClients = JSON.parse(localStorage.getItem("clients")) || [];
+    // Find and remove the client with the matching ID
+    const updatedLocalClients = localClients.filter(clientData => {
+        const client = JSON.parse(clientData);
+        return client.id !== clientID;
+    });
+    localStorage.setItem("clients", JSON.stringify(updatedLocalClients));
+}
 
 fetch('ClientCheckIns')
     .then(res => {

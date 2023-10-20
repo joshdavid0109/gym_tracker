@@ -22,20 +22,20 @@ app.use(bodyParser.json());
 // enable CORS for all routes 
 app.use(cors());
 
-const dataFilePath = 'ClientData.json'; // change ur file path
+const dataFilePath = 'MainClientData.json'; // change ur file path
 
 app.post('/add-client', (req, res) => {
     try {
         const clientData = req.body;
 
         // read existing data (if any)
-        let existingData = { clients: [] };
+        let existingData = [];
         if (fs.existsSync(dataFilePath)) {
             existingData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
         }
 
         // append new client data
-        existingData.clients.push(clientData);
+        existingData.push(clientData);
 
         // write updated data back to the file
         fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
@@ -46,6 +46,7 @@ app.post('/add-client', (req, res) => {
         res.status(500).json({ success: false, message: 'Failed to add client data' });
     }
 });
+
 
 app.post('/delete-client', (req, res) => {
     try {
