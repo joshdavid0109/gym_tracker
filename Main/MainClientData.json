@@ -1,6 +1,5 @@
+[
 {
-  "clients": [
-    {
       "id": "#00001",
       "index": 0,
       "isActive": true,
@@ -75,5 +74,4 @@
       },
       "programs": null
     }
-  ]
-}
+]

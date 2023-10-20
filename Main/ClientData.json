@@ -1,214 +1,340 @@
 [
   {
-    "_id": "00002",
+    "_id": "00001",
     "index": 0,
-    "guid": "165400b7-76d4-4ae4-8a2a-c364c6570da2",
+    "guid": "0f600573-39e2-4c8b-be1c-ac3e335c8213",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
-    "age": 37,
-    "name": "Farmer Miles",
+    "age": 26,
+    "name": "Kasey Schneider",
+    "gender": "female",
+    "email": "kaseyschneider@shepard.com",
+    "phone": "+639 (846) 500-2147",
+    "address": "895 Lincoln Place, Defiance, Nebraska, 1889",
+    "birthDate": "2018-10-27T08:30:29 -08:00",
+    "coach": "Kiko",
+    "goals": {
+      "level": "Beginner",
+      "goal": "Muscle Gain",
+      "goaldetails": 0
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
+  },
+  {
+    "_id": "00002",
+    "index": 1,
+    "guid": "5da1e8d5-2778-48f4-990d-9c7909195071",
+    "isActive": true,
+    "picture": "http://placehold.it/32x32",
+    "age": 36,
+    "name": "Eaton Hewitt",
     "gender": "male",
-    "email": "farmermiles@bitrex.com",
-    "phone": "+639 (964) 511-2997",
-    "address": "780 Macon Street, Crumpler, New Mexico, 6225",
-    "birthDate": "2023-02-05T03:12:39 -08:00",
+    "email": "eatonhewitt@shepard.com",
+    "phone": "+639 (875) 407-2477",
+    "address": "207 Montauk Avenue, Kenmar, Palau, 5014",
+    "birthDate": "2022-10-04T05:35:29 -08:00",
     "coach": "Kiko",
     "goals": {
       "level": "Advanced",
-      "goaldetails": {}
-    }
+      "goal": "Weight Loss",
+      "goaldetails": 1
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00003",
-    "index": 1,
-    "guid": "2fa89054-73cf-44f2-af26-c7a5cce80417",
-    "isActive": true,
+    "index": 2,
+    "guid": "53ae10d5-0e6f-45fd-962c-9088a285cda2",
+    "isActive": false,
     "picture": "http://placehold.it/32x32",
-    "age": 31,
-    "name": "Beth Chavez",
-    "gender": "female",
-    "email": "bethchavez@bitrex.com",
-    "phone": "+639 (809) 581-2710",
-    "address": "392 Vista Place, Harrodsburg, Kentucky, 4834",
-    "birthDate": "2017-10-14T10:51:13 -08:00",
-    "coach": "AJ",
+    "age": 33,
+    "name": "Oneal Garcia",
+    "gender": "male",
+    "email": "onealgarcia@shepard.com",
+    "phone": "+639 (958) 578-3241",
+    "address": "205 Knight Court, Snelling, Minnesota, 5836",
+    "birthDate": "2020-05-08T01:10:19 -08:00",
+    "coach": "Kiko",
     "goals": {
-      "level": "Intermediate",
-      "goaldetails": {}
-    }
+      "level": "Advanced",
+      "goal": "Weight Loss",
+      "goaldetails": 2
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00004",
-    "index": 2,
-    "guid": "0de52c10-3e87-438d-9c04-8ec078386f7c",
+    "index": 3,
+    "guid": "1d474a10-0b82-4773-aca5-73a1c5965519",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
-    "age": 32,
-    "name": "Grant Taylor",
+    "age": 37,
+    "name": "Tyler Rodgers",
     "gender": "male",
-    "email": "granttaylor@bitrex.com",
-    "phone": "+639 (981) 416-2526",
-    "address": "709 Turner Place, Ogema, Virgin Islands, 1381",
-    "birthDate": "2015-12-09T12:37:56 -08:00",
+    "email": "tylerrodgers@shepard.com",
+    "phone": "+639 (955) 488-2649",
+    "address": "343 Garland Court, Utting, Northern Mariana Islands, 2231",
+    "birthDate": "2018-12-06T10:34:28 -08:00",
     "coach": "Kiko",
     "goals": {
       "level": "Advanced",
-      "goaldetails": {}
-    }
+      "goal": "Body Recomposition",
+      "goaldetails": 3
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00005",
-    "index": 3,
-    "guid": "c19019bf-a42b-42a0-97c2-1548e642abc0",
+    "index": 4,
+    "guid": "494aeef9-b111-44a9-bed8-fd1b30d502f0",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
-    "age": 39,
-    "name": "Weaver House",
+    "age": 22,
+    "name": "Whitaker Clark",
     "gender": "male",
-    "email": "weaverhouse@bitrex.com",
-    "phone": "+639 (963) 448-2388",
-    "address": "417 Fountain Avenue, Camptown, Oregon, 5845",
-    "birthDate": "2020-04-02T12:36:56 -08:00",
-    "coach": "Joshua",
+    "email": "whitakerclark@shepard.com",
+    "phone": "+639 (995) 462-3457",
+    "address": "350 Bevy Court, Osage, Kansas, 6571",
+    "birthDate": "2018-07-12T10:33:00 -08:00",
+    "coach": "AJ",
     "goals": {
       "level": "Beginner",
-      "goaldetails": {}
-    }
+      "goal": "Weight Loss",
+      "goaldetails": 4
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00006",
-    "index": 4,
-    "guid": "d84692ce-1d91-49c6-a533-7c812ba8cb23",
-    "isActive": false,
+    "index": 5,
+    "guid": "556b152e-834b-4cf4-bb19-67a909f3b664",
+    "isActive": true,
     "picture": "http://placehold.it/32x32",
-    "age": 39,
-    "name": "Estela Black",
+    "age": 31,
+    "name": "Elvira Bruce",
     "gender": "female",
-    "email": "estelablack@bitrex.com",
-    "phone": "+639 (926) 571-2018",
-    "address": "639 Battery Avenue, Bainbridge, Louisiana, 2688",
-    "birthDate": "2021-02-12T08:23:17 -08:00",
-    "coach": "Joshua",
+    "email": "elvirabruce@shepard.com",
+    "phone": "+639 (922) 589-3553",
+    "address": "855 Highland Place, Eden, California, 5000",
+    "birthDate": "2014-05-06T04:02:02 -08:00",
+    "coach": "Kiko",
     "goals": {
-      "level": "Intermediate",
-      "goaldetails": {}
-    }
+      "level": "Advanced",
+      "goal": "Muscle Gain",
+      "goaldetails": 5
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00007",
-    "index": 5,
-    "guid": "bdc6e9b9-f354-4e1d-906b-685d229f96cd",
-    "isActive": true,
+    "index": 6,
+    "guid": "4ea033ec-1323-415d-8960-716087c8c290",
+    "isActive": false,
     "picture": "http://placehold.it/32x32",
-    "age": 33,
-    "name": "Levy Lane",
-    "gender": "male",
-    "email": "levylane@bitrex.com",
-    "phone": "+639 (833) 497-3113",
-    "address": "195 Joralemon Street, Bowden, Georgia, 3255",
-    "birthDate": "2023-02-24T04:34:28 -08:00",
+    "age": 40,
+    "name": "Hilda Wheeler",
+    "gender": "female",
+    "email": "hildawheeler@shepard.com",
+    "phone": "+639 (909) 430-2329",
+    "address": "184 Livonia Avenue, Cleary, Missouri, 7536",
+    "birthDate": "2020-07-02T06:52:40 -08:00",
     "coach": "Kiko",
     "goals": {
       "level": "Advanced",
-      "goaldetails": {}
-    }
+      "goal": "Muscle Gain",
+      "goaldetails": 6
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00008",
-    "index": 6,
-    "guid": "3e1d5f4e-90dd-44a6-a449-4c0c4477d7e2",
+    "index": 7,
+    "guid": "46ecd851-d1a3-4c6c-b3dd-077165f22e8a",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
-    "age": 36,
-    "name": "Harrington Church",
+    "age": 33,
+    "name": "Kline Wall",
     "gender": "male",
-    "email": "harringtonchurch@bitrex.com",
-    "phone": "+639 (968) 410-3943",
-    "address": "769 Nassau Street, Brambleton, Rhode Island, 6950",
-    "birthDate": "2023-09-26T02:56:23 -08:00",
-    "coach": "Joshua",
+    "email": "klinewall@shepard.com",
+    "phone": "+639 (959) 531-3038",
+    "address": "253 Miller Avenue, Stevens, Montana, 7215",
+    "birthDate": "2014-11-18T10:28:21 -08:00",
+    "coach": "Kiko",
     "goals": {
-      "level": "Intermediate",
-      "goaldetails": {}
-    }
+      "level": "Advanced",
+      "goal": "Weight Loss",
+      "goaldetails": 7
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
     "_id": "00009",
-    "index": 7,
-    "guid": "342a58db-e65b-4084-9d77-621123669eed",
-    "isActive": false,
-    "picture": "http://placehold.it/32x32",
-    "age": 25,
-    "name": "Stevens Acosta",
-    "gender": "male",
-    "email": "stevensacosta@bitrex.com",
-    "phone": "+639 (899) 404-2967",
-    "address": "261 Sheffield Avenue, Roberts, Massachusetts, 970",
-    "birthDate": "2022-07-01T05:00:46 -08:00",
-    "coach": "Joshua",
-    "goals": {
-      "level": "Advanced",
-      "goaldetails": {}
-    }
-  },
-  {
-    "_id": "00010",
     "index": 8,
-    "guid": "3097d590-c6a0-4b46-bd98-77c021d899c7",
-    "isActive": false,
-    "picture": "http://placehold.it/32x32",
-    "age": 32,
-    "name": "Sophie Goff",
-    "gender": "female",
-    "email": "sophiegoff@bitrex.com",
-    "phone": "+639 (946) 508-3797",
-    "address": "936 Kansas Place, Libertytown, New Jersey, 6816",
-    "birthDate": "2023-07-13T07:34:43 -08:00",
-    "coach": "Kiko",
-    "goals": {
-      "level": "Beginner",
-      "goaldetails": {}
-    }
-  },
-  {
-    "_id": "00011",
-    "index": 9,
-    "guid": "f17149ee-c0c0-4a8f-9c98-f0c361e19743",
+    "guid": "eb9c486c-6e69-4b83-8109-2f7af0377563",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
-    "age": 36,
-    "name": "Carmela Leon",
-    "gender": "female",
-    "email": "carmelaleon@bitrex.com",
-    "phone": "+639 (887) 541-2710",
-    "address": "689 Laurel Avenue, Lorraine, Maine, 9916",
-    "birthDate": "2021-12-28T08:50:02 -08:00",
-    "coach": "Joshua",
-    "goals": {
-      "level": "Advanced",
-      "goaldetails": {}
-    }
-  },
-  {
-    "_id": "00012",
-    "index": 10,
-    "guid": "8fcffabe-8f9a-45ea-aab6-621a13d4a6b6",
-    "isActive": false,
-    "picture": "http://placehold.it/32x32",
-    "age": 32,
-    "name": "Rowland Nieves",
+    "age": 24,
+    "name": "Drake Velazquez",
     "gender": "male",
-    "email": "rowlandnieves@bitrex.com",
-    "phone": "+639 (848) 590-2476",
-    "address": "633 Quay Street, Graniteville, Iowa, 6435",
-    "birthDate": "2019-12-17T03:15:25 -08:00",
+    "email": "drakevelazquez@shepard.com",
+    "phone": "+639 (956) 476-3184",
+    "address": "241 Greene Avenue, Bodega, Rhode Island, 2869",
+    "birthDate": "2015-06-04T07:02:10 -08:00",
     "coach": "AJ",
     "goals": {
       "level": "Advanced",
-      "goaldetails": {}
-    }
+      "goal": "Weight Loss",
+      "goaldetails": 8
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   },
   {
-    "clients": []
+    "_id": "000010",
+    "index": 9,
+    "guid": "96cc072f-bdc6-4026-b0bf-b16600029409",
+    "isActive": true,
+    "picture": "http://placehold.it/32x32",
+    "age": 36,
+    "name": "Sheena Wilkerson",
+    "gender": "female",
+    "email": "sheenawilkerson@shepard.com",
+    "phone": "+639 (853) 578-2964",
+    "address": "762 Berkeley Place, Harrodsburg, West Virginia, 9309",
+    "birthDate": "2022-09-11T03:46:07 -08:00",
+    "coach": "AJ",
+    "goals": {
+      "level": "Advanced",
+      "goal": "Weight Loss",
+      "goaldetails": 9
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
+  },
+  {
+    "_id": "000011",
+    "index": 10,
+    "guid": "f960e3b6-105b-404e-b16e-4d7b9d57d816",
+    "isActive": true,
+    "picture": "http://placehold.it/32x32",
+    "age": 28,
+    "name": "Pope Schwartz",
+    "gender": "male",
+    "email": "popeschwartz@shepard.com",
+    "phone": "+639 (827) 425-3268",
+    "address": "645 Crystal Street, Marbury, Wisconsin, 8832",
+    "birthDate": "2021-06-23T02:40:03 -08:00",
+    "coach": "AJ",
+    "goals": {
+      "level": "Advanced",
+      "goal": "Body Recomposition",
+      "goaldetails": 10
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
+  },
+  {
+    "_id": "000012",
+    "index": 11,
+    "guid": "3203f754-6e6d-407a-a4af-f7c68c482646",
+    "isActive": true,
+    "picture": "http://placehold.it/32x32",
+    "age": 24,
+    "name": "Perkins Rutledge",
+    "gender": "male",
+    "email": "perkinsrutledge@shepard.com",
+    "phone": "+639 (869) 528-2384",
+    "address": "521 Coleridge Street, Nutrioso, Kentucky, 3557",
+    "birthDate": "2021-12-30T10:14:30 -08:00",
+    "coach": "Kiko",
+    "goals": {
+      "level": "Advanced",
+      "goal": "Body Recomposition",
+      "goaldetails": 11
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
+  },
+  {
+    "_id": "000013",
+    "index": 12,
+    "guid": "f547d781-a2b3-4bcb-abe6-a72f9dcfe70c",
+    "isActive": false,
+    "picture": "http://placehold.it/32x32",
+    "age": 25,
+    "name": "Park Mclaughlin",
+    "gender": "male",
+    "email": "parkmclaughlin@shepard.com",
+    "phone": "+639 (858) 403-2241",
+    "address": "615 Howard Alley, Bennett, Florida, 6583",
+    "birthDate": "2016-12-28T08:07:20 -08:00",
+    "coach": "AJ",
+    "goals": {
+      "level": "Intermediate",
+      "goal": "Body Recomposition",
+      "goaldetails": 12
+    },
+    "healthInfo": {
+      "medicalHistory": "",
+      "medications": "",
+      "physicalLimitations": ""
+    },
+    "programs": null
   }
 ]
