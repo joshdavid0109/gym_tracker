@@ -39,6 +39,23 @@
 
 */
 
+// Function to read JSON data from an external file and save it to local storage
+function saveJsonToLocalStorage() {
+    // Replace 'your_external_json_file.json' with the actual path to your JSON file
+    fetch('ClientData.json')
+        .then(response => response.json())
+        .then(data => {
+            // Store the JSON data in local storage
+            localStorage.setItem('clients', JSON.stringify(data));
+            console.log('JSON data saved to local storage');
+        })
+        .catch(error => {
+            console.error('Error fetching JSON data:', error);
+        });
+}
+
+// Call the function to save JSON data to local storage
+saveJsonToLocalStorage();
 
 
 const themeToggler = document.querySelector(".theme-toggler");
@@ -887,12 +904,8 @@ const clientContainer = document.querySelector(".main-container");
 if (clientListJSON) {
     const clientList = JSON.parse(clientListJSON);
 
-    // loop through the da array of client objects
-    clientList.forEach((clientJSON, index) => {
-        const clientData = JSON.parse(clientJSON);
-
-        // console.log(clientData)
-
+    // Loop through the array of client objects
+    clientList.forEach((clientData, index) => {
         // create a new client object container
         const clientObjectContainer = document.createElement("div");
         clientObjectContainer.classList.add("client-object");
@@ -903,26 +916,8 @@ if (clientListJSON) {
         clientInfo.innerHTML = `
             <h1>${clientData.name}</h1>
             <h2>${clientData.id}</h2>
-            <p>Program: ${clientData.programs}</p>
+            <p>Program: ${clientData.programs || "No program assigned to client"}</p>
         `;
-
-
-
-        const editButton = document.createElement("button");
-        editButton.classList.add("edit-button");
-
-
-        clientObjectContainer.appendChild(editButton);
-
-
-        if (clientData.programs === null) { // still gonan do dis btttttich
-            clientInfo.innerHTML = `
-            <h1>${clientData.name}</h1>
-            <h2>${clientData.id}</h2>
-            <p>No program assigned to client</p>
-            
-        `;
-        }
 
         // create and populate client data
         const clientDataContainer = document.createElement("div");
@@ -939,7 +934,7 @@ if (clientListJSON) {
             <p>Contact: ${clientData.phone}</p>
             <p>Address: ${clientData.address}</p>
         `;
-        // console.log(client.goals)
+
         // create and populate fitness information
         const fitnessInfo = document.createElement("div");
         fitnessInfo.classList.add("data");
@@ -966,11 +961,6 @@ if (clientListJSON) {
             deleteClient(index); // Pass the index to the deleteClient function
         });
         clientObjectContainer.appendChild(deleteButton);
-
-        editButton.innerHTML = '✏️';
-        editButton.addEventListener("click", function () {
-
-        });
 
         // append elements to the clientDataContainer
         clientDataContainer.appendChild(personalInfo);
@@ -1136,67 +1126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     filterAndDisplayClients();
 });
 
-fetch('ClientData.json')
-    .then(response => response.json())
-    .then(data => {
-        let clientDataClients = data.clients ? data.clients : data;
-        if (!Array.isArray(clientDataClients)) {
-            throw new Error("expected clientDataClients to be an array but it isn't.");
-        }
-        displayClients(clientDataClients);
 
-
-    })
-    .catch(error => {
-        console.error("Error fetching client data from JSON file:", error);
-    });
-
-function displayClients(clientsList) {
-    const clientContainer = document.querySelector(".main-container");
-
-    if (clientsList) {
-        clientsList.forEach((clientData, index) => {
-            const clientObjectContainer = document.createElement("div");
-            clientObjectContainer.classList.add("client-object");
-            const clientInfo = document.createElement("div");
-            clientInfo.classList.add("client-info");
-            clientInfo.innerHTML = `
-                <h1>${clientData.name}</h1>
-                <h2>${clientData._id}</h2>
-                <p>Program: ${clientData.programs}</p>
-                <p>test</p>
-            `;
-
-            clientObjectContainer.appendChild(clientInfo);
-
-            // add client data sections
-            clientObjectContainer.innerHTML += `
-                <div class="client-data">
-                    <div class="data">
-                        <h2>Personal Info</h2>
-                        <p>Gender: ${clientData.gender || "Unknown"}</p>
-                        <p>Date of Birth: ${clientData.birthDate || "Unknown"}</p>
-                        <p>Age: ${clientData.age || "Unknown"}</p>
-                    </div>
-                    <div class="data">
-                        <h2>Goals</h2>
-                        <p>Fitness Level: ${clientData.goals.level}</p>
-                        <p>Goal Type: ${clientData.goals.goal}</p>
-                        <p>Goal Details: ${clientData.goals.goaldetails || "Unknown"}</p>
-                    </div>
-                    <div class="data">
-                        <h2>Health</h2>
-                        <p>Medical History: ${clientData.healthInfo.medicalHistory || "None"}</p>
-                        <p>Medications: ${clientData.healthInfo.medications || "None"}</p>
-                        <p>Physical Limitations: ${clientData.healthInfo.physicalLimitations || "None"}</p>
-                    </div>
-                </div>
-            `;
-
-            clientContainer.appendChild(clientObjectContainer);
-        });
-    }
-}
 
 function findLatestCheckIn(data) {
     const date = new Date();
@@ -1243,14 +1173,14 @@ fetch('ClientCheckIns.json')
             .then(json2 => {
                 json2.forEach(el => {
                     console.log(el)
-            if (el._id == asd.id) {
+                    if (el._id == asd.id) {
                         console.log(el.name);
                         const recentClient = document.getElementById("recent-client");
                         recentClient.innerHTML = `${el.name}`
                     }
-                }) 
-        // console.log(clientCounter);
-    })
+                })
+                // console.log(clientCounter);
+            })
 
 
 
@@ -1328,7 +1258,7 @@ fetch('ClientData.json')
 
                     parent.insertAdjacentHTML("beforeend", clientMarkup);
 
-                    
+
                 }
             }
         })
@@ -1336,15 +1266,15 @@ fetch('ClientData.json')
         const clients = document.querySelectorAll(".client");
 
         console.log("clients " + clients.length)
-        
+
         clients.forEach((client) => {
             const expandIcon = client.querySelector(".expand");
             const collapseIcon = client.querySelector(".collapse");
             const additionalDetails = client.querySelector(".additional-details");
-        
+
             client.addEventListener("click", function (event) {
                 event.stopPropagation();
-        
+
                 if (!client.classList.contains("expanded")) {
 
                     clients.forEach((c) => {
@@ -1366,15 +1296,16 @@ fetch('ClientData.json')
                     collapseIcon.classList.add("rotate");
                 }
             });
-        
+
             expandIcon.addEventListener("click", function (event) {
                 event.stopPropagation();
                 client.click();
             });
-        
+
             collapseIcon.addEventListener("click", function (event) {
                 event.stopPropagation();
                 client.click();
-            });    });
+            });
+        });
 
     })
