@@ -155,6 +155,15 @@ function toggleTheme() {
 themeToggler.addEventListener("click", toggleTheme);
 
 
+const topIcon = document.getElementById('top-icon');
+
+function changeColors() {
+    const randomHue = Math.floor(Math.random() * 360);
+    topIcon.style.setProperty('--hue-rotate', `${randomHue}deg`);
+}
+changeColors();
+
+
 const sidebarItems = document.querySelectorAll(".sidebar a");
 sidebarItems.forEach((item) => {
     item.addEventListener("click", () => {
@@ -218,25 +227,25 @@ prevNextIcon.forEach(icon => {
     });
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const profilePhoto = document.getElementById("profile-photo");
-    const profileDropdown = document.getElementById("profile-dropdown");
-    profilePhoto.addEventListener("click", function (e) {
-        e.stopPropagation();
-        if (profileDropdown.classList.contains("active")) {
-            profileDropdown.classList.remove("active");
-        } else {
-            profileDropdown.classList.add("active");
-        }
-    });
-    document.addEventListener("click", function () {
-        profileDropdown.classList.remove("active");
-    });
-    profileDropdown.addEventListener("click", function (e) {
-        e.stopPropagation();
-    });
-});
+// PROFILE PHOTO DROPDOWN - SETTINGS, LOG-OUT 
+// document.addEventListener("DOMContentLoaded", function () {
+//     const profilePhoto = document.getElementById("profile-photo");
+//     const profileDropdown = document.getElementById("profile-dropdown");
+//     profilePhoto.addEventListener("click", function (e) {
+//         e.stopPropagation();
+//         if (profileDropdown.classList.contains("active")) {
+//             profileDropdown.classList.remove("active");
+//         } else {
+//             profileDropdown.classList.add("active");
+//         }
+//     });
+//     document.addEventListener("click", function () {
+//         profileDropdown.classList.remove("active");
+//     });
+//     profileDropdown.addEventListener("click", function (e) {
+//         e.stopPropagation();
+//     });
+// });
 
 
 

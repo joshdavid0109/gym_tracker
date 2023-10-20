@@ -222,6 +222,20 @@ aside .logo img {
     height: 2rem;
 }
 
+#top-icon {
+    animation: colorFade 4s linear infinite;
+}
+
+@keyframes colorFade{
+    0%{
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+
 aside .close {
     display: none;
 }
