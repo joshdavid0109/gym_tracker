@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 // enable CORS for all routes 
 app.use(cors());
 
-const dataFilePath = 'MainClientData.json'; // change ur file path
+const dataFilePath = 'ClientData.json'; // change ur file path
 
 app.post('/add-client', (req, res) => {
     try {
