@@ -1,39 +1,97 @@
+/* IMPORTANT!!!!!!!!!! 
+- pag empty yung ClientData.json niyo, put a
+{
+    "clients": []
+}
+
+- to run the server, go to terminal and cd to Main
+- then node server.js
+*/
+
 const express = require('express');
-const app = express();
-const fs = require('fs');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors'); // import the cors package
+
+const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
 
-app.post('/saveClientData', (req, res) => {
-    const clientData = req.body;
+// enable CORS for all routes 
+app.use(cors());
 
-    // Read existing data from the JSON file
-    fs.readFile('ClientData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).json({ error: 'Failed to read data file' });
-            return;
+const dataFilePath = 'C:\\Users\\Kiko\\Desktop\\MEMEMEMME\\webbydev-taskmanager\\Main\\ClientData.json'; // change ur file path
+
+app.post('/add-client', (req, res) => {
+    try {
+        const clientData = req.body;
+
+        // read existing data (if any)
+        let existingData = { clients: [] };
+        if (fs.existsSync(dataFilePath)) {
+            existingData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
         }
 
-        const existingData = JSON.parse(data);
+        // append new client data
+        existingData.clients.push(clientData);
 
-        // Append the new client data to the existing data
-        existingData.push(clientData);
+        // write updated data back to the file
+        fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
 
-        // Write the updated data back to the file
-        fs.writeFile('ClientData.json', JSON.stringify(existingData, null, 2), (err) => {
-            if (err) {
-                console.error(err);
-                res.status(500).json({ error: 'Failed to write data to file' });
-                return;
-            }
-            res.json({ success: true });
-        });
-    });
+        res.json({ success: true, message: 'Client data added successfully' });
+    } catch (error) {
+        console.error('Error adding client data:', error);
+        res.status(500).json({ success: false, message: 'Failed to add client data' });
+    }
 });
 
+app.post('/delete-client', (req, res) => {
+    try {
+        const { index } = req.body;
+
+        // Read existing data (if any)
+        const existingData = fs.existsSync(dataFilePath)
+            ? JSON.parse(fs.readFileSync(dataFilePath, 'utf8'))
+            : { clients: [] };
+
+        // Remove the client at the specified index
+        existingData.clients.splice(index, 1);
+
+        // Write updated data back to the file
+        fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
+
+        res.json({ success: true, message: 'Client deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting client data:', error);
+        res.status(500).json({ success: false, message: 'Failed to delete client data' });
+    }
+});
+
+
+// still doing
+app.post('/edit-client', (req, res) => {
+    try {
+        const { index } = req.body;
+
+        // Read existing data (if any)
+        const existingData = fs.existsSync(dataFilePath)
+            ? JSON.parse(fs.readFileSync(dataFilePath, 'utf8'))
+            : { clients: [] };
+
+        // Remove the client at the specified index
+        existingData.clients.splice(index, 1);
+
+        // Write updated data back to the file
+        fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
+
+        res.json({ success: true, message: 'Client details modifed successfully' });
+    } catch (error) {
+        console.error('Error deleting client data:', error);
+        res.status(500).json({ success: false, message: 'Failed to delete client data' });
+    }
+});
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server listening on port ${port}`);
 });

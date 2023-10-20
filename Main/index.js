@@ -747,14 +747,33 @@ backButtons.forEach((button, index) => {
 submitButton.addEventListener("click", function () {
     if (validateForm()) {
         populateClientObject();
-        // Cceate a JSON representation of the client object
+        // create a JSON representation of the client object
         const clientJSON = JSON.stringify(client);
-        // save the JSON object in local storage
+
+        // attempt to send data to the server
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/add-client', // change to your server endpoint
+            data: clientJSON,
+            contentType: 'application/json',
+            success: function (response) {
+                // Show success message
+                alert(response.message);
+            },
+            error: function (error) {
+                // Handle error
+                alert('Error adding client data to the server: ' + error.statusText);
+            }
+        });
+
+        // save the JSON object in local storage regardless of server success/failure
         saveClientData(clientJSON);
-        // show succes message
-        alert('Client was added successfully.');
+
+        // sow success message for local storage save
+        alert('Client data saved locally.');
     }
 });
+
 
 // client object
 let client = {
@@ -789,7 +808,6 @@ function assignClientID() {
     let clientCount = existingClients.length;
     client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
 }
-
 
 function computeAge(dob) {
     const birthDate = new Date(dob);
@@ -932,11 +950,29 @@ if (clientListJSON) {
         deleteButton.addEventListener("click", function () {
             let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
             if (existingClients.length > 0) {
-                existingClients.splice(index, 1); // Remove the client from the list
-                localStorage.setItem('clients', JSON.stringify(existingClients)); // Update local storage with the KEY 'clients'
+                existingClients.splice(index, 1);
+                localStorage.setItem('clients', JSON.stringify(existingClients));
+
                 clientObjectContainer.remove(); // Remove the client card from the DOM
+
+                // Attempt to send a request to the server for deletion (even if the server is not available)
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/delete-client', // Change to your server endpoint for deleting a client
+                    data: JSON.stringify({ index }), // Send the index of the deleted client
+                    contentType: 'application/json',
+                    success: function (response) {
+                        // Show success message if the server is available
+                        alert(response.message);
+                    },
+                    error: function (error) {
+                        // If the server is not available, this will handle the error
+                        console.error('Error deleting client data on the server:', error);
+                    }
+                });
             }
         });
+
 
         editButton.innerHTML = '✏️';
         editButton.addEventListener("click", function () {
