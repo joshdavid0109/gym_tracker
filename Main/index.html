@@ -69,18 +69,18 @@
                 <div class="client-count">
                     <span class="material-icons-sharp">person_add</span>
                     <div class="middle">
-                        <div class="left">
+                        <div id="" class="left">
                             <h3>Client Count</h3>
-                            <h1>958</h1>
+                            <h1 id="client-count"></h1>
                         </div>
-                        <div class="progress">
+                        <!-- <div class="progress">
                             <svg>
                                 <circle cx='38' cy='38' r='36'></circle>
                             </svg>
                             <div class="number">
                                 <p class="active-client">81%</p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <small class="text-muted">Last 24 Hours</small>
                 </div>
@@ -89,8 +89,8 @@
                     <span class="material-icons-sharp">timer</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Recently Timed In Clients:</h3>
-                            <h1>23</h1>
+                            <h3>Recently Checked In Client:</h3>
+                            <h1 id="recent-client"></h1>
                         </div>
                         <div class="progress">
                             <svg>
@@ -133,77 +133,7 @@
 
             <div class="client-overview">
                 <h2>Clients</h2>
-                <div class="client-list">
-
-                    <div class="client">
-                        <ul class="client-details">
-                            <img src="/images/profile-1.png">
-                            <li><span>Client ID:</span> 001</li>
-                            <li><span>Name:</span> John Doe</li>
-                            <li class="expand-icon" data-expanded="false">
-                                <span class="material-icons-sharp expand">expand_more</span>
-                                <span class="material-icons-sharp collapse">expand_less</span>
-                            </li>
-                            <li class="additional-details">
-                                <span class="details-label">Additional Details:</span>
-                                <ul>
-                                    <li class="contact"><span>Contact:</span> +123456789</li>
-                                    <li class="address"><span>Address:</span> 123 Main St</li>
-                                    <li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
-                                    <li class="gender"><span>Gender:</span> Male</li>
-                                    <li class="emergency"><span>Emergency Contact:</span> +987654321</li>
-                                    <li class="program">Programs:</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                    <div class="client">
-                        <ul class="client-details">
-                            <img src="/images/profile-1.png">
-                            <li><span>Client ID:</span> 001</li>
-                            <li><span>Name:</span> John Doe</li>
-                            <li class="expand-icon" data-expanded="false">
-                                <span class="material-icons-sharp expand">expand_more</span>
-                                <span class="material-icons-sharp collapse">expand_less</span>
-                            </li>
-                            <li class="additional-details">
-                                <span class="details-label">Additional Details:</span>
-                                <ul>
-                                    <li class="contact"><span>Contact:</span> +123456789</li>
-                                    <li class="address"><span>Address:</span> 123 Main St</li>
-                                    <li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
-                                    <li class="gender"><span>Gender:</span> Male</li>
-                                    <li class="emergency"><span>Emergency Contact:</span> +987654321</li>
-                                    <li class="program">Programs:</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="client">
-                        <ul class="client-details">
-                            <img src="/images/profile-1.png">
-                            <li><span>Client ID:</span> 001</li>
-                            <li><span>Name:</span> John Doe</li>
-                            <li class="expand-icon" data-expanded="false">
-                                <span class="material-icons-sharp expand">expand_more</span>
-                                <span class="material-icons-sharp collapse">expand_less</span>
-                            </li>
-                            <li class="additional-details">
-                                <span class="details-label">Additional Details:</span>
-                                <ul>
-                                    <li class="contact"><span>Contact:</span> +123456789</li>
-                                    <li class="address"><span>Address:</span> 123 Main St</li>
-                                    <li class="dob"><span>Date of Birth:</span> 01/01/1980</li>
-                                    <li class="gender"><span>Gender:</span> Male</li>
-                                    <li class="emergency"><span>Emergency Contact:</span> +987654321</li>
-                                    <li class="program">Programs:</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                <div id="client-list" class="client-list">
                     <!-- Repeat the client object for each client -->
                 </div>
                 <a href="#">Show All</a>
@@ -269,7 +199,7 @@
 
                     <p>Fitness Level</p>
                     <div class="input-container">
-                        <select name="FitnessLevel" placeholder="Fitness Level" required>
+                        <select name="FitnessLe vel" placeholder="Fitness Level" required>
                             <option value="" disabled selected>Select level</option>
                             <option value="Beginner">Beginner</option>
                             <option value="Intermediate">Intermediate</option>
@@ -324,58 +254,57 @@
 
         <!-- SEARCH CLIENT -->
         <div id="search-client-content">
-            <div class="search-main">
-                <form class="search-container">
-                    <input type="text" id="search-bar" placeholder=" Search client">
-                </form>
-    
-                <div class="filter-container">
-                    <div class="filter-options">
-                        <label>Gender:</label>
-                        <select id="gender-filter">
-                            <option value="">All</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-    
-                        <label>Goal Type:</label>
-                        <select id="goal-type-filter">
-                            <option value="">All</option>
-                            <option value="Muscle Gain">Muscle Gain</option>
-                            <option value="Weight Loss">Weight Loss</option>
-                            <option value="Body Recomposition">Body Recomposition</option>
-                        </select>
-    
-                        <label>Fitness Level:</label>
-                        <select id="fitness-level-filter">
-                            <option value="">All</option>
-                            <option value="beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Advanced">Advanced</option>
-                        </select>
-                    </div>
+            <form class="search-container">
+                <input type="text" id="search-bar" placeholder=" Search client">
+            </form>
+
+            <div class="filter-container">
+                <div class="filter-options">
+                    <label>Gender:</label>
+                    <select id="gender-filter">
+                        <option value="">All</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <label>Goal Type:</label>
+                    <select id="goal-type-filter">
+                        <option value="">All</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Body Recomposition">Body Recomposition</option>
+                    </select>
+
+                    <label>Fitness Level:</label>
+                    <select id="fitness-level-filter">
+                        <option value="">All</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
                 </div>
-    
-                <div class="filter-container-additional">
-                    <div class="filter-options">
-                        <label for="physical-limitation-filter">Physical Limitation:</label>
-                        <input type="checkbox" id="physical-limitation-filter">
-    
-                        <label for="medications-filter">Medications:</label>
-                        <input type="checkbox" id="medications-filter" />
-    
-                        <label for="medical-history-filter">Medical History:</label>
-                        <input type="checkbox" id="medical-history-filter" />
-                    </div>
+            </div>
+
+            <div class="filter-container">
+                <div class="filter-options">
+                    <label for="physical-limitation-filter">Physical Limitation:</label>
+                    <input type="checkbox" id="physical-limitation-filter">
+
+                    <label for="medications-filter">Medications:</label>
+                    <input type="checkbox" id="medications-filter" />
+
+                    <label for="medical-history-filter">Medical History:</label>
+                    <input type="checkbox" id="medical-history-filter" />
                 </div>
-    
-                <div class="main-container">
-                    <!-- where da client objects will be placed-->
-                </div>
-    
-                <div id="no-records-found">
-                    <p>No matching records found</p>
-                </div>
+            </div>
+
+            <div class="main-container">
+                <!-- where da client objects will be placed-->
+            </div>
+
+            <div id="no-records-found">
+                <p>No matching records found. huhu</p>
+                <img src="/images/sad_ant_with_bindle.png" alt="Image Description" class="pic-none-found">
             </div>
         </div>
 
