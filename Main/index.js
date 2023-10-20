@@ -673,10 +673,8 @@ function assignClientID() {
         }
     });
 
-    // if there are no existing clients or the latest client was deleted, increment the maxID by 1
-    if (existingClients.length === 0 || existingClients.length === maxID) {
-        maxID++;
-    }
+    // increment the maxID by 1 regardless of other conditions
+    maxID++;
 
     // assign the next available ID
     client.id = `#${String(maxID).padStart(5, '0')}`;
@@ -750,15 +748,16 @@ submitButton.addEventListener("click", function () {
         // create a JSON representation of the client object
         const clientJSON = JSON.stringify(client);
 
-        // attempt to send data to the server
+        // Send data to the server
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/add-client', // change to your server endpoint
+            url: 'http://localhost:3000/add-client',
             data: clientJSON,
             contentType: 'application/json',
             success: function (response) {
-                // Show success message
+
                 alert(response.message);
+                saveClientDataToJSONFile(clientJSON);
             },
             error: function (error) {
                 // Handle error
@@ -766,13 +765,33 @@ submitButton.addEventListener("click", function () {
             }
         });
 
-        // save the JSON object in local storage regardless of server success/failure
+        // Save the JSON object in local storage regardless of server success/failure
         saveClientData(clientJSON);
 
-        // sow success message for local storage save
+        // Show success message for local storage save
         alert('Client data saved locally.');
     }
 });
+
+// Function to save client data to the external JSON file
+function saveClientDataToJSONFile(clientData) {
+    // Send a request to your server to update the JSON file
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/update-client-json', // Define the correct server endpoint
+        data: clientData,
+        contentType: 'application/json',
+        success: function (response) {
+            // Handle the response from the server (e.g., show a success message)
+            alert(response.message);
+        },
+        // it goes here pero gumagana naman? wtf
+        error: function (error) {
+            // Handle error (e.g., show an error message)
+            //alert('Error updating external JSON file: ' + error.statusText);
+        }
+    });
+}
 
 
 // client object
@@ -791,8 +810,8 @@ let client = {
     coach: 'Kiko', // default?
     goals: {
         level: '',
-        goalType: '',
-        goalDetails: ''
+        goal: '',
+        goaldetails: ''
     },
     healthInfo: {
         medicalHistory: '',
@@ -802,12 +821,6 @@ let client = {
     programs: null
 };
 
-// function to assign id to a client (ill change dis)
-function assignClientID() {
-    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-    let clientCount = existingClients.length;
-    client.id = `#${String(clientCount + 1).padStart(5, '0')}`; // makes the id #00001 idk how it works 
-}
 
 function computeAge(dob) {
     const birthDate = new Date(dob);
@@ -840,8 +853,8 @@ function populateClientObject() {
     // fitness information
     const fitnessInfoFieldset = fieldsets[1];
     client.goals.level = fitnessInfoFieldset.querySelector('select[name="FitnessLevel"]').value;
-    client.goals.goalType = fitnessInfoFieldset.querySelector('select[name="GoalType"]').value;
-    client.goals.goalDetails = fitnessInfoFieldset.querySelector('input[name="Goal Details"]').value;
+    client.goals.goal = fitnessInfoFieldset.querySelector('select[name="GoalType"]').value;
+    client.goals.goaldetails = fitnessInfoFieldset.querySelector('input[name="Goal Details"]').value;
 
     // health Information
     const healthInfoFieldset = fieldsets[2];
@@ -893,14 +906,12 @@ if (clientListJSON) {
             <p>Program: ${clientData.programs}</p>
         `;
 
-        const deleteButton = document.createElement("button");
-        deleteButton.classList.add("delete-button");
-        deleteButton.innerHTML = '❌';
+
 
         const editButton = document.createElement("button");
         editButton.classList.add("edit-button");
 
-        clientObjectContainer.appendChild(deleteButton);
+
         clientObjectContainer.appendChild(editButton);
 
 
@@ -934,9 +945,9 @@ if (clientListJSON) {
         fitnessInfo.classList.add("data");
         fitnessInfo.innerHTML = `
             <h4>Fitness Goals</h4>
-            <p>Fitness Level: ${clientData.fitnessInfo.fitnessLevel}</p>
-            <p>Goal Type: ${clientData.fitnessInfo.goalType}</p>
-            <p>Goal Details: ${clientData.fitnessInfo.goalDetails}</p>
+            <p>Fitness Level: ${clientData.goals.level}</p>
+            <p>Goal Type: ${clientData.goals.goal}</p>
+            <p>Goal Details: ${clientData.goals.goalDetails}</p>
         `;
 
         // create and populate health information
@@ -944,37 +955,17 @@ if (clientListJSON) {
         healthInfo.classList.add("data");
         healthInfo.innerHTML = `
             <h4>Health Information</h4>
-            <p>Medical History: ${clientData.healthInfo.medicalHistory}</p>
-            <p>Medications: ${clientData.healthInfo.medications}</p>
-            <p>Physical Limitations: ${clientData.healthInfo.physicalLimitations}</p>
+            <p>Medical History: ${clientData.healthInfo?.medicalHistory || "None"}</p>
+            <p>Medications: ${clientData.healthInfo?.medications || "None"}</p>
+            <p>Physical Limitations: ${clientData.healthInfo?.physicalLimitations || "None"}</p>
         `;
 
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "❌";
         deleteButton.addEventListener("click", function () {
-            let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-            if (existingClients.length > 0) {
-                existingClients.splice(index, 1);
-                localStorage.setItem('clients', JSON.stringify(existingClients));
-
-                clientObjectContainer.remove(); // Remove the client card from the DOM
-
-                // Attempt to send a request to the server for deletion (even if the server is not available)
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:3000/delete-client', // Change to your server endpoint for deleting a client
-                    data: JSON.stringify({ index }), // Send the index of the deleted client
-                    contentType: 'application/json',
-                    success: function (response) {
-                        // Show success message if the server is available
-                        alert(response.message);
-                    },
-                    error: function (error) {
-                        // If the server is not available, this will handle the error
-                        console.error('Error deleting client data on the server:', error);
-                    }
-                });
-            }
+            deleteClient(index); // Pass the index to the deleteClient function
         });
-
+        clientObjectContainer.appendChild(deleteButton);
 
         editButton.innerHTML = '✏️';
         editButton.addEventListener("click", function () {
@@ -997,6 +988,40 @@ if (clientListJSON) {
     console.log("No client data found in local storage.");
 }
 
+function deleteClient(index) {
+    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    if (existingClients.length > 0) {
+        existingClients.splice(index, 1);
+        localStorage.setItem('clients', JSON.stringify(existingClients));
+
+        // Remove the client card from the DOM
+        const clientObjectContainer = document.querySelector(".main-container .client-object:nth-child(" + (index + 1) + ")");
+        if (clientObjectContainer) {
+            clientObjectContainer.remove();
+        }
+
+        // Attempt to send a request to the server for deletion (even if the server is not available)
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/delete-client', // Change to your server endpoint for deleting a client
+            data: JSON.stringify({ index }), // Send the index of the deleted client
+            contentType: 'application/json',
+            success: function (response) {
+                // Show success message if the server is available
+                alert(response.message);
+            },
+            error: function (error) {
+                // If the server is not available, this will handle the error
+                console.error('Error deleting client data on the server:', error);
+            }
+        });
+    }
+}
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const clientContainer = document.querySelector(".main-container");
     const searchBar = document.getElementById("search-bar");
@@ -1009,12 +1034,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const medicationsFilter = document.getElementById("medications-filter");
     const medicalHistoryFilter = document.getElementById("medical-history-filter");
 
-
-    // function to display the clients based on the search
     function filterAndDisplayClients() {
         const searchText = searchBar.value.toLowerCase();
 
-        // get filter values
         const selectedGender = genderFilter.value;
         const selectedGoalType = goalTypeFilter.value;
         const selectedFitnessLevel = fitnessLevelFilter.value;
@@ -1026,19 +1048,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         clientContainer.querySelectorAll(".client-object").forEach((clientObject) => {
             const clientName = clientObject.querySelector(".client-info h1").textContent.toLowerCase();
-
             let clientGender = '';
             let clientGoalType = '';
             let clientFitnessLevel = '';
 
-            // nth child(n) gets the 3 existing divs within the parent div client data
             const personalInfoDiv = clientObject.querySelector(".client-data .data:nth-child(1)");
             if (personalInfoDiv) {
                 personalInfoDiv.querySelectorAll('p').forEach(p => {
                     if (p.textContent.includes('Gender:')) {
                         clientGender = getTextAfterColon(p.textContent).trim();
                     }
-
                 });
             }
 
@@ -1051,7 +1070,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (p.textContent.includes('Fitness Level:')) {
                         clientFitnessLevel = getTextAfterColon(p.textContent).trim();
                     }
-
                 });
             }
 
@@ -1075,18 +1093,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
-            // functions says it all hheuehue
             function getTextAfterColon(text) {
                 const parts = text.split(":");
                 return parts.length > 1 ? parts[1].trim() : "";
             }
 
-            // cccccccccccccccccheck fitness and personal information based on dropdowns
             const matchesGender = !selectedGender || clientGender.toLowerCase() === selectedGender.toLowerCase();
             const matchesGoalType = !selectedGoalType || clientGoalType.toLowerCase() === selectedGoalType.toLowerCase();
             const matchesFitnessLevel = !selectedFitnessLevel || clientFitnessLevel.toLowerCase() === selectedFitnessLevel.toLowerCase();
 
-            // final check
             if (
                 clientName.startsWith(searchText) &&
                 matchesGender &&
@@ -1110,8 +1125,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-
-    // add an input event listener to the search bar to update results while type type
     searchBar.addEventListener("input", filterAndDisplayClients);
     genderFilter.addEventListener("change", filterAndDisplayClients);
     goalTypeFilter.addEventListener("change", filterAndDisplayClients);
@@ -1119,15 +1132,77 @@ document.addEventListener("DOMContentLoaded", function () {
     physicalLimitationFilter.addEventListener("change", filterAndDisplayClients);
     medicationsFilter.addEventListener("change", filterAndDisplayClients);
     medicalHistoryFilter.addEventListener("change", filterAndDisplayClients);
-    // display all clients initially
+
     filterAndDisplayClients();
 });
+
+fetch('ClientData.json')
+    .then(response => response.json())
+    .then(data => {
+        let clientDataClients = data.clients ? data.clients : data;
+        if (!Array.isArray(clientDataClients)) {
+            throw new Error("expected clientDataClients to be an array but it isn't.");
+        }
+        displayClients(clientDataClients);
+
+
+    })
+    .catch(error => {
+        console.error("Error fetching client data from JSON file:", error);
+    });
+
+function displayClients(clientsList) {
+    const clientContainer = document.querySelector(".main-container");
+
+    if (clientsList) {
+        clientsList.forEach((clientData, index) => {
+            const clientObjectContainer = document.createElement("div");
+            clientObjectContainer.classList.add("client-object");
+            const clientInfo = document.createElement("div");
+            clientInfo.classList.add("client-info");
+            clientInfo.innerHTML = `
+                <h1>${clientData.name}</h1>
+                <h2>${clientData._id}</h2>
+                <p>Program: ${clientData.programs}</p>
+                <p>test</p>
+            `;
+
+            clientObjectContainer.appendChild(clientInfo);
+
+            // add client data sections
+            clientObjectContainer.innerHTML += `
+                <div class="client-data">
+                    <div class="data">
+                        <h2>Personal Info</h2>
+                        <p>Gender: ${clientData.gender || "Unknown"}</p>
+                        <p>Date of Birth: ${clientData.birthDate || "Unknown"}</p>
+                        <p>Age: ${clientData.age || "Unknown"}</p>
+                    </div>
+                    <div class="data">
+                        <h2>Goals</h2>
+                        <p>Fitness Level: ${clientData.goals.level}</p>
+                        <p>Goal Type: ${clientData.goals.goal}</p>
+                        <p>Goal Details: ${clientData.goals.goaldetails || "Unknown"}</p>
+                    </div>
+                    <div class="data">
+                        <h2>Health</h2>
+                        <p>Medical History: ${clientData.healthInfo.medicalHistory || "None"}</p>
+                        <p>Medications: ${clientData.healthInfo.medications || "None"}</p>
+                        <p>Physical Limitations: ${clientData.healthInfo.physicalLimitations || "None"}</p>
+                    </div>
+                </div>
+            `;
+
+            clientContainer.appendChild(clientObjectContainer);
+        });
+    }
+}
 
 function findLatestCheckIn(data) {
     const date = new Date();
 
     let latestCheckIn = null;
-    let day = date.getDate();''
+    let day = date.getDate(); ''
 
     data.forEach(element => {
         const checkIns = element.checkIns.October;
@@ -1154,49 +1229,49 @@ function findLatestCheckIn(data) {
 
 
 fetch('ClientCheckIns.json')
-.then (res => {
-    return res.json();
-})
-.then(json => {
-    const asd = findLatestCheckIn(json);
-    console.log(asd.id);
-
-    fetch('ClientData.json')
     .then(res => {
         return res.json();
     })
-    .then(json2 => {
-        json2.forEach(el => {
-            // console.log(el)
+    .then(json => {
+        const asd = findLatestCheckIn(json);
+        console.log(asd.id);
+
+        fetch('ClientData.json')
+            .then(res => {
+                return res.json();
+            })
+            .then(json2 => {
+                json2.forEach(el => {
+                    // console.log(el)
             if (el._id == asd.id) {
-                console.log(el.name);
-                const recentClient = document.getElementById("recent-client");
-                recentClient.innerHTML = `${el.name}`
-            }
-        }) 
+                        console.log(el.name);
+                        const recentClient = document.getElementById("recent-client");
+                        recentClient.innerHTML = `${el.name}`
+                    }
+                }) 
         // console.log(clientCounter);
     })
 
 
 
 
-})
+    })
 
 
 fetch('ClientData.json')
-.then (res => {
-    return res.json();
-})
-.then(json => {
-    var clientCounter = 0;
-    json.forEach(el => {
-        switch (el.coach) {
-            case 'Kiko': {
-                clientCounter++;
-            }
-        }
+    .then(res => {
+        return res.json();
     })
-});
+    .then(json => {
+        var clientCounter = 0;
+        json.forEach(el => {
+            switch (el.coach) {
+                case 'Kiko': {
+                    clientCounter++;
+                }
+            }
+        })
+    });
 
 fetch('ClientData.json')
     .then(res => {
@@ -1297,9 +1372,9 @@ fetch('ClientData.json')
                 client.click();
             });
         
-                collapseIcon.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    client.click();
-                });
-        });
+            collapseIcon.addEventListener("click", function (event) {
+                event.stopPropagation();
+                client.click();
+            });    });
+
     })
