@@ -1056,7 +1056,6 @@ button#saveWorkoutBtn {
 .saved-programs {
     display: flex;
     flex-direction: column;
-    display: grid;
     align-items: center;
     justify-content: flex-start;
 }

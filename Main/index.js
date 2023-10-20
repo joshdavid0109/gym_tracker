@@ -524,6 +524,10 @@ function createProgramDiv(savedProgram) {
 
         const assignButton = document.createElement('button');
         assignButton.innerText = 'Assign';
+        assignButton.addEventListener('click', function () {
+            const programId = programDiv.getAttribute('data-program-id');
+            assignProgramToClient(programId, savedWorkoutDiv);
+        });
 
         const accordion = document.createElement('div');
         accordion.classList.add('accordion');
@@ -542,6 +546,63 @@ function createProgramDiv(savedProgram) {
     });
 
     return programDiv;
+}
+
+function assignProgramToClient(programId, workoutDiv) {
+    const clientListJSON = localStorage.getItem("clients");
+    if (clientListJSON) {
+        const clientList = JSON.parse(clientListJSON);
+
+        const accordion = workoutDiv.querySelector('.accordion');
+        const clientListContainer = accordion.querySelector('.client-list');
+        clientListContainer.innerHTML = ""; 
+
+        clientList.forEach((clientJSON) => {
+            const clientData = JSON.parse(clientJSON);
+
+            // checks if the client already has this program assigned
+            if (clientData.programs && clientData.programs.includes(programId)) {
+                return; // skips this client if program is already assigned
+            }
+
+            // creates a list item for the client
+            const listItem = document.createElement('li');
+            listItem.textContent = `${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}`;
+            listItem.addEventListener('click', function () {
+                // updates the client's program assignment
+                if (!clientData.programs) {
+                    clientData.programs = [];
+                }
+                clientData.programs.push(programId);
+
+                // updates the client's data in local storage
+                updateClientInLocalStorage(clientData.id, clientData);
+
+                // updates the accordion to reflect the assignment
+                accordion.style.display = 'none'; 
+                listItem.style.display = 'none'; // hides the clicked client in the list
+                alert(`${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName} has been assigned the ${programId}`)
+            });
+
+            clientListContainer.appendChild(listItem);
+        });
+
+        accordion.style.display = 'block'; // Show the accordion with the list of available clients
+    }
+}
+
+// Function to update a client's data in local storage
+function updateClientInLocalStorage(clientId, clientData) {
+    const existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    const updatedClients = existingClients.map((clientJSON) => {
+        const client = JSON.parse(clientJSON);
+        if (client.id === clientId) {
+            return JSON.stringify(clientData);
+        } else {
+            return clientJSON;
+        }
+    });
+    localStorage.setItem('clients', JSON.stringify(updatedClients));
 }
 
 // Update program id counter
