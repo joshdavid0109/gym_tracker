@@ -1,0 +1,34 @@
+[
+    {
+        "id": "00001",
+        "workouts": {
+            "day": "MWF",
+            "activity": "Resistance Training",
+            "sets": "3-4",
+            "reps": "8-12",
+            "workoutName": "Push-Pull-Legs"
+        }
+    },
+    {
+        "id": "00002",
+        "workouts": {
+            "day": "MtWThF",
+            "activity": "Resistance Hypertrophy Training",
+            "sets": "3-4",
+            "reps": "12-15",
+            "workoutName": "5-Day Split"
+        }
+    },
+    {
+        "id": "00003",
+        "workouts": {
+            "day": "MF",
+            "activity": "Powerlifting Training",
+            "sets": "3-4",
+            "reps": "6-10",
+            "workoutName": "2-Day Split"
+        }
+    }
+
+
+]

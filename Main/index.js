@@ -39,34 +39,6 @@
 
 */
 
-// Function to read JSON data from an external file and save it to local storage
-function saveJsonToLocalStorage() {
-    // get clients from local storage
-    const existingData = localStorage.getItem('clients');
-
-    // Check if data already exists in local storage
-    if (existingData === null) {
-        // If no data exists, fetch and save the JSON data
-        fetch('ClientData.json')
-            .then(response => response.json())
-            .then(data => {
-                // Store the JSON data in local storage
-                localStorage.setItem('clients', JSON.stringify(data));
-                console.log('JSON data saved to local storage');
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Error fetching JSON data:', error);
-            });
-    } else {
-        // If data already exists, do nothing and proceed with da website
-        console.log('Data already exists in local storage');
-    }
-}
-
-// Call the function to save JSON data to local storage
-saveJsonToLocalStorage();
-
 
 const themeToggler = document.querySelector(".theme-toggler");
 const aboutLink = document.getElementById("about-link");
@@ -459,7 +431,11 @@ function removeProgramFromLocalStorage(programId) {
     updateProgramIdCounter();
 }
 
+
+
 function createProgramDiv(savedProgram) {
+
+    console.log(savedProgram)
     const programDiv = document.createElement('div');
     programDiv.classList.add('program');
     programDiv.setAttribute('data-program-id', savedProgram.id);
@@ -1091,6 +1067,7 @@ document.addEventListener("DOMContentLoaded", function () {
     filterAndDisplayClients();
 });
 
+
 function statusCheck(data) {
     const date = new Date();
 
@@ -1193,23 +1170,25 @@ fetch('ClientCheckIns.json')
         return res.json();
     })
     .then(json => {
-        statusCheck(json);
-        const asd = findLatestCheckIn(json);
-
-        fetch('ClientData.json')
+        statusCheck(json)
+        json.forEach(element => {
+            fetch('ClientData.json')
             .then(res => {
                 return res.json();
             })
             .then(json2 => {
                 json2.forEach(el => {
-                    // console.log(el)
-                    if (el._id == asd.id) {
+
+                    if (el._id == element.id) {
+                        
                         const recentClient = document.getElementById("recent-client");
                         recentClient.innerHTML = `${el.name}`
                     }
                 })
                 // console.log(clientCounter);
             })
+
+        })
     })
 
 
