@@ -431,6 +431,64 @@ function removeProgramFromLocalStorage(programId) {
     updateProgramIdCounter();
 }
 
+// 
+
+
+// Function to fetch the data from the JSON file
+function fetchDataAndStore() {
+    fetch('Programs.json') // Replace with the actual path to your JSON file
+        .then(response => response.json())
+        .then(data => {
+            // Store the data in local storage
+            localStorage.setItem('workoutData', JSON.stringify(data));
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+// Call the function to fetch and store the data
+fetchDataAndStore();
+
+// Retrieve the JSON string from local storage
+var storedData = localStorage.getItem('workoutData');
+
+// Parse the JSON string back into an array
+var workouts = JSON.parse(storedData);
+
+// Check if there is data in local storage
+if (workouts) {
+    // Loop through the array and display the data on the webpage
+    for (var i = 0; i < workouts.length; i++) {
+        var workout = workouts[i];
+        var workoutsData = workout.workouts;
+
+        console.log(workout)
+        
+        // Create HTML elements to display the workout data
+        var workoutElement = document.createElement('div');
+        workoutElement.textContent = `
+            Workout ID: ${workout.id}
+            Workout Name: ${workoutsData.workoutName}
+            Day: ${workoutsData.day}
+            Activity: ${workoutsData.activity}
+            Sets: ${workoutsData.sets}
+            Reps: ${workoutsData.reps}
+        `;
+
+        console.log(workoutElement);
+        
+        // Append the element to the webpage
+
+        // appendtothis
+
+        const savedWorkoutsContainer = document.querySelector('.saved-programs');
+        savedWorkoutsContainer.appendChild(workoutElement);
+    }
+} else {
+    // Handle the case where there is no data in local storage
+    console.log('No workout data found in local storage.');
+}
 
 
 function createProgramDiv(savedProgram) {
