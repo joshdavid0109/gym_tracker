@@ -2,7 +2,6 @@
   {
     "_id": "00001",
     "index": 0,
-    "guid": "0f600573-39e2-4c8b-be1c-ac3e335c8213",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 26,
@@ -28,7 +27,6 @@
   {
     "_id": "00002",
     "index": 1,
-    "guid": "5da1e8d5-2778-48f4-990d-9c7909195071",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 36,
@@ -54,7 +52,6 @@
   {
     "_id": "00003",
     "index": 2,
-    "guid": "53ae10d5-0e6f-45fd-962c-9088a285cda2",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
     "age": 33,
@@ -80,7 +77,6 @@
   {
     "_id": "00004",
     "index": 3,
-    "guid": "1d474a10-0b82-4773-aca5-73a1c5965519",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
     "age": 37,
@@ -106,7 +102,6 @@
   {
     "_id": "00005",
     "index": 4,
-    "guid": "494aeef9-b111-44a9-bed8-fd1b30d502f0",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
     "age": 22,
@@ -132,7 +127,6 @@
   {
     "_id": "00006",
     "index": 5,
-    "guid": "556b152e-834b-4cf4-bb19-67a909f3b664",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 31,
@@ -158,7 +152,6 @@
   {
     "_id": "00007",
     "index": 6,
-    "guid": "4ea033ec-1323-415d-8960-716087c8c290",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
     "age": 40,
@@ -184,7 +177,6 @@
   {
     "_id": "00008",
     "index": 7,
-    "guid": "46ecd851-d1a3-4c6c-b3dd-077165f22e8a",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
     "age": 33,
@@ -210,7 +202,6 @@
   {
     "_id": "00009",
     "index": 8,
-    "guid": "eb9c486c-6e69-4b83-8109-2f7af0377563",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 24,
@@ -234,9 +225,8 @@
     "programs": null
   },
   {
-    "_id": "000010",
+    "_id": "00010",
     "index": 9,
-    "guid": "96cc072f-bdc6-4026-b0bf-b16600029409",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 36,
@@ -260,9 +250,8 @@
     "programs": null
   },
   {
-    "_id": "000011",
+    "_id": "00011",
     "index": 10,
-    "guid": "f960e3b6-105b-404e-b16e-4d7b9d57d816",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 28,
@@ -286,9 +275,8 @@
     "programs": null
   },
   {
-    "_id": "000012",
+    "_id": "00012",
     "index": 11,
-    "guid": "3203f754-6e6d-407a-a4af-f7c68c482646",
     "isActive": true,
     "picture": "http://placehold.it/32x32",
     "age": 24,
@@ -312,9 +300,8 @@
     "programs": null
   },
   {
-    "_id": "000013",
+    "_id": "00013",
     "index": 12,
-    "guid": "f547d781-a2b3-4bcb-abe6-a72f9dcfe70c",
     "isActive": false,
     "picture": "http://placehold.it/32x32",
     "age": 25,
@@ -334,56 +321,6 @@
       "medicalHistory": "",
       "medications": "",
       "physicalLimitations": ""
-    },
-    "programs": null
-  },
-  {
-    "id": "00001",
-    "index": 0,
-    "isActive": true,
-    "picture": "http://placehold.it/32x32",
-    "name": "test object Abella",
-    "gender": "female",
-    "age": -1,
-    "email": "corextwelve@gmail.com",
-    "phone": "",
-    "address": "Bakakeng, Baguio City",
-    "birthDate": "2023-11-09",
-    "coach": "fromUser",
-    "goals": {
-      "level": "Beginner",
-      "goal": "Muscle Gain",
-      "goaldetails": "w"
-    },
-    "healthInfo": {
-      "medicalHistory": "e",
-      "medications": "1",
-      "physicalLimitations": "2"
-    },
-    "programs": null
-  },
-  {
-    "id": "00002",
-    "index": 0,
-    "isActive": true,
-    "picture": "http://placehold.it/32x32",
-    "name": "test object Abella2",
-    "gender": "female",
-    "age": -1,
-    "email": "corextwelve@gmail.com",
-    "phone": "",
-    "address": "Bakakeng, Baguio City",
-    "birthDate": "2023-11-09",
-    "coach": "Kiko",
-    "goals": {
-      "level": "Beginner",
-      "goal": "Muscle Gain",
-      "goaldetails": "w"
-    },
-    "healthInfo": {
-      "medicalHistory": "e",
-      "medications": "1",
-      "physicalLimitations": "2"
     },
     "programs": null
   }

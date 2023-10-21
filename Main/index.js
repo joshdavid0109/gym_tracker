@@ -41,17 +41,27 @@
 
 // Function to read JSON data from an external file and save it to local storage
 function saveJsonToLocalStorage() {
-    // Replace 'your_external_json_file.json' with the actual path to your JSON file
-    fetch('ClientData.json')
-        .then(response => response.json())
-        .then(data => {
-            // Store the JSON data in local storage
-            localStorage.setItem('clients', JSON.stringify(data));
-            console.log('JSON data saved to local storage');
-        })
-        .catch(error => {
-            console.error('Error fetching JSON data:', error);
-        });
+    // get clients from local storage
+    const existingData = localStorage.getItem('clients');
+
+    // Check if data already exists in local storage
+    if (existingData === null) {
+        // If no data exists, fetch and save the JSON data
+        fetch('ClientData.json')
+            .then(response => response.json())
+            .then(data => {
+                // Store the JSON data in local storage
+                localStorage.setItem('clients', JSON.stringify(data));
+                console.log('JSON data saved to local storage');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error fetching JSON data:', error);
+            });
+    } else {
+        // If data already exists, do nothing and proceed with da website
+        console.log('Data already exists in local storage');
+    }
 }
 
 // Call the function to save JSON data to local storage
@@ -677,25 +687,27 @@ let currentFieldsetIndex = 0;
 const clientListJSON = localStorage.getItem("clients");
 
 // func to assign an ID
+// Function to assign a new client ID
 function assignClientID() {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
     let maxID = 0;
 
-    // find the maximum ID from existing clients
-    existingClients.forEach((clientJSON) => {
-        const clientData = JSON.parse(clientJSON);
-        const clientID = parseInt(clientData.id.substring(1)); // Remove the '#' and convert to integer
-        if (clientID > maxID) {
+    // Find the maximum ID from existing clients
+    existingClients.forEach((clientData) => {
+        const clientID = parseInt(clientData._id);
+        if (!isNaN(clientID) && clientID > maxID) {
             maxID = clientID;
         }
     });
 
-    // increment the maxID by 1 regardless of other conditions
+    // Increment the maxID by 1
     maxID++;
 
-    // assign the next available ID
-    client.id = `#${String(maxID).padStart(5, '0')}`;
+    // Assign the next available ID
+    return `${String(maxID).padStart(5, '0')}`;
 }
+
+
 
 //initially, only show the first fieldset
 showFieldset(currentFieldsetIndex);
@@ -762,58 +774,20 @@ backButtons.forEach((button, index) => {
 submitButton.addEventListener("click", function () {
     if (validateForm()) {
         populateClientObject();
-        // create a JSON representation of the client object
-        const clientJSON = JSON.stringify(client);
-
-        // Send data to the server
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/add-client',
-            data: clientJSON,
-            contentType: 'application/json',
-            success: function (response) {
-
-                alert(response.message);
-                saveClientDataToJSONFile(clientJSON);
-            },
-            error: function (error) {
-                // Handle error
-                alert('Error adding client data to the server: ' + error.statusText);
-            }
-        });
-
         // Save the JSON object in local storage regardless of server success/failure
-        saveClientData(clientJSON);
-
+        saveClientData(client);
         // Show success message for local storage save
         alert('Client data saved locally.');
+
+        // the holy auto refresh
+        location.reload();
     }
 });
-
-// Function to save client data to the external JSON file
-function saveClientDataToJSONFile(clientData) {
-    // Send a request to your server to update the JSON file
-    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:3000/update-client-json', // Define the correct server endpoint
-        data: clientData,
-        contentType: 'application/json',
-        success: function (response) {
-            // Handle the response from the server (e.g., show a success message)
-            alert(response.message);
-        },
-        // it goes here pero gumagana naman? wtf
-        error: function (error) {
-            // Handle error (e.g., show an error message)
-            //alert('Error updating external JSON file: ' + error.statusText);
-        }
-    });
-}
 
 
 // client object
 let client = {
-    id: '',
+    _id: '',
     index: 0,
     isActive: true,
     picture: "http://placehold.it/32x32",
@@ -854,10 +828,10 @@ function computeAge(dob) {
 function populateClientObject() {
     // personal Information
     const personalInfoFieldset = fieldsets[0];
-    assignClientID();
+    client._id = assignClientID();
     const firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
     const lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
-    // Set the name property by concatenating firstName and lastName
+    // con cat the first and last name
     client.name = `${firstName} ${lastName}`;
 
     client.gender = personalInfoFieldset.querySelector('select[name="Gender"]').value;
@@ -880,17 +854,16 @@ function populateClientObject() {
     client.healthInfo.physicalLimitations = healthInfoFieldset.querySelector('input[name="Physical Limitations"]').value;
 }
 // function to save client data to local storage
-function saveClientData(clientJSON) {
-    // check if local storage is available
+function saveClientData(clientData) {
+    // Check if local storage is available
     if (typeof Storage !== "undefined") {
-        // get existing client data from local storage (if any)
+        // Get existing client data from local storage (if any)
         let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-        // add the new client data to the existing data
-        existingClients.push(clientJSON);
-        // save the updated client data to local storage
+        // Add the new client data to the existing data
+        existingClients.push(clientData);
+        // Save the updated client data to local storage
         localStorage.setItem("clients", JSON.stringify(existingClients)); // KEY IS clients
         console.log("Client data saved to local storage.");
-
     } else {
         alert("Local storage is not available. Client data cannot be saved.");
         console.log("Local storage is not available. Client data cannot be saved.");
@@ -915,7 +888,7 @@ if (clientListJSON) {
         clientInfo.classList.add("client-info");
         clientInfo.innerHTML = `
             <h1>${clientData.name}</h1>
-            <h2>${clientData.id}</h2>
+            <h2>${clientData._id}</h2>
             <p>Program: ${clientData.programs || "No program assigned to client"}</p>
         `;
 
@@ -939,11 +912,11 @@ if (clientListJSON) {
         const fitnessInfo = document.createElement("div");
         fitnessInfo.classList.add("data");
         fitnessInfo.innerHTML = `
-            <h4>Fitness Goals</h4>
-            <p>Fitness Level: ${clientData.goals.level}</p>
-            <p>Goal Type: ${clientData.goals.goal}</p>
-            <p>Goal Details: ${clientData.goals.goalDetails}</p>
-        `;
+        <h4>Fitness Goals</h4>
+        <p>Fitness Level: ${clientData.goals ? clientData.goals.level : "Not specified"}</p>
+        <p>Goal Type: ${clientData.goals ? clientData.goals.goal : "Not specified"}</p>
+        <p>Goal Details: ${clientData.goals ? clientData.goals.goalDetails : "Not specified"}</p>
+    `;
 
         // create and populate health information
         const healthInfo = document.createElement("div");
@@ -980,8 +953,18 @@ if (clientListJSON) {
 
 function deleteClient(index) {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-    if (existingClients.length > 0) {
+
+    if (index >= 0 && index < existingClients.length) {
+        // Get the deleted client's details before removing them from the array
+        const deletedClient = existingClients[index];
+
+        // Log the details of the deleted client
+        console.log("Deleted client with ID: " + deletedClient._id + ", Name: " + deletedClient.name);
+
+        // Remove the client from the array
         existingClients.splice(index, 1);
+
+        // Update the local storage with the modified data
         localStorage.setItem('clients', JSON.stringify(existingClients));
 
         // Remove the client card from the DOM
@@ -989,28 +972,10 @@ function deleteClient(index) {
         if (clientObjectContainer) {
             clientObjectContainer.remove();
         }
-
-        // Attempt to send a request to the server for deletion (even if the server is not available)
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/delete-client', // Change to your server endpoint for deleting a client
-            data: JSON.stringify({ index }), // Send the index of the deleted client
-            contentType: 'application/json',
-            success: function (response) {
-                // Show success message if the server is available
-                alert(response.message);
-            },
-            error: function (error) {
-                // If the server is not available, this will handle the error
-                console.error('Error deleting client data on the server:', error);
-            }
-        });
+    } else {
+        console.error("Invalid index or client not found.");
     }
 }
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const clientContainer = document.querySelector(".main-container");
@@ -1126,74 +1091,11 @@ document.addEventListener("DOMContentLoaded", function () {
     filterAndDisplayClients();
 });
 
-fetch('ClientData.json')
-    .then(response => response.json())
-    .then(data => {
-        let clientDataClients = data.clients ? data.clients : data;
-        if (!Array.isArray(clientDataClients)) {
-            throw new Error("expected clientDataClients to be an array but it isn't.");
-        }
-        displayClients(clientDataClients);
-
-
-    })
-    .catch(error => {
-        console.error("Error fetching client data from JSON file:", error);
-    });
-
-function displayClients(clientsList) {
-    const clientContainer = document.querySelector(".main-container");
-
-    if (clientsList) {
-        clientsList.forEach((clientData, index) => {
-            const clientObjectContainer = document.createElement("div");
-            clientObjectContainer.classList.add("client-object");
-            const clientInfo = document.createElement("div");
-            clientInfo.classList.add("client-info");
-            clientInfo.innerHTML = `
-                <h1>${clientData.name}</h1>
-                <h2>${clientData._id}</h2>
-                <p>Program: ${clientData.programs}</p>
-                <p>test</p>
-            `;
-
-            clientObjectContainer.appendChild(clientInfo);
-
-            // add client data sections
-            clientObjectContainer.innerHTML += `
-                <div class="client-data">
-                    <div class="data">
-                        <h2>Personal Info</h2>
-                        <p>Gender: ${clientData.gender || "Unknown"}</p>
-                        <p>Date of Birth: ${clientData.birthDate || "Unknown"}</p>
-                        <p>Age: ${clientData.age || "Unknown"}</p>
-                    </div>
-                    <div class="data">
-                        <h2>Goals</h2>
-                        <p>Fitness Level: ${clientData.goals.level}</p>
-                        <p>Goal Type: ${clientData.goals.goal}</p>
-                        <p>Goal Details: ${clientData.goals.goaldetails || "Unknown"}</p>
-                    </div>
-                    <div class="data">
-                        <h2>Health</h2>
-                        <p>Medical History: ${clientData.healthInfo.medicalHistory || "None"}</p>
-                        <p>Medications: ${clientData.healthInfo.medications || "None"}</p>
-                        <p>Physical Limitations: ${clientData.healthInfo.physicalLimitations || "None"}</p>
-                    </div>
-                </div>
-            `;
-
-            clientContainer.appendChild(clientObjectContainer);
-        });
-    }
-}
-
-
 function statusCheck(data) {
     const date = new Date();
 
     let latestCheckIn = null;
-    let day = date.getDate(); 
+    let day = date.getDate();
 
     const idsWithNoCheckIns = [];
     const idsWithCheckIns = [];
@@ -1201,41 +1103,18 @@ function statusCheck(data) {
     data.forEach((client) => {
         const clientId = client.id;
         const checkIns = client.checkIns?.October || {};
-  
+
         // Check if the target date is missing in the client's check-ins for October
         if (!checkIns[day]) {
-          idsWithNoCheckIns.push(clientId);
+            idsWithNoCheckIns.push(clientId);
         } else {
             idsWithCheckIns.push(clientId);
         }
-      });
+    });
 
-      console.log(`IDs with no check-ins for ${day}:`, idsWithNoCheckIns);
+    console.log(`IDs with no check-ins for ${day}:`, idsWithNoCheckIns);
 
-      idsWithCheckIns.forEach(e => {
-
-        fetch('ClientData.json')
-            .then(res => {
-                return res.json();
-            })
-            .then(json2 => {
-                json2.forEach(el => {
-                    // console.log(el)
-            if (el._id == e) {
-                const clientStatusParent = document.getElementById("client-status");
-                const csMarkup = `  <li>${el.name} <button class="invoice-btn">Check</button></li>
-                `;
-                clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
-            }
-                }) 
-        // console.log(clientCounter);
-        })
-
-      })
-
-
-      
-      idsWithNoCheckIns.forEach(e => {
+    idsWithCheckIns.forEach(e => {
 
         fetch('ClientData.json')
             .then(res => {
@@ -1244,17 +1123,40 @@ function statusCheck(data) {
             .then(json2 => {
                 json2.forEach(el => {
                     // console.log(el)
-            if (el._id == e) {
-                const clientStatusParent = document.getElementById("client-status");
-                const csMarkup = `  <li>${el.name   } <button class="invoice-btn-red">Not Yet</button></li>
+                    if (el._id == e) {
+                        const clientStatusParent = document.getElementById("client-status");
+                        const csMarkup = `  <li>${el.name} <button class="invoice-btn">Check</button></li>
                 `;
-                clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
-            }
-                }) 
-        // console.log(clientCounter);
-        })
+                        clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
+                    }
+                })
+                // console.log(clientCounter);
+            })
 
-      })
+    })
+
+
+
+    idsWithNoCheckIns.forEach(e => {
+
+        fetch('ClientData.json')
+            .then(res => {
+                return res.json();
+            })
+            .then(json2 => {
+                json2.forEach(el => {
+                    // console.log(el)
+                    if (el._id == e) {
+                        const clientStatusParent = document.getElementById("client-status");
+                        const csMarkup = `  <li>${el.name} <button class="invoice-btn-red">Not Yet</button></li>
+                `;
+                        clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
+                    }
+                })
+                // console.log(clientCounter);
+            })
+
+    })
 }
 
 
@@ -1309,14 +1211,14 @@ fetch('ClientCheckIns.json')
             .then(json2 => {
                 json2.forEach(el => {
                     // console.log(el)
-            if (el._id == asd.id) {
+                    if (el._id == asd.id) {
                         const recentClient = document.getElementById("recent-client");
                         recentClient.innerHTML = `${el.name}`
                     }
-                }) 
-        // console.log(clientCounter);
-        })
-})
+                })
+                // console.log(clientCounter);
+            })
+    })
 
 
 fetch('ClientData.json')
@@ -1395,7 +1297,7 @@ fetch('ClientData.json')
         })
         const clients = document.querySelectorAll(".client");
 
-        
+
         clients.forEach((client) => {
             const expandIcon = client.querySelector(".expand");
             const collapseIcon = client.querySelector(".collapse");
