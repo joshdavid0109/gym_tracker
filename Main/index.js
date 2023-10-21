@@ -929,9 +929,19 @@ if (clientListJSON) {
         `;
 
         const deleteButton = document.createElement("button");
+        deleteButton.className = "delete-button";
         deleteButton.innerHTML = "❌";
         deleteButton.addEventListener("click", function () {
-            deleteClient(index); // Pass the index to the deleteClient function
+
+            let isConfirmed = window.confirm(`Are you sure you want to delete ${clientData.name}?`);
+
+            if (isConfirmed) {
+                deleteClient(index); // Pass the index to the deleteClient function
+                alert(`Deleted ${clientData.name}`);
+            } else {
+                // User cancelled the action
+                console.log(`Delete action for ${clientName} was cancelled by the user.`);
+            }
         });
         clientObjectContainer.appendChild(deleteButton);
 

@@ -1172,16 +1172,19 @@ button#saveWorkoutBtn {
 /* Update the styles for list items */
 .left ul li {
     display: flex;
-    justify-content: space-between; /* Align items to the start and end */
+    justify-content: space-between;
+    /* Align items to the start and end */
     margin-bottom: 10px;
     font-family: 'Poppins', sans-serif;
-    align-items: center; /* Vertically center-align items */
+    align-items: center;
+    /* Vertically center-align items */
 }
 
 /* Adjust the margin for the red button */
 .invoice-btn-red {
     background-color: rgb(230, 39, 39);
-    margin-left: 100px; /* Adjust this value as needed */
+    margin-left: 100px;
+    /* Adjust this value as needed */
 }
 
 /* Hover Effect */
@@ -1189,6 +1192,7 @@ button#saveWorkoutBtn {
     background-color: #034C3C;
     /* Dark Green */
 }
+
 /* Hover Effect */
 .invoice-btn-red:hover {
     background-color: #6d2323;
@@ -1611,7 +1615,7 @@ input#search-bar {
 }
 
 .delete-button {
-    padding-left: 200px;
+    padding-left: 250px;
     margin-top: 20px;
     background-color: transparent;
     border: none;
@@ -1624,7 +1628,7 @@ input#search-bar {
 }
 
 .delete-button {
-    color: red;
+    color: green;
 }
 
 .edit-button {
