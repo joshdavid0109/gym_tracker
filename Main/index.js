@@ -1153,13 +1153,11 @@ function statusCheck(data) {
                         clientStatusParent.insertAdjacentHTML("beforeend", csMarkup);
                     }
                 })
-                // console.log(clientCounter);
+                console.log("Client count: " + clientCounter);
             })
 
     })
 }
-
-
 
 function findLatestCheckIn(data) {
     const date = new Date();
@@ -1190,12 +1188,6 @@ function findLatestCheckIn(data) {
     return latestCheckIn;
 }
 
-
-
-
-
-
-
 fetch('ClientCheckIns.json')
     .then(res => {
         return res.json();
@@ -1221,122 +1213,95 @@ fetch('ClientCheckIns.json')
     })
 
 
-fetch('ClientData.json')
-    .then(res => {
-        return res.json();
-    })
-    .then(json => {
-        var clientCounter = 0;
-        json.forEach(el => {
-            switch (el.coach) {
-                case 'Kiko': {
-                    clientCounter++;
-                }
-            }
-        })
+
+// Retrieve data from local storage
+let clientDataString = localStorage.getItem('clients');
+
+
+
+let json = JSON.parse(clientDataString); // Parse the string into a JSON object
+
+var clientCounter = 0;
+
+json.forEach(el => {
+    if (el.coach === 'Kiko') {
+        clientCounter++;
+    }
+});
+
+// Updating the client count
+var clientCount = document.getElementById('client-count');
+var content = document.createTextNode(clientCounter);
+clientCount.appendChild(content);
+
+// Print client cards
+json.forEach(el => {
+    var parent = document.getElementById("client-list");
+    if (el.coach === 'Kiko') {
+        const clientMarkup =
+            ` <div class="client">
+            <ul id="client-d" class="client-details">
+            <img src="/images/profile-1.png">
+            <li id="client-id"><span>Client ID:</span> ${el._id}</li>
+            <li id="client-name"><span>Name:</span> ${el.name}</li>
+            <li id="expand-icon" class="expand-icon" data-expanded="false">
+                <span class="material-icons-sharp expand">expand_more</span>
+                <span class="material-icons-sharp collapse">expand_less</span>
+            </li>
+            <li class="additional-details">
+                <span class="details-label">Additional Details:</span>
+                <ul id="additional-details">
+                    <li id="contact" class="contact"><span>Contact:</span> ${el.phone}</li>
+                    <li id="address" class="address"><span>Address:</span> ${el.address}</li>
+                    <li id="dob" class="dob"><span>Date of Birth:</span> ${el.birthDate}</li>
+                    <li id="gender" class="gender"><span>Gender:</span> ${el.gender.charAt(0).toUpperCase() + el.gender.slice(1)}</li>
+                    <li class="program">Programs:</li>
+                </ul>
+            </li>
+            </ul>
+         </div>`
+
+        parent.insertAdjacentHTML("beforeend", clientMarkup);
+    }
+});
+
+const clients = document.querySelectorAll(".client");
+
+clients.forEach((client) => {
+    const expandIcon = client.querySelector(".expand");
+    const collapseIcon = client.querySelector(".collapse");
+    const additionalDetails = client.querySelector(".additional-details");
+
+    client.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        if (!client.classList.contains("expanded")) {
+            clients.forEach((c) => {
+                c.classList.remove("expanded");
+                c.querySelector(".additional-details").style.display = "none";
+                c.querySelector(".expand").classList.remove("rotate");
+                c.querySelector(".collapse").classList.add("rotate");
+            });
+
+            client.classList.add("expanded");
+            additionalDetails.style.display = "block";
+            expandIcon.classList.add("rotate");
+            collapseIcon.classList.remove("rotate");
+        } else {
+            client.classList.remove("expanded");
+            additionalDetails.style.display = "none";
+            expandIcon.classList.remove("rotate");
+            collapseIcon.classList.add("rotate");
+        }
     });
 
-fetch('ClientData.json')
-    .then(res => {
-        return res.json();
-    })
-    .then(json => {
-        var clientCounter = 0;
+    expandIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        client.click();
+    });
 
-        json.forEach(el => {
-            switch (el.coach) {
-                case 'Kiko': {
-                    clientCounter++;
-                }
-            }
-        });
-
-        // console.log(clientCounter);
-
-        var clientCount = document.getElementById('client-count');
-        var content = document.createTextNode(clientCounter);
-
-        clientCount.appendChild(content);
-
-        json.forEach(el => {
-
-            var parent = document.getElementById("client-list");
-
-            switch (el.coach) {
-                case 'Kiko': {
-
-                    const clientMarkup =
-                        ` <div class="client">
-                    <ul id="client-d" class="client-details">
-                    <img src="/images/profile-1.png">
-                    <li id="client-id"><span>Client ID:</span> ${el._id}</li>
-                    <li id="client-name"><span>Name:</span> ${el.name}</li>
-                    <li id="expand-icon" class="expand-icon" data-expanded="false">
-                        <span class="material-icons-sharp expand">expand_more</span>
-                        <span class="material-icons-sharp collapse">expand_less</span>
-                    </li>
-                    <li class="additional-details">
-                        <span class="details-label">Additional Details:</span>
-                        <ul id="additional-details">
-                            <li id="contact" class="contact"><span>Contact:</span> ${el.phone}</li>
-                            <li id="address" class="address"><span>Address:</span> ${el.address}</li>
-                            <li id="dob" class="dob"><span>Date of Birth:</span> ${el.birthDate}</li>
-                            <li id="gender" class="gender"><span>Gender:</span> ${el.gender.charAt(0).toUpperCase() + el.gender.slice(1)}</li>
-                            <li class="program">Programs:</li>
-                        </ul>
-                    </li>
-                    </ul>
-                 </div>`
-
-
-                    parent.insertAdjacentHTML("beforeend", clientMarkup);
-
-
-                }
-            }
-        })
-        const clients = document.querySelectorAll(".client");
-
-
-        clients.forEach((client) => {
-            const expandIcon = client.querySelector(".expand");
-            const collapseIcon = client.querySelector(".collapse");
-            const additionalDetails = client.querySelector(".additional-details");
-
-            client.addEventListener("click", function (event) {
-                event.stopPropagation();
-
-                if (!client.classList.contains("expanded")) {
-
-                    clients.forEach((c) => {
-                        c.classList.remove("expanded");
-                        c.querySelector(".additional-details").style.display = "none";
-                        c.querySelector(".expand").classList.remove("rotate");
-                        c.querySelector(".collapse").classList.add("rotate");
-                    });
-                    console.log("expand")
-                    client.classList.add("expanded");
-                    additionalDetails.style.display = "block";
-                    expandIcon.classList.add("rotate");
-                    collapseIcon.classList.remove("rotate");
-                } else {
-                    console.log("click")
-                    client.classList.remove("expanded");
-                    additionalDetails.style.display = "none";
-                    expandIcon.classList.remove("rotate");
-                    collapseIcon.classList.add("rotate");
-                }
-            });
-
-            expandIcon.addEventListener("click", function (event) {
-                event.stopPropagation();
-                client.click();
-            });
-
-            collapseIcon.addEventListener("click", function (event) {
-                event.stopPropagation();
-                client.click();
-            });
-        });
-
-    })
+    collapseIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        client.click();
+    });
+});
