@@ -322,10 +322,22 @@ inputFields.forEach(input => {
     });
 });
 
+function getHighestProgramId(savedWorkouts) {
+    let highestId = 0;
+
+    savedWorkouts.forEach(program => {
+
+        const currentId = parseInt(program.id, 10);
+        if (currentId > highestId) {
+            highestId = currentId;
+        }
+    });
+    return highestId;
+}
+
 
 // Initialize a counter for generating unique Program IDs and workout IDs
 let programIdCounter = 1;
-let workoutIdCounter = 1;
 
 document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
     const rows = document.querySelectorAll('.workout-table tbody tr');
@@ -350,15 +362,12 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
 
             if (workoutName && day && activity && sets && reps) {
                 savedProgram.workouts.push({
-                    id: `Workout ID #${workoutIdCounter}`,
-                    workoutName,
                     day,
                     activity,
                     sets,
                     reps,
+                    workoutName
                 });
-
-                workoutIdCounter++;
             }
         });
 
@@ -380,42 +389,46 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
     }
 });
 
-function getHighestProgramId(savedWorkouts) {
-    let highestId = 0;
 
-    savedWorkouts.forEach(program => {
-
-        const currentId = parseInt(program.id, 10);
-        if (currentId > highestId) {
-            highestId = currentId;
-        }
-    });
-    return highestId;
-}
 
 // Function to fetch the data from the JSON file
 function fetchDataAndStore() {
-    // fetch the programs data and put in local storage (workoutData)
-    fetch('Programs.json') // Replace with the actual path to your JSON file
-        .then(response => response.json())
-        .then(data => {
-            // Store the data in local storage
-            localStorage.setItem('workoutData', JSON.stringify(data));
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    // Check if 'workoutData' exists in local storage
+    if (!localStorage.getItem('workoutData')) {
+        // If not, fetch the data
+        fetch('Programs.json') // Replace with the actual path to your JSON file
+            .then(response => response.json())
+            .then(data => {
+                // Store the data in local storage
+                localStorage.setItem('workoutData', JSON.stringify(data));
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error fetching workout data:', error);
+            });
+    } else {
+        console.log('Workout data already exists in local storage. Not fetching again.');
+    }
 
-    // fetch the client data and put in local storage (clients)
-    fetch('ClientData.json') // Replace with the actual path to your JSON file
-        .then(response => response.json())
-        .then(data => {
-            // Store the data in local storage
-            localStorage.setItem('clients', JSON.stringify(data));
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    // Check if 'clients' exists in local storage
+    if (!localStorage.getItem('clients')) {
+        // If not, fetch the data
+        fetch('ClientData.json') // Replace with the actual path to your JSON file
+            .then(response => response.json())
+            .then(data => {
+                // Store the data in local storage
+                localStorage.setItem('clients', JSON.stringify(data));
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error fetching client data:', error);
+            });
+    } else {
+        console.log('Client data already exists in local storage. Not fetching again.');
+    }
+
+
+
 }
 
 // Call the function to fetch and store the data
@@ -690,7 +703,7 @@ submitButton.addEventListener("click", function () {
         alert('Client data saved locally.');
 
         // the holy auto refresh
-        location.reload();
+
     }
 });
 
