@@ -422,7 +422,6 @@ var storedData = localStorage.getItem('workoutData');
 var workouts = JSON.parse(storedData);
 
 // Check if there is data in local storage
-// Check if there is data in local storage
 if (workouts) {
     // Loop through the array and display the data on the webpage
     for (var i = 0; i < workouts.length; i++) {
@@ -448,9 +447,11 @@ if (workouts) {
         assignButton.textContent = 'Assign';
         assignButton.className = 'assign-button';  // Add a class for styling
 
-        assignButton.addEventListener('click', function () {
-            displayClientDialog(workout);
-        });
+        assignButton.addEventListener('click', function (workout) {
+            return function () {
+                displayClientDialog(workout);
+            };
+        }(workout));
 
         // Append the button to the workout element
         workoutElement.appendChild(assignButton);
@@ -468,12 +469,23 @@ if (workouts) {
 function displayClientDialog(workout) {
     let clients = JSON.parse(localStorage.getItem('clients')) || [];
 
-    // Filter clients based on null program
-    let availableClients = clients.filter(client => client.programs === null);
+    // No filter, directly use all clients
+    let availableClients = clients;
 
     // Create a modal dialog
     let modal = document.createElement('div');
     modal.className = 'modal';
+
+    // Create a close button
+    let closeButton = document.createElement('button');
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', function () {
+        document.body.removeChild(modal); // Close the modal when the close button is clicked
+    });
+
+    modal.appendChild(closeButton);
+
     let clientList = document.createElement('ul');
 
     availableClients.forEach(client => {
@@ -492,45 +504,81 @@ function displayClientDialog(workout) {
         listItem.appendChild(clientIdSpan);
         listItem.appendChild(clientNameSpan);
 
-        listItem.addEventListener('mouseover', function () {
-            // Remove the 'highlighted' class from all list items
-            clientList.querySelectorAll('li').forEach(item => {
-                item.classList.remove('highlighted');
-            });
-            // Add the 'highlighted' class to the currently hovered item
-            listItem.classList.add('highlighted');
-            // Create an "Add" button below the highlighted item
-            createAddButton(modal, client, workout, clients);
+        listItem.addEventListener('click', function () {
+            // Toggle the 'selected' class on the clicked item
+            listItem.classList.toggle('selected');
         });
 
         clientList.appendChild(listItem);
     });
 
     modal.appendChild(clientList);
-    document.body.appendChild(modal);
-}
 
-function createAddButton(modal, client, workout, clients) {
-    let addButton = document.querySelector('.add-button');
-
-    // Remove any existing "Add" button
-    if (addButton) {
-        addButton.remove();
-    }
-
-    addButton = document.createElement('button');
+    // Create an "Add" button
+    let addButton = document.createElement('button');
     addButton.className = 'add-button';
     addButton.textContent = 'Add';
 
     addButton.addEventListener('click', function () {
-        client.program = workout.id; // Assign the program ID to the client
-        localStorage.setItem('clients', JSON.stringify(clients)); // Update localStorage
-        document.body.removeChild(modal); // Close the modal
+        // Get all selected clients
+        let selectedClients = modal.querySelectorAll('.selected');
+
+        // Build the confirmation message
+        let confirmationMessage = `Are you sure you want to add the selected clients to Program ID: ${workout.id}?\n\n`;
+
+        // Ask for confirmation
+
+        if (selectedClients.length > 0 && confirm(confirmationMessage)) {
+            // Initialize an array to keep track of clients who were successfully assigned the program
+            const successfullyAssignedClients = [];
+
+            // Update selected clients with the entire workout (program)
+            selectedClients.forEach(selectedClient => {
+                const clientId = selectedClient.querySelector('.client-id').textContent;
+                const selectedClientObj = availableClients.find(client => client._id === clientId);
+
+                if (selectedClientObj) {
+                    if (!selectedClientObj.programs) {
+                        selectedClientObj.programs = [];
+                    }
+
+                    // Check if the program ID already exists in the client's programs
+                    const programExists = selectedClientObj.programs.some(program => program.id === workout.id);
+
+                    if (!programExists) {
+                        // Add the program to the client's programs
+                        selectedClientObj.programs.push(workout);
+                        successfullyAssignedClients.push(selectedClientObj.name);
+                    }
+                }
+            });
+
+            // Update localStorage
+            localStorage.setItem('clients', JSON.stringify(availableClients)); // Update availableClients, not clients
+
+            if (successfullyAssignedClients.length > 0) {
+                alert(`Successfully assigned the program to: ${successfullyAssignedClients.join(', ')}`);
+            } else {
+                alert('Client already assigned to this program!');
+            }
+        }
+
+
+        // Close the modal
+        document.body.removeChild(modal);
     });
 
     modal.appendChild(addButton);
-}
 
+    // Close the modal when clicking outside of it
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+
+    document.body.appendChild(modal);
+}
 function createProgramDiv(savedProgram) {
     console.log(savedProgram)
     const programDiv = document.createElement('div');
@@ -772,12 +820,20 @@ function saveClientData(clientData) {
     }
 }
 
-// SEARCH CLIENT FUNCTIONALITY
-// main container of the clients
 const clientContainer = document.querySelector(".main-container");
 
 if (clientListJSON) {
     const clientList = JSON.parse(clientListJSON);
+
+    // Function to retrieve all program names from the client's programs array
+    function getClientProgramNames(programs) {
+        if (programs && Array.isArray(programs) && programs.length > 0) {
+            // Map through each program and return the workoutName
+            return "Programs: " + programs.map(program => program.workouts.workoutName).join(", ");
+        } else {
+            return "No program assigned to client";
+        }
+    }
 
     // Loop through the array of client objects
     clientList.forEach((clientData, index) => {
@@ -785,13 +841,17 @@ if (clientListJSON) {
         const clientObjectContainer = document.createElement("div");
         clientObjectContainer.classList.add("client-object");
 
-        // create and populate client info
+        // Create and populate client info
         const clientInfo = document.createElement("div");
         clientInfo.classList.add("client-info");
+
+        // Retrieve all program names for the client
+        const programNames = getClientProgramNames(clientData.programs);
+
         clientInfo.innerHTML = `
-            <h1>${clientData.name}</h1>
-            <h2>${clientData._id}</h2>
-            <p>Program: ${clientData.programs || "No program assigned to client"}</p>
+          <h1>${clientData.name}</h1>
+          <h2>${clientData._id}</h2>
+          <p>${programNames}</p>
         `;
 
         // create and populate client data
@@ -863,6 +923,26 @@ if (clientListJSON) {
     console.log("No client data found in local storage.");
 }
 
+function getClientProgramName(programs) {
+    if (programs && programs.length > 0) {
+        // Assume you have a variable 'programData' containing program data.
+        const programData = [
+            { id: "00001", name: "Program 1" }, // Replace with your program data
+            { id: "00002", name: "Program 2" }, // Replace with your program data
+            // Add more program data as needed
+        ];
+
+        const programIds = programs.map(program => program.id);
+        const programNames = programData
+            .filter(program => programIds.includes(program.id))
+            .map(program => program.name);
+
+        return programNames.join(", ");
+    }
+    return null;
+}
+
+
 // DELETE CLIENT
 function deleteClient(index) {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
@@ -889,6 +969,7 @@ function deleteClient(index) {
         console.error("Invalid index or client not found.");
     }
 }
+
 
 // SEARCH CLIENT
 document.addEventListener("DOMContentLoaded", function () {
