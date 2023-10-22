@@ -1718,3 +1718,52 @@ input#search-bar {
 .assign-button:hover {
     background-color: #45a049;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* Add padding to create space around the modal */
+    box-sizing: border-box;
+    /* Include padding in the width and height calculations */
+}
+
+.modal ul {
+    background: white;
+    padding: 2rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    max-height: 300px;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.modal ul li.highlighted {
+    background-color: #f0f0f0;
+    /* Highlighted item background color */
+    cursor: pointer;
+}
+
+.add-button {
+    display: block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    /* Button background color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+    /* Button background color on hover */
+}

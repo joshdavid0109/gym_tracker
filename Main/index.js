@@ -448,9 +448,12 @@ if (workouts) {
         assignButton.textContent = 'Assign';
         assignButton.className = 'assign-button';  // Add a class for styling
 
+        assignButton.addEventListener('click', function () {
+            displayClientDialog(workout);
+        });
+
         // Append the button to the workout element
         workoutElement.appendChild(assignButton);
-
         console.log(workoutElement);
 
         // Append the workout element to the webpage
@@ -460,6 +463,72 @@ if (workouts) {
 } else {
     // Handle the case where there is no data in local storage
     console.log('No workout data found in local storage.');
+}
+
+function displayClientDialog(workout) {
+    let clients = JSON.parse(localStorage.getItem('clients')) || [];
+
+    // Filter clients based on null program
+    let availableClients = clients.filter(client => client.programs === null);
+
+    // Create a modal dialog
+    let modal = document.createElement('div');
+    modal.className = 'modal';
+    let clientList = document.createElement('ul');
+
+    availableClients.forEach(client => {
+        let listItem = document.createElement('li');
+
+        // Create a span element for the client ID
+        let clientIdSpan = document.createElement('span');
+        clientIdSpan.textContent = client._id;
+        clientIdSpan.className = 'client-id';
+
+        // Create a span element for the client name
+        let clientNameSpan = document.createElement('span');
+        clientNameSpan.textContent = client.name;
+
+        // Add both spans to the list item
+        listItem.appendChild(clientIdSpan);
+        listItem.appendChild(clientNameSpan);
+
+        listItem.addEventListener('mouseover', function () {
+            // Remove the 'highlighted' class from all list items
+            clientList.querySelectorAll('li').forEach(item => {
+                item.classList.remove('highlighted');
+            });
+            // Add the 'highlighted' class to the currently hovered item
+            listItem.classList.add('highlighted');
+            // Create an "Add" button below the highlighted item
+            createAddButton(modal, client, workout, clients);
+        });
+
+        clientList.appendChild(listItem);
+    });
+
+    modal.appendChild(clientList);
+    document.body.appendChild(modal);
+}
+
+function createAddButton(modal, client, workout, clients) {
+    let addButton = document.querySelector('.add-button');
+
+    // Remove any existing "Add" button
+    if (addButton) {
+        addButton.remove();
+    }
+
+    addButton = document.createElement('button');
+    addButton.className = 'add-button';
+    addButton.textContent = 'Add';
+
+    addButton.addEventListener('click', function () {
+        client.program = workout.id; // Assign the program ID to the client
+        localStorage.setItem('clients', JSON.stringify(clients)); // Update localStorage
+        document.body.removeChild(modal); // Close the modal
+    });
+
+    modal.appendChild(addButton);
 }
 
 function createProgramDiv(savedProgram) {
@@ -497,6 +566,7 @@ function createProgramDiv(savedProgram) {
     accordion.classList.add('accordion');
     const clientList = document.createElement('ul');
     clientList.classList.add('client-list');
+
 
     accordion.appendChild(clientList);
     return programDiv;
