@@ -269,23 +269,6 @@ prevNextIcon.forEach(icon => {
 //     console.log('Create New Workout button clicked');
 // });
 
-
-document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
-
-    const workoutName = document.querySelector('input[name="workoutName"]').value;
-    const day = document.querySelector('input[name="day"]').value;
-    const activity = document.querySelector('input[name="activity"]').value;
-    const sets = document.querySelector('input[name="sets"]').value;
-    const reps = document.querySelector('input[name="reps"]').value;
-    const kg = document.querySelector('input[name="kg"]').value;
-    const restTime = document.querySelector('input[name="restTime"]').value;
-
-    document.querySelectorAll('.workout-table input').forEach(input => {
-        input.value = '';
-    });
-});
-
-
 function removeWorkoutRow(event) {
     const icon = event.target.closest('.removeWorkoutBtn');
     if (icon) {
@@ -318,7 +301,6 @@ document.getElementById('addWorkoutBtn').addEventListener('click', function () {
 
     const removeButton = document.createElement('td');
     removeButton.innerHTML = '<span class="removeWorkoutBtn material-icons-sharp">remove</span>';
-
     newRow.appendChild(removeButton);
     tableBody.appendChild(newRow);
 });
@@ -340,43 +322,22 @@ inputFields.forEach(input => {
     });
 });
 
+
 // Initialize a counter for generating unique Program IDs and workout IDs
 let programIdCounter = 1;
 let workoutIdCounter = 1;
 
-// Load saved workouts from localStorage on page load
-document.addEventListener('DOMContentLoaded', function () {
-    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
-    const savedWorkoutsContainer = document.querySelector('.saved-programs');
-
-    // Find the highest programId in the savedWorkouts
-    let highestProgramId = 0;
-    savedWorkouts.forEach(savedWorkout => {
-        const programId = parseInt(savedWorkout.id.match(/\d+/));
-        if (programId > highestProgramId) {
-            highestProgramId = programId;
-        }
-    });
-
-    programIdCounter = highestProgramId + 1;
-
-    savedWorkouts.forEach(savedWorkout => {
-        const programDiv = createProgramDiv(savedWorkout);
-        savedWorkoutsContainer.appendChild(programDiv);
-
-        programIdCounter++;
-        workoutIdCounter++;
-    });
-});
-
 document.getElementById('saveWorkoutBtn').addEventListener('click', function () {
     const rows = document.querySelectorAll('.workout-table tbody tr');
     const savedWorkoutsContainer = document.querySelector('.saved-programs');
-    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
+    let savedWorkouts = JSON.parse(localStorage.getItem('workoutData')) || [];
 
     if (rows.length > 0) {
+        const highestProgramId = getHighestProgramId(savedWorkouts);
+        const newProgramId = (highestProgramId + 1).toString().padStart(5, '0');
+
         const savedProgram = {
-            id: `Program ID #${programIdCounter}`,
+            id: newProgramId,
             workouts: [],
         };
 
@@ -403,12 +364,10 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
 
         if (savedProgram.workouts.length > 0) {
             savedWorkouts.push(savedProgram);
-            localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
+            localStorage.setItem('workoutData', JSON.stringify(savedWorkouts));
 
             const programDiv = createProgramDiv(savedProgram);
             savedWorkoutsContainer.appendChild(programDiv);
-
-            updateProgramIdCounter();
 
             // Clear the input fields in all rows
             rows.forEach(row => {
@@ -417,25 +376,26 @@ document.getElementById('saveWorkoutBtn').addEventListener('click', function () 
                     input.value = '';
                 });
             });
-
-
         }
     }
 });
 
-function removeProgramFromLocalStorage(programId) {
-    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
-    const updatedSavedWorkouts = savedWorkouts.filter(savedProgram => savedProgram.id !== programId);
-    localStorage.setItem('savedWorkouts', JSON.stringify(updatedSavedWorkouts));
+function getHighestProgramId(savedWorkouts) {
+    let highestId = 0;
 
-    updateProgramIdCounter();
+    savedWorkouts.forEach(program => {
+
+        const currentId = parseInt(program.id, 10);
+        if (currentId > highestId) {
+            highestId = currentId;
+        }
+    });
+    return highestId;
 }
-
-// 
-
 
 // Function to fetch the data from the JSON file
 function fetchDataAndStore() {
+    // fetch the programs data and put in local storage (workoutData)
     fetch('Programs.json') // Replace with the actual path to your JSON file
         .then(response => response.json())
         .then(data => {
@@ -445,14 +405,23 @@ function fetchDataAndStore() {
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+
+    // fetch the client data and put in local storage (clients)
+    fetch('ClientData.json') // Replace with the actual path to your JSON file
+        .then(response => response.json())
+        .then(data => {
+            // Store the data in local storage
+            localStorage.setItem('clients', JSON.stringify(data));
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 }
 
 // Call the function to fetch and store the data
 fetchDataAndStore();
-
 // Retrieve the JSON string from local storage
 var storedData = localStorage.getItem('workoutData');
-
 // Parse the JSON string back into an array
 var workouts = JSON.parse(storedData);
 
@@ -464,7 +433,7 @@ if (workouts) {
         var workoutsData = workout.workouts;
 
         console.log(workout)
-        
+
         // Create HTML elements to display the workout data
         var workoutElement = document.createElement('div');
         workoutElement.textContent = `
@@ -477,11 +446,7 @@ if (workouts) {
         `;
 
         console.log(workoutElement);
-        
         // Append the element to the webpage
-
-        // appendtothis
-
         const savedWorkoutsContainer = document.querySelector('.saved-programs');
         savedWorkoutsContainer.appendChild(workoutElement);
     }
@@ -490,9 +455,7 @@ if (workouts) {
     console.log('No workout data found in local storage.');
 }
 
-
 function createProgramDiv(savedProgram) {
-
     console.log(savedProgram)
     const programDiv = document.createElement('div');
     programDiv.classList.add('program');
@@ -604,7 +567,6 @@ function createProgramDiv(savedProgram) {
         const clientList = document.createElement('ul');
         clientList.classList.add('client-list');
 
-
         accordion.appendChild(clientList);
 
         savedWorkoutDiv.appendChild(modifyButton);
@@ -617,93 +579,6 @@ function createProgramDiv(savedProgram) {
 
     return programDiv;
 }
-
-function assignProgramToClient(programId, workoutDiv) {
-    const clientListJSON = localStorage.getItem("clients");
-    if (clientListJSON) {
-        const clientList = JSON.parse(clientListJSON);
-
-        const accordion = workoutDiv.querySelector('.accordion');
-        const clientListContainer = accordion.querySelector('.client-list');
-        clientListContainer.innerHTML = "";
-
-        clientList.forEach((clientJSON) => {
-            const clientData = JSON.parse(clientJSON);
-
-            // checks if the client already has this program assigned
-            if (clientData.programs && clientData.programs.includes(programId)) {
-                return; // skips this client if program is already assigned
-            }
-
-            // creates a list item for the client
-            const listItem = document.createElement('li');
-            listItem.textContent = `${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName}`;
-            listItem.addEventListener('click', function () {
-                // updates the client's program assignment
-                if (!clientData.programs) {
-                    clientData.programs = [];
-                }
-                clientData.programs.push(programId);
-
-                // updates the client's data in local storage
-                updateClientInLocalStorage(clientData.id, clientData);
-
-                // updates the accordion to reflect the assignment
-                accordion.style.display = 'none';
-                listItem.style.display = 'none'; // hides the clicked client in the list
-                alert(`${clientData.personalInfo.firstName} ${clientData.personalInfo.lastName} has been assigned the ${programId}`)
-            });
-
-            clientListContainer.appendChild(listItem);
-        });
-
-        accordion.style.display = 'block'; // Show the accordion with the list of available clients
-    }
-}
-
-// Function to update a client's data in local storage
-function updateClientInLocalStorage(clientId, clientData) {
-    const existingClients = JSON.parse(localStorage.getItem("clients")) || [];
-    const updatedClients = existingClients.map((clientJSON) => {
-        const client = JSON.parse(clientJSON);
-        if (client.id === clientId) {
-            return JSON.stringify(clientData);
-        } else {
-            return clientJSON;
-        }
-    });
-    localStorage.setItem('clients', JSON.stringify(updatedClients));
-}
-
-// Update program id counter
-function updateProgramIdCounter() {
-    // Find the highest programId in the savedWorkouts
-    let highestProgramId = 0;
-    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
-    savedWorkouts.forEach(savedProgram => {
-        const programId = parseInt(savedProgram.id.match(/\d+/));
-        if (programId > highestProgramId) {
-            highestProgramId = programId;
-        }
-    });
-
-    programIdCounter = highestProgramId + 1;
-}
-
-// Function to update the workout details in localStorage
-function updateWorkoutInLocalStorage(programId, workoutId, updatedDetails) {
-    const savedWorkouts = JSON.parse(localStorage.getItem('savedWorkouts')) || [];
-    const program = savedWorkouts.find(program => program.id === programId);
-    if (program) {
-        const workout = program.workouts.find(workout => workout.id === workoutId);
-        if (workout) {
-            Object.assign(workout, updatedDetails);
-            localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
-        }
-    }
-}
-
-
 
 
 // ADD CLIENT FUNCTIONALITY
@@ -753,6 +628,7 @@ function showFieldset(index) {
 function hideFieldset(index) {
     fieldsets[index].style.display = "none";
 }
+
 
 // func for the next button
 function nextFieldset() {
@@ -995,6 +871,7 @@ if (clientListJSON) {
     console.log("No client data found in local storage.");
 }
 
+// DELETE CLIENT
 function deleteClient(index) {
     let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
 
@@ -1021,6 +898,7 @@ function deleteClient(index) {
     }
 }
 
+// SEARCH CLIENT
 document.addEventListener("DOMContentLoaded", function () {
     const clientContainer = document.querySelector(".main-container");
     const searchBar = document.getElementById("search-bar");
@@ -1177,7 +1055,6 @@ function statusCheck(data) {
                 })
                 // console.log(clientCounter);
             })
-
     })
 
 
@@ -1241,31 +1118,28 @@ fetch('ClientCheckIns.json')
         statusCheck(json)
         json.forEach(element => {
             fetch('ClientData.json')
-            .then(res => {
-                return res.json();
-            })
-            .then(json2 => {
-                json2.forEach(el => {
-
-                    if (el._id == element.id) {
-                        
-                        const recentClient = document.getElementById("recent-client");
-                        recentClient.innerHTML = `${el.name}`
-                    }
+                .then(res => {
+                    return res.json();
                 })
-                // console.log(clientCounter);
-            })
+                .then(json2 => {
+                    json2.forEach(el => {
+
+                        if (el._id == element.id) {
+
+                            const recentClient = document.getElementById("recent-client");
+                            recentClient.innerHTML = `${el.name}`
+                        }
+                    })
+                    // console.log(clientCounter);
+                })
 
         })
     })
 
 
-
+// CLIENT COUNT
 // Retrieve data from local storage
 let clientDataString = localStorage.getItem('clients');
-
-
-
 let json = JSON.parse(clientDataString); // Parse the string into a JSON object
 
 var clientCounter = 0;
@@ -1351,4 +1225,4 @@ clients.forEach((client) => {
         event.stopPropagation();
         client.click();
     });
-});
+}); 
