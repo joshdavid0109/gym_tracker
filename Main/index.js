@@ -71,6 +71,7 @@ dashboardButt.addEventListener("click", function (event) {
     programsContent.style.display = "none";
     aboutContent.style.display = "none";
     searchClientContent.style.display = "none";
+  
 });
 
 addClient.addEventListener("click", function (event) {
@@ -99,6 +100,7 @@ programs.addEventListener("click", function (event) {
     aboutContent.style.display = "none";
     addClientContent.style.display = "none";
     searchClientContent.style.display = "none";
+    calendar.style.display = "none";
 });
 
 aboutLink.addEventListener("click", function (event) {
@@ -108,6 +110,7 @@ aboutLink.addEventListener("click", function (event) {
     programsContent.style.display = "none";
     addClientContent.style.display = "none";
     searchClientContent.style.display = "none";
+    calendar.style.display = "none";
 });
 
 document.querySelector(".sidebar a.active").addEventListener("click", function (event) {
@@ -558,6 +561,7 @@ function displayClientDialog(workout) {
 
             if (successfullyAssignedClients.length > 0) {
                 alert(`Successfully assigned the program to: ${successfullyAssignedClients.join(', ')}`);
+                location.reload();
             } else {
                 alert('Client already assigned to this program!');
             }
@@ -656,6 +660,26 @@ function assignClientID() {
     return `${String(maxID).padStart(5, '0')}`;
 }
 
+function assignClientIndex() {
+    let existingClients = JSON.parse(localStorage.getItem("clients")) || [];
+    let maxID = 0;
+
+    // Find the maximum ID from existing clients
+    existingClients.forEach((clientData) => {
+        const clientID = parseInt(clientData._id);
+        if (!isNaN(clientID) && clientID > maxID) {
+            maxID = clientID;
+        }
+    });
+
+    // Increment the maxID by 1
+    maxID++;
+    
+    // Assign the next available ID
+    return maxID-1;
+}
+
+
 
 
 //initially, only show the first fieldset
@@ -728,9 +752,8 @@ submitButton.addEventListener("click", function () {
         saveClientData(client);
         // Show success message for local storage save
         alert('Client data saved locally.');
-
         // the holy auto refresh
-
+        location.reload();
     }
 });
 
@@ -779,6 +802,7 @@ function populateClientObject() {
     // personal Information
     const personalInfoFieldset = fieldsets[0];
     client._id = assignClientID();
+    client.index = assignClientIndex();
     const firstName = personalInfoFieldset.querySelector('input[name="First Name"]').value;
     const lastName = personalInfoFieldset.querySelector('input[name="Last Name"]').value;
     // con cat the first and last name
@@ -1097,6 +1121,7 @@ function statusCheck(data) {
     const idsWithCheckIns = [];
 
     data.forEach((client) => {
+
         const clientId = client.id;
         const checkIns = client.checkIns?.October || {};
 
@@ -1189,6 +1214,12 @@ fetch('ClientCheckIns.json')
     })
     .then(json => {
         statusCheck(json)
+        const latestcheckin = findLatestCheckIn(json);
+        console.log("latest")
+        console.log(latestcheckin)
+
+
+        if (latestcheckin != null) {
         json.forEach(element => {
             fetch('ClientData.json')
                 .then(res => {
@@ -1196,8 +1227,9 @@ fetch('ClientCheckIns.json')
                 })
                 .then(json2 => {
                     json2.forEach(el => {
-
-                        if (el._id == element.id) {
+                        // console.log("hello")
+                        // console.log(json2)
+                        if (el._id == element.id && el._id == latestcheckin.id) {
 
                             const recentClient = document.getElementById("recent-client");
                             recentClient.innerHTML = `${el.name}`
@@ -1207,6 +1239,7 @@ fetch('ClientCheckIns.json')
                 })
 
         })
+    }
     })
 
 

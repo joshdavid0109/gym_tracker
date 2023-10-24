@@ -1551,6 +1551,7 @@ input#search-bar {
     align-items: center;
     gap: 10px;
     margin-top: 20px;
+    margin-left: 60px;
 }
 
 .client-object {
